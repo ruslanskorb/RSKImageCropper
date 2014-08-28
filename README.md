@@ -63,8 +63,7 @@ Then implement the delegate functions.
 
 ## Coming Soon
 
-- Add support for image rotation.
-- Add support for double tap to reset to original scale and rotation.
+- Add more cropping guides.
 - If you would like to request a new feature, feel free to raise as an issue.
 
 ## Demo
