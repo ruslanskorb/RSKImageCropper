@@ -49,6 +49,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
 
+@property (strong, nonatomic) UITapGestureRecognizer *doubleTapGestureRecognizer;
+
 @property (assign, nonatomic) BOOL didSetupConstraints;
 @property (strong, nonatomic) NSLayoutConstraint *moveAndScaleLabelTopConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *cancelButtonBottomConstraint;
@@ -92,6 +94,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     [self.view addSubview:self.moveAndScaleLabel];
     [self.view addSubview:self.cancelButton];
     [self.view addSubview:self.chooseButton];
+    
+    [self.view addGestureRecognizer:self.doubleTapGestureRecognizer];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -126,7 +130,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     [super viewDidLayoutSubviews];
     
     if (!self.imageScrollView.zoomView) {
-        [self displayImage:self.originalImage];
+        [self displayImage];
     }
 }
 
@@ -264,6 +268,16 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     return _chooseButton;
 }
 
+- (UITapGestureRecognizer *)doubleTapGestureRecognizer
+{
+    if (!_doubleTapGestureRecognizer) {
+        _doubleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
+        _doubleTapGestureRecognizer.delaysTouchesEnded = NO;
+        _doubleTapGestureRecognizer.numberOfTapsRequired = 2;
+    }
+    return _doubleTapGestureRecognizer;
+}
+
 #pragma mark - Action handling
 
 - (void)onCancelButtonTouch:(UIBarButtonItem *)sender
@@ -276,18 +290,40 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     [self cropImage];
 }
 
+- (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer
+{
+    [self resetZoomScale:YES];
+    [self resetContentOffset:YES];
+}
+
 #pragma mark - Private
 
-- (void)displayImage:(UIImage *)image
+- (void)resetZoomScale:(BOOL)animated
 {
-    if (image) {
-        [self.imageScrollView displayImage:image];
-        
-        if (CGRectGetWidth(self.view.bounds) > CGRectGetHeight(self.view.bounds)) {
-            self.imageScrollView.zoomScale = CGRectGetHeight(self.view.bounds) / image.size.height;
-        } else {
-            self.imageScrollView.zoomScale = CGRectGetWidth(self.view.bounds) / image.size.width;
-        }
+    CGFloat zoomScale;
+    if (CGRectGetWidth(self.view.bounds) > CGRectGetHeight(self.view.bounds)) {
+        zoomScale = CGRectGetHeight(self.view.bounds) / self.originalImage.size.height;
+    } else {
+        zoomScale = CGRectGetWidth(self.view.bounds) / self.originalImage.size.width;
+    }
+    [self.imageScrollView setZoomScale:zoomScale animated:animated];
+}
+
+- (void)resetContentOffset:(BOOL)animated
+{
+    CGSize boundsSize = self.imageScrollView.bounds.size;
+    CGRect frameToCenter = self.imageScrollView.zoomView.frame;
+    CGPoint contentOffset = self.imageScrollView.contentOffset;
+    contentOffset.x = (frameToCenter.size.width - boundsSize.width) / 2.0;
+    contentOffset.y = (frameToCenter.size.height - boundsSize.height) / 2.0;
+    [self.imageScrollView setContentOffset:contentOffset animated:animated];
+}
+
+- (void)displayImage
+{
+    if (self.originalImage) {
+        [self.imageScrollView displayImage:self.originalImage];
+        [self resetZoomScale:NO];
     }
 }
 
