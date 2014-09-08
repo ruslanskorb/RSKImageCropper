@@ -67,6 +67,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     self = [super init];
     if (self) {
         _originalImage = originalImage;
+        _shouldUseSquareCroppingMask = NO;
     }
     return self;
 }
@@ -342,6 +343,9 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 {
     UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+    if (_shouldUseSquareCroppingMask) {
+        maskPath = [UIBezierPath bezierPathWithRect:[self maskRect]];
+    }
     
     [clipPath appendPath:maskPath];
     clipPath.usesEvenOddFillRule = YES;

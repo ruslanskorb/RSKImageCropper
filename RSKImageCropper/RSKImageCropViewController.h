@@ -55,6 +55,15 @@
  */
 @property (strong, nonatomic) UIImage *originalImage;
 
+///--------------------------
+/// @name Customizing the Crop Mask
+///--------------------------
+
+/**
+ Specify whether cropping mask should be square, instead of circular. Defaults to NO.
+ */
+@property (assign, nonatomic) BOOL shouldUseSquareCroppingMask;
+
 @end
 
 /**
