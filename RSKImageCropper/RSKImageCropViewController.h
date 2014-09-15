@@ -26,6 +26,12 @@
 
 @protocol RSKImageCropViewControllerDelegate;
 
+typedef NS_ENUM(NSUInteger, RSKImageCropMaskShape)
+{
+    RSKImageCropMaskSquare,
+    RSKImageCropMaskOval
+};
+
 @interface RSKImageCropViewController : UIViewController
 
 /**
@@ -54,6 +60,12 @@
  The image for cropping.
  */
 @property (strong, nonatomic) UIImage *originalImage;
+
+/**
+ Mask shape
+ Defaults to RSKImageCropMaskOval
+ */
+@property (readwrite, nonatomic) RSKImageCropMaskShape maskShape;
 
 @end
 

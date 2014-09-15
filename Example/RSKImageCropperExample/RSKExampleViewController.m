@@ -31,6 +31,8 @@ static const CGFloat kPhotoDiameter = 130.0f;
 
 @property (strong, nonatomic) UIView *photoFrameView;
 @property (strong, nonatomic) UIButton *addPhotoButton;
+@property (strong, nonatomic) UISegmentedControl *maskShapeControl;
+@property (readwrite, nonatomic) RSKImageCropMaskShape maskShape;
 @property (assign, nonatomic) BOOL didSetupConstraints;
 
 @end
@@ -56,8 +58,6 @@ static const CGFloat kPhotoDiameter = 130.0f;
     self.photoFrameView = [[UIView alloc] init];
     self.photoFrameView.backgroundColor = [UIColor colorWithRed:182/255.0f green:182/255.0f blue:187/255.0f alpha:1.0f];
     self.photoFrameView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.photoFrameView.layer.masksToBounds = YES;
-    self.photoFrameView.layer.cornerRadius = (kPhotoDiameter + 2) / 2;
     [self.view addSubview:self.photoFrameView];
     
     // ---------------------------
@@ -67,8 +67,6 @@ static const CGFloat kPhotoDiameter = 130.0f;
     self.addPhotoButton = [[UIButton alloc] init];
     self.addPhotoButton.backgroundColor = [UIColor whiteColor];
     self.addPhotoButton.translatesAutoresizingMaskIntoConstraints = NO;
-    self.addPhotoButton.layer.masksToBounds = YES;
-    self.addPhotoButton.layer.cornerRadius = kPhotoDiameter / 2;
     self.addPhotoButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     self.addPhotoButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.addPhotoButton.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -76,6 +74,16 @@ static const CGFloat kPhotoDiameter = 130.0f;
     [self.addPhotoButton setTitleColor:[UIColor colorWithRed:0/255.0f green:122/255.0f blue:255/255.0f alpha:1.0f] forState:UIControlStateNormal];
     [self.addPhotoButton addTarget:self action:@selector(onAddPhotoButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addPhotoButton];
+    
+    self.maskShapeControl = [[UISegmentedControl alloc] initWithItems:@[@"Oval", @"Square"]];
+    self.maskShapeControl.selectedSegmentIndex = 0;
+    self.maskShapeControl.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.maskShapeControl addTarget:self
+                             action:@selector(updateMaskShape)
+                   forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.maskShapeControl];
+    
+    self.maskShape = RSKImageCropMaskOval;
     
     // ----------------
     // Add constraints.
@@ -122,12 +130,12 @@ static const CGFloat kPhotoDiameter = 130.0f;
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                               constant:(self.addPhotoButton.layer.cornerRadius * 2)];
+                                               constant:kPhotoDiameter];
     [self.addPhotoButton addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                               constant:(self.addPhotoButton.layer.cornerRadius * 2)];
+                                               constant:kPhotoDiameter];
     [self.addPhotoButton addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual
@@ -140,16 +148,98 @@ static const CGFloat kPhotoDiameter = 130.0f;
                                                constant:0.0f];
     [self.view addConstraint:constraint];
     
+    // ---------------------------
+    // Mask shape control
+    // ---------------------------
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.maskShapeControl
+                                              attribute:NSLayoutAttributeTop
+                                              relatedBy:NSLayoutRelationEqual
+                                                 toItem:self.view
+                                              attribute:NSLayoutAttributeTop
+                                             multiplier:1
+                                               constant:20];
+    [self.view addConstraint:constraint];
+    
+    constraint = [NSLayoutConstraint constraintWithItem:self.maskShapeControl
+                                              attribute:NSLayoutAttributeCenterX
+                                              relatedBy:NSLayoutRelationEqual
+                                                 toItem:self.view
+                                              attribute:NSLayoutAttributeCenterX
+                                             multiplier:1
+                                               constant:0];
+    [self.view addConstraint:constraint];
+    
     self.didSetupConstraints = YES;
 }
 
+#pragma mark - Accessors
+
+-(void)setMaskShape:(RSKImageCropMaskShape)maskShape
+{
+    _maskShape = maskShape;
+//    [self resetPhoto];
+    [self updateAddPhotoButtonShape];
+}
+
+-(void) resetPhoto
+{
+    [self.addPhotoButton setImage:nil forState:UIControlStateNormal];
+}
+
+-(void) updateAddPhotoButtonShape
+{
+    switch (self.maskShape) {
+        case RSKImageCropMaskOval:
+            [self makeAddPhotoButtonOval];
+            break;
+            
+        case RSKImageCropMaskSquare:
+            [self makeAddPhotoButtonSquare];
+            break;
+            
+        default:
+            [self makeAddPhotoButtonOval];
+            break;
+    }
+}
+
+-(void) makeAddPhotoButtonOval
+{
+    self.addPhotoButton.layer.masksToBounds = YES;
+    self.addPhotoButton.layer.cornerRadius = kPhotoDiameter / 2;
+    self.photoFrameView.layer.masksToBounds = YES;
+    self.photoFrameView.layer.cornerRadius = (kPhotoDiameter + 2) / 2;
+}
+
+-(void) makeAddPhotoButtonSquare
+{
+    self.addPhotoButton.layer.masksToBounds = NO;
+    self.addPhotoButton.layer.cornerRadius = 0;
+    self.photoFrameView.layer.masksToBounds = NO;
+    self.photoFrameView.layer.cornerRadius = 0;
+}
+
 #pragma mark - Action handling
+
+-(void) updateMaskShape
+{
+    if (self.maskShapeControl.selectedSegmentIndex == 0)
+    {
+        self.maskShape = RSKImageCropMaskOval;
+    }
+    else
+    {
+        self.maskShape = RSKImageCropMaskSquare;
+    }
+}
 
 - (void)onAddPhotoButtonTouch:(UIButton *)sender
 {
     UIImage *photo = [UIImage imageNamed:@"photo"];
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:photo];
     imageCropVC.delegate = self;
+    imageCropVC.maskShape = self.maskShape;
     [self.navigationController pushViewController:imageCropVC animated:YES];
 }
 

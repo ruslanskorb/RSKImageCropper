@@ -67,6 +67,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     self = [super init];
     if (self) {
         _originalImage = originalImage;
+        _maskShape = RSKImageCropMaskOval;
     }
     return self;
 }
@@ -231,6 +232,12 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     return _maskLayer;
 }
 
+-(void)setMaskShape:(RSKImageCropMaskShape)maskShape
+{
+    _maskShape = maskShape;
+    [self updateMaskPath];
+}
+
 - (UILabel *)moveAndScaleLabel
 {
     if (!_moveAndScaleLabel) {
@@ -341,7 +348,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 - (void)updateMaskPath
 {
     UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+    UIBezierPath *maskPath = [self maskPath];
     
     [clipPath appendPath:maskPath];
     clipPath.usesEvenOddFillRule = YES;
@@ -352,6 +359,26 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
     
     self.maskLayer.path = [clipPath CGPath];
+}
+
+-(UIBezierPath *) maskPath
+{
+    UIBezierPath *maskPath = nil;
+    
+    switch (self.maskShape) {
+        case RSKImageCropMaskOval:
+            maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+            break;
+            
+        case RSKImageCropMaskSquare:
+            maskPath = [UIBezierPath bezierPathWithRect:[self maskRect]];
+            break;
+        
+        default:
+            break;
+    }
+    
+    return maskPath;
 }
 
 - (CGRect)maskRect
