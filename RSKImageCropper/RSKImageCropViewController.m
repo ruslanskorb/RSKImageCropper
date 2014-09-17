@@ -27,12 +27,14 @@
 #import "RSKImageScrollView.h"
 #import "UIImage+FixOrientation.h"
 
-static const CGFloat kPortraitMaskRectInnerEdgeInset = 15.0f;
+static const CGFloat kPortraitCircleMaskRectInnerEdgeInset = 15.0f;
+static const CGFloat kPortraitSquareMaskRectInnerEdgeInset = 20.0f;
 static const CGFloat kPortraitMoveAndScaleLabelVerticalMargin = 64.0f;
 static const CGFloat kPortraitCancelAndChooseButtonsHorizontalMargin = 13.0f;
 static const CGFloat kPortraitCancelAndChooseButtonsVerticalMargin = 21.0f;
 
-static const CGFloat kLandscapeMaskRectInnerEdgeInset = 45.0f;
+static const CGFloat kLandscapeCircleMaskRectInnerEdgeInset = 45.0f;
+static const CGFloat kLandscapeSquareMaskRectInnerEdgeInset = 45.0f;
 static const CGFloat kLandscapeMoveAndScaleLabelVerticalMargin = 12.0f;
 static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
@@ -67,6 +69,28 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     self = [super init];
     if (self) {
         _originalImage = originalImage;
+        _cropMode = RSKImageCropModeCircle;
+    }
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode
+{
+    self = [super init];
+    if (self) {
+        _originalImage = originalImage;
+        _cropMode = cropMode;
+    }
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropSize:(CGSize)cropSize
+{
+    self = [super init];
+    if (self) {
+        _originalImage = originalImage;
+        _cropMode = cropMode;
+        _cropSize = cropSize;
     }
     return self;
 }
@@ -278,6 +302,41 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     return _doubleTapGestureRecognizer;
 }
 
+- (CGSize)cropSize
+{
+    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
+    
+    CGSize cropSize;
+    switch (self.cropMode) {
+        case RSKImageCropModeCircle: {
+            CGFloat diameter;
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+                diameter = MIN(viewWidth, viewHeight) - kPortraitCircleMaskRectInnerEdgeInset * 2;
+            } else {
+                diameter = MIN(viewWidth, viewHeight) - kLandscapeCircleMaskRectInnerEdgeInset * 2;
+            }
+            cropSize = CGSizeMake(diameter, diameter);
+            break;
+        }
+        case RSKImageCropModeSquare: {
+            CGFloat length;
+            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+                length = MIN(viewWidth, viewHeight) - kPortraitSquareMaskRectInnerEdgeInset * 2;
+            } else {
+                length = MIN(viewWidth, viewHeight) - kLandscapeSquareMaskRectInnerEdgeInset * 2;
+            }
+            cropSize = CGSizeMake(length, length);
+            break;
+        }
+        case RSKImageCropModeCustom: {
+            cropSize = _cropSize;
+            break;
+        }
+    }
+    return cropSize;
+}
+
 #pragma mark - Action handling
 
 - (void)onCancelButtonTouch:(UIBarButtonItem *)sender
@@ -341,7 +400,19 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 - (void)updateMaskPath
 {
     UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
-    UIBezierPath *maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+    
+    UIBezierPath *maskPath = nil;
+    switch (self.cropMode) {
+        case RSKImageCropModeCircle: {
+            maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+            break;
+        }
+        case RSKImageCropModeSquare:
+        case RSKImageCropModeCustom: {
+            maskPath = [UIBezierPath bezierPathWithRect:[self maskRect]];
+            break;
+        }
+    }
     
     [clipPath appendPath:maskPath];
     clipPath.usesEvenOddFillRule = YES;
@@ -356,22 +427,10 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (CGRect)maskRect
 {
-    CGRect bounds = self.view.bounds;
-    
-    CGFloat width = CGRectGetWidth(bounds);
-    CGFloat height = CGRectGetHeight(bounds);
-    
-    CGFloat diameter;
-    if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-        diameter = MIN(width, height) - kPortraitMaskRectInnerEdgeInset * 2;
-    } else {
-        diameter = MIN(width, height) - kLandscapeMaskRectInnerEdgeInset * 2;
-    }
-    
-    CGFloat radius = diameter / 2;
-    CGPoint center = CGPointMake(width / 2, height / 2);
-    
-    CGRect maskRect = CGRectMake(center.x - radius, center.y - radius, diameter, diameter);
+    CGRect maskRect = CGRectMake(self.view.center.x - self.cropSize.width / 2,
+                                 self.view.center.y - self.cropSize.height / 2,
+                                 self.cropSize.width,
+                                 self.cropSize.height);
     
     return maskRect;
 }

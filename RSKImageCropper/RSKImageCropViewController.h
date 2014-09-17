@@ -26,6 +26,15 @@
 
 @protocol RSKImageCropViewControllerDelegate;
 
+/**
+ Types of supported crop modes.
+ */
+typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
+    RSKImageCropModeCircle,
+    RSKImageCropModeSquare,
+    RSKImageCropModeCustom
+};
+
 @interface RSKImageCropViewController : UIViewController
 
 /**
@@ -34,6 +43,23 @@
  @param originalImage The image for cropping.
  */
 - (instancetype)initWithImage:(UIImage *)originalImage;
+
+/**
+ Initializes and returns a newly allocated view controller object with the specified image and the specified crop mode.
+ 
+ @param originalImage The image for cropping.
+ @param cropMode The mode for cropping.
+ */
+- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode;
+
+/**
+ Initializes and returns a newly allocated view controller object with the specified image, the specified crop mode and the specified crop size.
+ 
+ @param originalImage The image for cropping.
+ @param cropMode The mode for cropping.
+ @param cropSize The size for cropping.
+ */
+- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropSize:(CGSize)cropSize;
 
 ///-----------------------------
 /// @name Accessing the Delegate
@@ -54,6 +80,20 @@
  The image for cropping.
  */
 @property (strong, nonatomic) UIImage *originalImage;
+
+/// -----------------------------------
+/// @name Accessing the Crop Attributes
+/// -----------------------------------
+
+/**
+ The mode for cropping.
+ */
+@property (assign, nonatomic) RSKImageCropMode cropMode;
+
+/**
+ The size for cropping.
+ */
+@property (assign, nonatomic) CGSize cropSize;
 
 @end
 
