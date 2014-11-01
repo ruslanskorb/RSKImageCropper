@@ -372,9 +372,19 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 {
     CGSize boundsSize = self.imageScrollView.bounds.size;
     CGRect frameToCenter = self.imageScrollView.zoomView.frame;
-    CGPoint contentOffset = self.imageScrollView.contentOffset;
-    contentOffset.x = (frameToCenter.size.width - boundsSize.width) / 2.0;
-    contentOffset.y = (frameToCenter.size.height - boundsSize.height) / 2.0;
+    
+    CGPoint contentOffset;
+    if (CGRectGetWidth(frameToCenter) > boundsSize.width) {
+        contentOffset.x = (CGRectGetWidth(frameToCenter) - boundsSize.width) * 0.5f;
+    } else {
+        contentOffset.x = 0;
+    }
+    if (CGRectGetHeight(frameToCenter) > boundsSize.height) {
+        contentOffset.y = (CGRectGetHeight(frameToCenter) - boundsSize.height) * 0.5f;
+    } else {
+        contentOffset.y = 0;
+    }
+    
     [self.imageScrollView setContentOffset:contentOffset animated:animated];
 }
 
@@ -427,8 +437,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (CGRect)maskRect
 {
-    CGRect maskRect = CGRectMake(self.view.center.x - self.cropSize.width / 2,
-                                 self.view.center.y - self.cropSize.height / 2,
+    CGRect maskRect = CGRectMake((CGRectGetWidth(self.view.frame) - self.cropSize.width) * 0.5f,
+                                 (CGRectGetHeight(self.view.frame) - self.cropSize.height) * 0.5f,
                                  self.cropSize.width,
                                  self.cropSize.height);
     
