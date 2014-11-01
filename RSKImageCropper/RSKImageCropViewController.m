@@ -427,8 +427,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (CGRect)maskRect
 {
-    CGRect maskRect = CGRectMake(self.view.center.x - self.cropSize.width / 2,
-                                 self.view.center.y - self.cropSize.height / 2,
+    CGRect maskRect = CGRectMake((CGRectGetWidth(self.view.frame) - self.cropSize.width) * 0.5f,
+                                 (CGRectGetHeight(self.view.frame) - self.cropSize.height) * 0.5f,
                                  self.cropSize.width,
                                  self.cropSize.height);
     
