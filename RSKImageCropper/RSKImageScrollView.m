@@ -193,9 +193,19 @@
 {
     CGSize boundsSize = self.bounds.size;
     CGRect frameToCenter = self.zoomView.frame;
-    CGPoint contentOffset = self.contentOffset;
-    contentOffset.x = (frameToCenter.size.width - boundsSize.width) / 2.0;
-    contentOffset.y = (frameToCenter.size.height - boundsSize.height) / 2.0;
+    
+    CGPoint contentOffset;
+    if (CGRectGetWidth(frameToCenter) > boundsSize.width) {
+        contentOffset.x = (CGRectGetWidth(frameToCenter) - boundsSize.width) * 0.5f;
+    } else {
+        contentOffset.x = 0;
+    }
+    if (CGRectGetHeight(frameToCenter) > boundsSize.height) {
+        contentOffset.y = (CGRectGetHeight(frameToCenter) - boundsSize.height) * 0.5f;
+    } else {
+        contentOffset.y = 0;
+    }
+    
     [self setContentOffset:contentOffset];
 }
 
