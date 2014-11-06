@@ -70,6 +70,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (self) {
         _originalImage = originalImage;
         _cropMode = RSKImageCropModeCircle;
+        _imageFillsCropArea = NO;
     }
     return self;
 }
@@ -80,6 +81,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (self) {
         _originalImage = originalImage;
         _cropMode = cropMode;
+        _imageFillsCropArea = NO;
     }
     return self;
 }
@@ -91,6 +93,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         _originalImage = originalImage;
         _cropMode = cropMode;
         _cropSize = cropSize;
+        _imageFillsCropArea = NO;
     }
     return self;
 }
@@ -229,7 +232,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 - (RSKImageScrollView *)imageScrollView
 {
     if (!_imageScrollView) {
-        _imageScrollView = [[RSKImageScrollView alloc] init];
+        _imageScrollView = [[RSKImageScrollView alloc] initWithFrame:CGRectZero
+                                               andImageFillsCropArea:self.imageFillsCropArea];
         _imageScrollView.clipsToBounds = NO;
     }
     return _imageScrollView;
