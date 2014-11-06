@@ -149,6 +149,7 @@ static const CGFloat kPhotoDiameter = 130.0f;
 {
     UIImage *photo = [UIImage imageNamed:@"photo"];
     RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:photo cropMode:RSKImageCropModeCircle];
+    imageCropVC.imageFillsCropArea = YES;
     imageCropVC.delegate = self;
     [self.navigationController pushViewController:imageCropVC animated:YES];
 }

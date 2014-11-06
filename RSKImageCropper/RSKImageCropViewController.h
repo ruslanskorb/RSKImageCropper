@@ -35,6 +35,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
     RSKImageCropModeCustom
 };
 
+
 @interface RSKImageCropViewController : UIViewController
 
 /**
@@ -94,6 +95,12 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  The size for cropping.
  */
 @property (assign, nonatomic) CGSize cropSize;
+
+/**
+ 
+ */
+
+@property (assign, nonatomic) BOOL imageFillsCropArea;
 
 @end
 

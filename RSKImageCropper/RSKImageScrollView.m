@@ -74,7 +74,20 @@
         self.scrollsToTop = NO;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.delegate = self;
+        self.imageFillsCropArea = NO;
+        self.alwaysBounceHorizontal = YES;
+        self.alwaysBounceVertical = YES;
     }
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame andImageFillsCropArea:(BOOL)imageFillsCropArea {
+    
+    self = [self initWithFrame:frame];
+    if(self) {
+        _imageFillsCropArea = imageFillsCropArea;
+    }
+    
     return self;
 }
 
@@ -177,7 +190,7 @@
     }
         
     self.maximumZoomScale = maxScale;
-    self.minimumZoomScale = minScale;
+    self.minimumZoomScale = self.imageFillsCropArea ? MAX(xScale, yScale) : minScale;
 }
 
 - (void)setInitialZoomScale

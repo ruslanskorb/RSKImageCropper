@@ -50,7 +50,9 @@
 @interface RSKImageScrollView : UIScrollView
 
 @property (nonatomic, strong) UIImageView *zoomView;
+@property (assign, nonatomic) BOOL imageFillsCropArea;
 
 - (void)displayImage:(UIImage *)image;
+- (id)initWithFrame:(CGRect)frame andImageFillsCropArea:(BOOL)imageFillsCropArea;
 
 @end
