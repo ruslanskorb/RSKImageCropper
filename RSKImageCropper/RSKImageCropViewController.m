@@ -107,12 +107,6 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     self.view.backgroundColor = [UIColor blackColor];
     self.view.clipsToBounds = YES;
     
-    self.originalStatusBarHidden = [UIApplication sharedApplication].statusBarHidden;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
-    self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    
     [self.view addSubview:self.imageScrollView];
     [self.view addSubview:self.overlayView];
     [self.view addSubview:self.moveAndScaleLabel];
@@ -120,6 +114,17 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     [self.view addSubview:self.chooseButton];
     
     [self.view addGestureRecognizer:self.doubleTapGestureRecognizer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.originalStatusBarHidden = [UIApplication sharedApplication].statusBarHidden;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    
+    self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
