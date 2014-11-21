@@ -212,7 +212,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         
         self.didSetupConstraints = YES;
     } else {
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+        if ([self isPortraitInterfaceOrientation]) {
             self.moveAndScaleLabelTopConstraint.constant = kPortraitMoveAndScaleLabelVerticalMargin;
             self.cancelButtonBottomConstraint.constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
             self.chooseButtonBottomConstraint.constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
@@ -311,7 +311,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
             CGFloat diameter;
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            if ([self isPortraitInterfaceOrientation]) {
                 diameter = MIN(viewWidth, viewHeight) - kPortraitCircleMaskRectInnerEdgeInset * 2;
             } else {
                 diameter = MIN(viewWidth, viewHeight) - kLandscapeCircleMaskRectInnerEdgeInset * 2;
@@ -321,7 +321,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         }
         case RSKImageCropModeSquare: {
             CGFloat length;
-            if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
+            if ([self isPortraitInterfaceOrientation]) {
                 length = MIN(viewWidth, viewHeight) - kPortraitSquareMaskRectInnerEdgeInset * 2;
             } else {
                 length = MIN(viewWidth, viewHeight) - kLandscapeSquareMaskRectInnerEdgeInset * 2;
@@ -366,6 +366,11 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 }
 
 #pragma mark - Private
+
+- (BOOL)isPortraitInterfaceOrientation
+{
+    return UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
+}
 
 - (void)resetZoomScale:(BOOL)animated
 {
