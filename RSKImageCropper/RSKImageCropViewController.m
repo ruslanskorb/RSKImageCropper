@@ -337,6 +337,16 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     return cropSize;
 }
 
+- (void)setOriginalImage:(UIImage *)originalImage
+{
+    if (![_originalImage isEqual:originalImage]) {
+        _originalImage = originalImage;
+        if (self.isViewLoaded) {
+            [self displayImage];
+        }
+    }
+}
+
 #pragma mark - Action handling
 
 - (void)onCancelButtonTouch:(UIBarButtonItem *)sender
@@ -393,6 +403,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (self.originalImage) {
         [self.imageScrollView displayImage:self.originalImage];
         [self resetZoomScale:NO];
+        [self resetContentOffset:NO];
     }
 }
 
