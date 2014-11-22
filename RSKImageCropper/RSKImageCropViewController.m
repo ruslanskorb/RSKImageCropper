@@ -47,6 +47,8 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
+@property (assign, nonatomic) CGRect maskRect;
+@property (strong, nonatomic) UIBezierPath *maskPath;
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
@@ -80,17 +82,6 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (self) {
         _originalImage = originalImage;
         _cropMode = cropMode;
-    }
-    return self;
-}
-
-- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropSize:(CGSize)cropSize
-{
-    self = [super init];
-    if (self) {
-        _originalImage = originalImage;
-        _cropMode = cropMode;
-        _cropSize = cropSize;
     }
     return self;
 }
@@ -148,6 +139,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 {
     [super viewWillLayoutSubviews];
     
+    [self updateMaskRect];
     [self layoutImageScrollView];
     [self layoutOverlayView];
     [self updateMaskPath];
@@ -307,41 +299,6 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     return _doubleTapGestureRecognizer;
 }
 
-- (CGSize)cropSize
-{
-    CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
-    CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
-    
-    CGSize cropSize;
-    switch (self.cropMode) {
-        case RSKImageCropModeCircle: {
-            CGFloat diameter;
-            if ([self isPortraitInterfaceOrientation]) {
-                diameter = MIN(viewWidth, viewHeight) - kPortraitCircleMaskRectInnerEdgeInset * 2;
-            } else {
-                diameter = MIN(viewWidth, viewHeight) - kLandscapeCircleMaskRectInnerEdgeInset * 2;
-            }
-            cropSize = CGSizeMake(diameter, diameter);
-            break;
-        }
-        case RSKImageCropModeSquare: {
-            CGFloat length;
-            if ([self isPortraitInterfaceOrientation]) {
-                length = MIN(viewWidth, viewHeight) - kPortraitSquareMaskRectInnerEdgeInset * 2;
-            } else {
-                length = MIN(viewWidth, viewHeight) - kLandscapeSquareMaskRectInnerEdgeInset * 2;
-            }
-            cropSize = CGSizeMake(length, length);
-            break;
-        }
-        case RSKImageCropModeCustom: {
-            cropSize = _cropSize;
-            break;
-        }
-    }
-    return cropSize;
-}
-
 - (void)setOriginalImage:(UIImage *)originalImage
 {
     if (![_originalImage isEqual:originalImage]) {
@@ -349,6 +306,24 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         if (self.isViewLoaded) {
             [self displayImage];
         }
+    }
+}
+
+- (void)setMaskPath:(UIBezierPath *)maskPath
+{
+    if (![_maskPath isEqual:maskPath]) {
+        _maskPath = maskPath;
+        
+        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
+        [clipPath appendPath:maskPath];
+        clipPath.usesEvenOddFillRule = YES;
+        
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        pathAnimation.duration = [CATransaction animationDuration];
+        pathAnimation.timingFunction = [CATransaction animationTimingFunction];
+        [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
+        
+        self.maskLayer.path = [clipPath CGPath];
     }
 }
 
@@ -374,7 +349,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (BOOL)isPortraitInterfaceOrientation
 {
-    return UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]);
+    return UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
 }
 
 - (void)resetZoomScale:(BOOL)animated
@@ -419,7 +394,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (void)layoutImageScrollView
 {
-    self.imageScrollView.frame = [self maskRect];
+    self.imageScrollView.frame = self.maskRect;
 }
 
 - (void)layoutOverlayView
@@ -428,42 +403,78 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     self.overlayView.frame = frame;
 }
 
-- (void)updateMaskPath
+- (void)updateMaskRect
 {
-    UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
-    
-    UIBezierPath *maskPath = nil;
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
-            maskPath = [UIBezierPath bezierPathWithOvalInRect:[self maskRect]];
+            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            
+            CGFloat diameter;
+            if ([self isPortraitInterfaceOrientation]) {
+                diameter = MIN(viewWidth, viewHeight) - kPortraitCircleMaskRectInnerEdgeInset * 2;
+            } else {
+                diameter = MIN(viewWidth, viewHeight) - kLandscapeCircleMaskRectInnerEdgeInset * 2;
+            }
+            
+            CGSize maskSize = CGSizeMake(diameter, diameter);
+            
+            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
+                                       (viewHeight - maskSize.height) * 0.5f,
+                                       maskSize.width,
+                                       maskSize.height);
             break;
         }
-        case RSKImageCropModeSquare:
+        case RSKImageCropModeSquare: {
+            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
+            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            
+            CGFloat length;
+            if ([self isPortraitInterfaceOrientation]) {
+                length = MIN(viewWidth, viewHeight) - kPortraitSquareMaskRectInnerEdgeInset * 2;
+            } else {
+                length = MIN(viewWidth, viewHeight) - kLandscapeSquareMaskRectInnerEdgeInset * 2;
+            }
+            
+            CGSize maskSize = CGSizeMake(length, length);
+            
+            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
+                                       (viewHeight - maskSize.height) * 0.5f,
+                                       maskSize.width,
+                                       maskSize.height);
+            break;
+        }
         case RSKImageCropModeCustom: {
-            maskPath = [UIBezierPath bezierPathWithRect:[self maskRect]];
+            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskRect:)]) {
+                self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
+            } else {
+                self.maskRect = CGRectZero;
+            }
             break;
         }
     }
-    
-    [clipPath appendPath:maskPath];
-    clipPath.usesEvenOddFillRule = YES;
-    
-    CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    pathAnimation.duration = [CATransaction animationDuration];
-    pathAnimation.timingFunction = [CATransaction animationTimingFunction];
-    [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
-    
-    self.maskLayer.path = [clipPath CGPath];
 }
 
-- (CGRect)maskRect
+- (void)updateMaskPath
 {
-    CGRect maskRect = CGRectMake((CGRectGetWidth(self.view.frame) - self.cropSize.width) * 0.5f,
-                                 (CGRectGetHeight(self.view.frame) - self.cropSize.height) * 0.5f,
-                                 self.cropSize.width,
-                                 self.cropSize.height);
-    
-    return maskRect;
+    switch (self.cropMode) {
+        case RSKImageCropModeCircle: {
+            self.maskPath = [UIBezierPath bezierPathWithOvalInRect:self.maskRect];
+            break;
+        }
+        case RSKImageCropModeSquare: {
+            self.maskPath = [UIBezierPath bezierPathWithRect:self.maskRect];
+            break;
+        }
+        case RSKImageCropModeCustom: {
+            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskPath:)]) {
+                self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
+            } else {
+                self.maskPath = nil;
+            }
+            break;
+        }
+    }
 }
 
 - (CGRect)cropRect
