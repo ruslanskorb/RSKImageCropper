@@ -61,9 +61,58 @@ Then implement the delegate functions.
 }
 ```
 
+## DataSource
+
+`RSKImageCropViewControllerDataSource` provides two data source methods. The method `imageCropViewControllerCustomMaskRect:` asks the data source a custom rect for the mask. The method `imageCropViewControllerCustomMaskPath:` asks the data source a custom path for the mask. To use them, implement the data source in your view controller.
+
+```objective-c
+@interface ViewController () <RSKImageCropViewControllerDataSource>
+```
+
+Then implement the data source functions.
+
+```objective-c
+// Returns a custom rect for the mask.
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
+{
+    CGSize maskSize;
+    if ([controller isPortraitInterfaceOrientation]) {
+        maskSize = CGSizeMake(250, 250);
+    } else {
+        maskSize = CGSizeMake(220, 220);
+    }
+    
+    CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
+    CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
+    
+    CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
+                                 (viewHeight - maskSize.height) * 0.5f,
+                                 maskSize.width,
+                                 maskSize.height);
+    
+    return maskRect;
+}
+
+// Returns a custom path for the mask.
+- (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller
+{
+    CGRect rect = controller.maskRect;
+    CGPoint point1 = CGPointMake(CGRectGetMinX(rect), CGRectGetMaxY(rect));
+    CGPoint point2 = CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect));
+    CGPoint point3 = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    
+    UIBezierPath *triangle = [UIBezierPath bezierPath];
+    [triangle moveToPoint:point1];
+    [triangle addLineToPoint:point2];
+    [triangle addLineToPoint:point3];
+    [triangle closePath];
+    
+    return triangle;
+}
+```
+
 ## Coming Soon
 
-- Add more cropping guides.
 - If you would like to request a new feature, feel free to raise as an issue.
 
 ## Demo
