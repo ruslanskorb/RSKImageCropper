@@ -24,6 +24,7 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol RSKImageCropViewControllerDataSource;
 @protocol RSKImageCropViewControllerDelegate;
 
 /**
@@ -52,15 +53,6 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode;
 
-/**
- Initializes and returns a newly allocated view controller object with the specified image, the specified crop mode and the specified crop size.
- 
- @param originalImage The image for cropping.
- @param cropMode The mode for cropping.
- @param cropSize The size for cropping.
- */
-- (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropSize:(CGSize)cropSize;
-
 ///-----------------------------
 /// @name Accessing the Delegate
 ///-----------------------------
@@ -72,6 +64,13 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (weak, nonatomic) id<RSKImageCropViewControllerDelegate> delegate;
 
+/**
+ The receiver's data source.
+ 
+ @discussion A `RSKImageCropViewControllerDataSource` data source provides a custom rect and a custom path for the mask.
+ */
+@property (weak, nonatomic) id<RSKImageCropViewControllerDataSource> dataSource;
+
 ///--------------------------
 /// @name Accessing the Image
 ///--------------------------
@@ -82,6 +81,29 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (strong, nonatomic) UIImage *originalImage;
 
 /// -----------------------------------
+/// @name Accessing the Mask Attributes
+/// -----------------------------------
+
+/**
+ The color of the layer with the mask. Default value is [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f].
+ */
+@property (strong, nonatomic) UIColor *maskLayerColor;
+
+/**
+ The rect of the mask.
+ 
+ @discussion Updating each time before the crop view lays out its subviews.
+ */
+@property (assign, readonly, nonatomic) CGRect maskRect;
+
+/**
+ The path of the mask.
+ 
+ @discussion Updating each time before the crop view lays out its subviews.
+ */
+@property (strong, readonly, nonatomic) UIBezierPath *maskPath;
+
+/// -----------------------------------
 /// @name Accessing the Crop Attributes
 /// -----------------------------------
 
@@ -90,10 +112,45 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, nonatomic) RSKImageCropMode cropMode;
 
+/// -------------------------------------------
+/// @name Checking of the Interface Orientation
+/// -------------------------------------------
+
 /**
- The size for cropping.
+ Returns a Boolean value indicating whether the user interface is currently presented in a portrait orientation.
+ 
+ @return YES if the interface orientation is portrait, otherwise returns NO.
  */
-@property (assign, nonatomic) CGSize cropSize;
+- (BOOL)isPortraitInterfaceOrientation;
+
+@end
+
+/**
+ The `RSKImageCropViewControllerDataSource` protocol is adopted by an object that provides a custom rect and a custom path for the mask.
+ */
+@protocol RSKImageCropViewControllerDataSource <NSObject>
+
+/**
+ Asks the data source a custom rect for the mask.
+ 
+ @param controller The crop view controller object to whom a rect is provided.
+ 
+ @return A custom rect for the mask.
+ 
+ @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`.
+ */
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller;
+
+/**
+ Asks the data source a custom path for the mask.
+ 
+ @param controller The crop view controller object to whom a path is provided.
+ 
+ @return A custom path for the mask.
+ 
+ @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`.
+ */
+- (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller;
 
 @end
 
