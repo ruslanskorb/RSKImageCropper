@@ -247,9 +247,17 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (!_maskLayer) {
         _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillRule = kCAFillRuleEvenOdd;
-        _maskLayer.fillColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.7].CGColor;
+        _maskLayer.fillColor = self.maskLayerColor.CGColor;
     }
     return _maskLayer;
+}
+
+- (UIColor *)maskLayerColor
+{
+    if (!_maskLayerColor) {
+        _maskLayerColor = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f];
+    }
+    return _maskLayerColor;
 }
 
 - (UILabel *)moveAndScaleLabel

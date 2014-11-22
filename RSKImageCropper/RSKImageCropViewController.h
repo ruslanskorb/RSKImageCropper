@@ -85,6 +85,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /// -----------------------------------
 
 /**
+ The color of the layer with the mask. Default value is [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f].
+ */
+@property (strong, nonatomic) UIColor *maskLayerColor;
+
+/**
  The rect of the mask.
  
  @discussion Updating each time before the crop view lays out its subviews.
