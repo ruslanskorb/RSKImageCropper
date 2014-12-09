@@ -112,6 +112,25 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, nonatomic) RSKImageCropMode cropMode;
 
+/// -------------------------------
+/// @name Accessing the UI Elements
+/// -------------------------------
+
+/**
+ The Title Label.
+ */
+@property (strong, nonatomic, readonly) UILabel *moveAndScaleLabel;
+
+/**
+ The Cancel Button.
+ */
+@property (strong, nonatomic, readonly) UIButton *cancelButton;
+
+/**
+ The Choose Button.
+ */
+@property (strong, nonatomic, readonly) UIButton *chooseButton;
+
 /// -------------------------------------------
 /// @name Checking of the Interface Orientation
 /// -------------------------------------------
