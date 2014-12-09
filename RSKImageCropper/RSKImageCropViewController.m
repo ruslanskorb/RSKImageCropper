@@ -29,7 +29,7 @@
 
 static const CGFloat kPortraitCircleMaskRectInnerEdgeInset = 15.0f;
 static const CGFloat kPortraitSquareMaskRectInnerEdgeInset = 20.0f;
-static const CGFloat kPortraitMoveAndScaleLabelVerticalMargin = 64.0f;
+static const CGFloat kPortraitMoveAndScaleLabelVerticalMargin = 20.0f;
 static const CGFloat kPortraitCancelAndChooseButtonsHorizontalMargin = 13.0f;
 static const CGFloat kPortraitCancelAndChooseButtonsVerticalMargin = 21.0f;
 
