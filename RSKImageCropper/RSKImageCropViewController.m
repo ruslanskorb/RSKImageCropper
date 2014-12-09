@@ -49,9 +49,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
 @property (assign, nonatomic) CGRect maskRect;
 @property (strong, nonatomic) UIBezierPath *maskPath;
-@property (strong, nonatomic) UILabel *moveAndScaleLabel;
-@property (strong, nonatomic) UIButton *cancelButton;
-@property (strong, nonatomic) UIButton *chooseButton;
+
 
 @property (strong, nonatomic) UITapGestureRecognizer *doubleTapGestureRecognizer;
 
