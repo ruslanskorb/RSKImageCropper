@@ -38,6 +38,10 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 
 @interface RSKImageCropViewController : UIViewController
 
+@property (strong, nonatomic) UILabel *moveAndScaleLabel;
+@property (strong, nonatomic) UIButton *cancelButton;
+@property (strong, nonatomic) UIButton *chooseButton;
+
 /**
  Designated initializer. Initializes and returns a newly allocated view controller object with the specified image.
  
