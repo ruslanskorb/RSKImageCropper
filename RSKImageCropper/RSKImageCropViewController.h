@@ -171,6 +171,21 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller;
 
+@optional
+
+/**
+ Asks the data source for custom constraints.
+ 
+ @param controller The crop view controller.
+ 
+ @param view Main view of crop controller.
+ 
+ @return Array of NSLayoutConstraint.
+ 
+ @discussion Used if implemented otherwise default constraints play.
+ */
+- (NSArray *)imageCropViewControllerCustomConstraints:(RSKImageCropViewController *)controller;
+
 @end
 
 /**
