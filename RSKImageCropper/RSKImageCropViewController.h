@@ -112,6 +112,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, nonatomic) RSKImageCropMode cropMode;
 
+/**
+ A Boolean value that determines whether the image will always fill the mask space. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL avoidEmptySpaceAroundImage;
+
 /// -------------------------------
 /// @name Accessing the UI Elements
 /// -------------------------------

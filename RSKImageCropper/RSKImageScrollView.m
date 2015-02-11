@@ -68,6 +68,7 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        _aspectFill = NO;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
         self.bouncesZoom = YES;
@@ -78,29 +79,11 @@
     return self;
 }
 
-- (void)layoutSubviews 
+- (void)didAddSubview:(UIView *)subview
 {
-    [super layoutSubviews];
+    [super didAddSubview:subview];
     
-    // center the zoom view as it becomes smaller than the size of the screen
-    CGSize boundsSize = self.bounds.size;
-    CGRect frameToCenter = self.zoomView.frame;
-    
-    // center horizontally
-    if (frameToCenter.size.width < boundsSize.width) {
-        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
-    } else {
-        frameToCenter.origin.x = 0;
-    }
-    
-    // center vertically
-    if (frameToCenter.size.height < boundsSize.height) {
-        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
-    } else {
-        frameToCenter.origin.y = 0;
-    }
-    
-    self.zoomView.frame = frameToCenter;
+    [self centerZoomView];
 }
 
 - (void)setFrame:(CGRect)frame
@@ -116,6 +99,8 @@
     if (sizeChanging) {
         [self recoverFromResizing];
     }
+    
+    [self centerZoomView];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -125,8 +110,55 @@
     return _zoomView;
 }
 
-#pragma mark - Configure scrollView to display new image
+- (void)scrollViewDidZoom:(__unused UIScrollView *)scrollView
+{
+    [self centerZoomView];
+}
 
+#pragma mark - Center zoomView within scrollView
+
+- (void)centerZoomView
+{
+    // center zoomView as it becomes smaller than the size of the screen
+    
+    // we need to use contentInset instead of contentOffset for better positioning when zoomView fills the screen
+    if (self.aspectFill) {
+        CGFloat top = 0;
+        CGFloat left = 0;
+        
+        // center vertically
+        if (self.contentSize.height < CGRectGetHeight(self.bounds)) {
+            top = (CGRectGetHeight(self.bounds) - self.contentSize.height) * 0.5f;
+        }
+        
+        // center horizontally
+        if (self.contentSize.width < CGRectGetWidth(self.bounds)) {
+            left = (CGRectGetWidth(self.bounds) - self.contentSize.width) * 0.5f;
+        }
+        
+        self.contentInset = UIEdgeInsetsMake(top, left, top, left);
+    } else {
+        CGRect frameToCenter = self.zoomView.frame;
+        
+        // center horizontally
+        if (CGRectGetWidth(frameToCenter) < CGRectGetWidth(self.bounds)) {
+            frameToCenter.origin.x = (CGRectGetWidth(self.bounds) - CGRectGetWidth(frameToCenter)) * 0.5f;
+        } else {
+            frameToCenter.origin.x = 0;
+        }
+        
+        // center vertically
+        if (CGRectGetHeight(frameToCenter) < CGRectGetHeight(self.bounds)) {
+            frameToCenter.origin.y = (CGRectGetHeight(self.bounds) - CGRectGetHeight(frameToCenter)) * 0.5f;
+        } else {
+            frameToCenter.origin.y = 0;
+        }
+        
+        self.zoomView.frame = frameToCenter;
+    }
+}
+
+#pragma mark - Configure scrollView to display new image
 
 - (void)displayImage:(UIImage *)image
 {
@@ -151,6 +183,7 @@
     [self setMaxMinZoomScalesForCurrentBounds];
     [self setInitialZoomScale];
     [self setInitialContentOffset];
+    self.contentInset = UIEdgeInsetsZero;
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds
@@ -160,10 +193,15 @@
     // calculate min/max zoomscale
     CGFloat xScale = boundsSize.width  / _imageSize.width;    // the scale needed to perfectly fit the image width-wise
     CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
-    CGFloat minScale = MIN(xScale, yScale);                   // use minimum of these to allow the image to become fully visible
+    CGFloat minScale;
+    if (!self.aspectFill) {
+        minScale = MIN(xScale, yScale); // use minimum of these to allow the image to become fully visible
+    } else {
+        minScale = MAX(xScale, yScale); // use maximum of these to allow the image to fill the screen
+    }
     CGFloat maxScale = MAX(xScale, yScale);
     
-    // Image must fit the screen, even if its size is smaller.
+    // Image must fit/fill the screen, even if its size is smaller.
     CGFloat xImageScale = maxScale*_imageSize.width / boundsSize.width;
     CGFloat yImageScale = maxScale*_imageSize.height / boundsSize.width;
     CGFloat maxImageScale = MAX(xImageScale, yImageScale);

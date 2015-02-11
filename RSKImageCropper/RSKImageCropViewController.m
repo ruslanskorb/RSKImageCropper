@@ -66,21 +66,29 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithImage:(UIImage *)originalImage
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        _originalImage = originalImage;
+        _avoidEmptySpaceAroundImage = NO;
         _cropMode = RSKImageCropModeCircle;
+    }
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)originalImage
+{
+    self = [self init];
+    if (self) {
+        _originalImage = originalImage;
     }
     return self;
 }
 
 - (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode
 {
-    self = [super init];
+    self = [self initWithImage:originalImage];
     if (self) {
-        _originalImage = originalImage;
         _cropMode = cropMode;
     }
     return self;
@@ -228,6 +236,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (!_imageScrollView) {
         _imageScrollView = [[RSKImageScrollView alloc] init];
         _imageScrollView.clipsToBounds = NO;
+        _imageScrollView.aspectFill = self.avoidEmptySpaceAroundImage;
     }
     return _imageScrollView;
 }
@@ -305,6 +314,15 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         _doubleTapGestureRecognizer.numberOfTapsRequired = 2;
     }
     return _doubleTapGestureRecognizer;
+}
+
+- (void)setAvoidEmptySpaceAroundImage:(BOOL)avoidEmptySpaceAroundImage
+{
+    if (_avoidEmptySpaceAroundImage != avoidEmptySpaceAroundImage) {
+        _avoidEmptySpaceAroundImage = avoidEmptySpaceAroundImage;
+        
+        self.imageScrollView.aspectFill = avoidEmptySpaceAroundImage;
+    }
 }
 
 - (void)setOriginalImage:(UIImage *)originalImage
