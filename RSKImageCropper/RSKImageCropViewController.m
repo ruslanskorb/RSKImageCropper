@@ -1,7 +1,7 @@
 //
 // RSKImageCropViewController.m
 //
-// Copyright (c) 2014 Ruslan Skorb, http://lnkd.in/gsBbvb
+// Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -66,21 +66,30 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithImage:(UIImage *)originalImage
+- (instancetype)init
 {
     self = [super init];
     if (self) {
-        _originalImage = originalImage;
+        _avoidEmptySpaceAroundImage = NO;
+        _applyMaskToCroppedImage = NO;
         _cropMode = RSKImageCropModeCircle;
+    }
+    return self;
+}
+
+- (instancetype)initWithImage:(UIImage *)originalImage
+{
+    self = [self init];
+    if (self) {
+        _originalImage = originalImage;
     }
     return self;
 }
 
 - (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode
 {
-    self = [super init];
+    self = [self initWithImage:originalImage];
     if (self) {
-        _originalImage = originalImage;
         _cropMode = cropMode;
     }
     return self;
@@ -228,6 +237,7 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     if (!_imageScrollView) {
         _imageScrollView = [[RSKImageScrollView alloc] init];
         _imageScrollView.clipsToBounds = NO;
+        _imageScrollView.aspectFill = self.avoidEmptySpaceAroundImage;
     }
     return _imageScrollView;
 }
@@ -305,6 +315,15 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         _doubleTapGestureRecognizer.numberOfTapsRequired = 2;
     }
     return _doubleTapGestureRecognizer;
+}
+
+- (void)setAvoidEmptySpaceAroundImage:(BOOL)avoidEmptySpaceAroundImage
+{
+    if (_avoidEmptySpaceAroundImage != avoidEmptySpaceAroundImage) {
+        _avoidEmptySpaceAroundImage = avoidEmptySpaceAroundImage;
+        
+        self.imageScrollView.aspectFill = avoidEmptySpaceAroundImage;
+    }
 }
 
 - (void)setOriginalImage:(UIImage *)originalImage
@@ -522,14 +541,64 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (UIImage *)croppedImage:(UIImage *)image cropRect:(CGRect)cropRect
 {
+    // Step 1: create an image using the data contained within the specified rect.
     CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
     UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:1.0f orientation:image.imageOrientation];
     CGImageRelease(croppedCGImage);
-    return [croppedImage fixOrientation];
+    
+    // Step 2: fix orientation of the cropped image.
+    croppedImage = [croppedImage fixOrientation];
+    
+    // Step 3: If current mode is `RSKImageCropModeSquare` or mask should not be applied to the image after cropping,
+    // we can return the cropped image immediately.
+    // Otherwise, we need to apply the mask to the image.
+    if (self.cropMode == RSKImageCropModeSquare || !self.applyMaskToCroppedImage) {
+        // Step 4: return the cropped image
+        return croppedImage;
+    } else {
+        UIBezierPath *maskPath = [self.maskPath copy];
+        
+        // Step 4: scale the mask to the size of the cropped image.
+        CGFloat scale;
+        if (croppedImage.size.height > croppedImage.size.width) {
+            scale = croppedImage.size.height / CGRectGetHeight(maskPath.bounds);
+        } else {
+            scale = croppedImage.size.width / CGRectGetWidth(maskPath.bounds);
+        }
+        [maskPath applyTransform:CGAffineTransformMakeScale(scale, scale)];
+        
+        // Step 5: move the mask to the top-left.
+        CGPoint translation = CGPointMake(-CGRectGetMinX(maskPath.bounds), -CGRectGetMinY(maskPath.bounds));
+        [maskPath applyTransform:CGAffineTransformMakeTranslation(translation.x, translation.y)];
+        
+        // Step 6: apply the mask on the cropped image.
+        UIGraphicsBeginImageContext(maskPath.bounds.size);
+        
+        // 6a: apply the mask.
+        [maskPath addClip];
+        
+        // 6b: draw the cropped image.
+        CGPoint point = CGPointMake((CGRectGetWidth(maskPath.bounds) - croppedImage.size.width) * 0.5f,
+                                    (CGRectGetHeight(maskPath.bounds) - croppedImage.size.height) * 0.5f);
+        [croppedImage drawAtPoint:point];
+        
+        // 6c: get the cropped image to which the mask is applied.
+        croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+        
+        croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage];
+        
+        // Step 7: return the cropped image
+        return croppedImage;
+    }
 }
 
 - (void)cropImage
 {
+    if ([self.delegate respondsToSelector:@selector(imageCropViewController:willCropImage:)]) {
+        [self.delegate imageCropViewController:self willCropImage:self.originalImage];
+    }
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         UIImage *croppedImage = [self croppedImage:self.originalImage cropRect:[self cropRect]];
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -1,7 +1,7 @@
 //
 // RSKImageCropViewController.h
 //
-// Copyright (c) 2014 Ruslan Skorb, http://lnkd.in/gsBbvb
+// Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -112,6 +112,16 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, nonatomic) RSKImageCropMode cropMode;
 
+/**
+ A Boolean value that determines whether the image will always fill the mask space. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL avoidEmptySpaceAroundImage;
+
+/**
+ A Boolean value that determines whether the mask applies to the image after cropping. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL applyMaskToCroppedImage;
+
 /// -------------------------------
 /// @name Accessing the UI Elements
 /// -------------------------------
@@ -187,5 +197,12 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  Tells the delegate that the original image has been cropped.
  */
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage;
+
+@optional
+
+/**
+ Tells the delegate that the original image will be cropped.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
 
 @end
