@@ -117,6 +117,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, nonatomic) BOOL avoidEmptySpaceAroundImage;
 
+/**
+ A Boolean value that determines whether the mask applies to the image after cropping. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL applyMaskToCroppedImage;
+
 /// -------------------------------
 /// @name Accessing the UI Elements
 /// -------------------------------
@@ -192,5 +197,12 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  Tells the delegate that the original image has been cropped.
  */
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage;
+
+@optional
+
+/**
+ Tells the delegate that the original image will be cropped.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
 
 @end
