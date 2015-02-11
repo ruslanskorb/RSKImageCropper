@@ -38,7 +38,7 @@ Just create a view controller for image cropping and set the delegate.
 
 ## Delegate
 
-`RSKImageCropViewControllerDelegate` provides two delegate methods. To use them, implement the delegate in your view controller.
+`RSKImageCropViewControllerDelegate` provides three delegate methods. To use them, implement the delegate in your view controller.
 
 ```objective-c
 @interface ViewController () <RSKImageCropViewControllerDelegate>
@@ -58,6 +58,13 @@ Then implement the delegate functions.
 {
     self.imageView.image = croppedImage;
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image will be cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage
+{
+    // Use when `applyMaskToCroppedImage` set to YES.
+    [SVProgressHUD show];
 }
 ```
 
