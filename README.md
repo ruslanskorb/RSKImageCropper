@@ -54,7 +54,7 @@ Then implement the delegate functions.
 }
 
 // The original image has been cropped.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
 {
     self.imageView.image = croppedImage;
     [self.navigationController popViewControllerAnimated:YES];
