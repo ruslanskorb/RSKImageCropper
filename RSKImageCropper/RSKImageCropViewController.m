@@ -516,13 +516,19 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     
     cropRect = CGRectIntegral(cropRect);
     
-    CGSize imageSize = self.originalImage.size;
+    return cropRect;
+}
+
+- (UIImage *)croppedImage:(UIImage *)image cropRect:(CGRect)cropRect
+{
+    // Step 1: check and correct the crop rect.
+    CGSize imageSize = image.size;
     CGFloat x = CGRectGetMinX(cropRect);
     CGFloat y = CGRectGetMinY(cropRect);
     CGFloat width = CGRectGetWidth(cropRect);
     CGFloat height = CGRectGetHeight(cropRect);
     
-    UIImageOrientation imageOrientation = self.originalImage.imageOrientation;
+    UIImageOrientation imageOrientation = image.imageOrientation;
     if (imageOrientation == UIImageOrientationRight || imageOrientation == UIImageOrientationRightMirrored) {
         cropRect.origin.x = y;
         cropRect.origin.y = round(imageSize.width - CGRectGetWidth(cropRect) - x);
@@ -538,29 +544,24 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         cropRect.origin.y = round(imageSize.height - CGRectGetHeight(cropRect) - y);
     }
     
-    return cropRect;
-}
-
-- (UIImage *)croppedImage:(UIImage *)image cropRect:(CGRect)cropRect
-{
-    // Step 1: create an image using the data contained within the specified rect.
+    // Step 2: create an image using the data contained within the specified rect.
     CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
     UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:1.0f orientation:image.imageOrientation];
     CGImageRelease(croppedCGImage);
     
-    // Step 2: fix orientation of the cropped image.
+    // Step 3: fix orientation of the cropped image.
     croppedImage = [croppedImage fixOrientation];
     
-    // Step 3: If current mode is `RSKImageCropModeSquare` or mask should not be applied to the image after cropping,
+    // Step 4: If current mode is `RSKImageCropModeSquare` or mask should not be applied to the image after cropping,
     // we can return the cropped image immediately.
     // Otherwise, we need to apply the mask to the image.
     if (self.cropMode == RSKImageCropModeSquare || !self.applyMaskToCroppedImage) {
-        // Step 4: return the cropped image
+        // Step 5: return the cropped image
         return croppedImage;
     } else {
         UIBezierPath *maskPath = [self.maskPath copy];
         
-        // Step 4: scale the mask to the size of the cropped image.
+        // Step 5: scale the mask to the size of the cropped image.
         CGFloat scale;
         if (croppedImage.size.height > croppedImage.size.width) {
             scale = croppedImage.size.height / CGRectGetHeight(maskPath.bounds);
@@ -569,29 +570,29 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
         }
         [maskPath applyTransform:CGAffineTransformMakeScale(scale, scale)];
         
-        // Step 5: move the mask to the top-left.
+        // Step 6: move the mask to the top-left.
         CGPoint translation = CGPointMake(-CGRectGetMinX(maskPath.bounds), -CGRectGetMinY(maskPath.bounds));
         [maskPath applyTransform:CGAffineTransformMakeTranslation(translation.x, translation.y)];
         
-        // Step 6: apply the mask on the cropped image.
+        // Step 7: apply the mask on the cropped image.
         UIGraphicsBeginImageContext(maskPath.bounds.size);
         
-        // 6a: apply the mask.
+        // 7a: apply the mask.
         [maskPath addClip];
         
-        // 6b: draw the cropped image.
-        CGPoint point = CGPointMake((CGRectGetWidth(maskPath.bounds) - croppedImage.size.width) * 0.5f,
-                                    (CGRectGetHeight(maskPath.bounds) - croppedImage.size.height) * 0.5f);
+        // 7b: draw the cropped image.
+        CGPoint point = CGPointMake(round((CGRectGetWidth(maskPath.bounds) - croppedImage.size.width) * 0.5f),
+                                    round((CGRectGetHeight(maskPath.bounds) - croppedImage.size.height) * 0.5f));
         [croppedImage drawAtPoint:point];
         
-        // 6c: get the cropped image to which the mask is applied.
+        // 7c: get the cropped image to which the mask is applied.
         croppedImage = UIGraphicsGetImageFromCurrentImageContext();
         
         UIGraphicsEndImageContext();
         
         croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage];
         
-        // Step 7: return the cropped image
+        // Step 8: return the cropped image
         return croppedImage;
     }
 }
