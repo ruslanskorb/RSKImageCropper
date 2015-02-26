@@ -194,9 +194,9 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller;
 
 /**
- Tells the delegate that the original image has been cropped.
+ Tells the delegate that the original image has been cropped. Additionally provides a crop rect used to produce image.
  */
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage;
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect;
 
 @optional
 
