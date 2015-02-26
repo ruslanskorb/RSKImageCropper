@@ -509,10 +509,12 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     CGRect cropRect = CGRectZero;
     float zoomScale = 1.0 / self.imageScrollView.zoomScale;
     
-    cropRect.origin.x = self.imageScrollView.contentOffset.x * zoomScale;
-    cropRect.origin.y = self.imageScrollView.contentOffset.y * zoomScale;
+    cropRect.origin.x = round(self.imageScrollView.contentOffset.x * zoomScale);
+    cropRect.origin.y = round(self.imageScrollView.contentOffset.y * zoomScale);
     cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
     cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
+    
+    cropRect = CGRectIntegral(cropRect);
     
     CGSize imageSize = self.originalImage.size;
     CGFloat x = CGRectGetMinX(cropRect);
@@ -523,17 +525,17 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
     UIImageOrientation imageOrientation = self.originalImage.imageOrientation;
     if (imageOrientation == UIImageOrientationRight || imageOrientation == UIImageOrientationRightMirrored) {
         cropRect.origin.x = y;
-        cropRect.origin.y = imageSize.width - CGRectGetWidth(cropRect) - x;
+        cropRect.origin.y = round(imageSize.width - CGRectGetWidth(cropRect) - x);
         cropRect.size.width = height;
         cropRect.size.height = width;
     } else if (imageOrientation == UIImageOrientationLeft || imageOrientation == UIImageOrientationLeftMirrored) {
-        cropRect.origin.x = imageSize.height - CGRectGetHeight(cropRect) - y;
+        cropRect.origin.x = round(imageSize.height - CGRectGetHeight(cropRect) - y);
         cropRect.origin.y = x;
         cropRect.size.width = height;
         cropRect.size.height = width;
     } else if (imageOrientation == UIImageOrientationDown || imageOrientation == UIImageOrientationDownMirrored) {
-        cropRect.origin.x = imageSize.width - CGRectGetWidth(cropRect) - x;;
-        cropRect.origin.y = imageSize.height - CGRectGetHeight(cropRect) - y;
+        cropRect.origin.x = round(imageSize.width - CGRectGetWidth(cropRect) - x);
+        cropRect.origin.y = round(imageSize.height - CGRectGetHeight(cropRect) - y);
     }
     
     return cropRect;
