@@ -38,7 +38,7 @@ Just create a view controller for image cropping and set the delegate.
 
 ## Delegate
 
-`RSKImageCropViewControllerDelegate` provides three delegate methods. To use them, implement the delegate in your view controller.
+`RSKImageCropViewControllerDelegate` provides four delegate methods. To use them, implement the delegate in your view controller.
 
 ```objective-c
 @interface ViewController () <RSKImageCropViewControllerDelegate>
@@ -53,6 +53,14 @@ Then implement the delegate functions.
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+// The original image will be cropped.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage
+{
+    // Use when `applyMaskToCroppedImage` set to YES
+    // or when `rotationEnabled` set to YES.
+    [SVProgressHUD show];
+}
+
 // The original image has been cropped.
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
 {
@@ -60,11 +68,11 @@ Then implement the delegate functions.
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-// The original image will be cropped.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage
+// The original image has been cropped. Additionally provides a rotation angle used to produce image.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle
 {
-    // Use when `applyMaskToCroppedImage` set to YES.
-    [SVProgressHUD show];
+    self.imageView.image = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
 }
 ```
 
