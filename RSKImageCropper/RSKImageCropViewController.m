@@ -506,14 +506,10 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 - (CGRect)cropRect
 {
-    CGRect cropRect = CGRectZero;
-    float zoomScale = 1.0 / self.imageScrollView.zoomScale;
+    CGRect cropRect = [self.view convertRect:self.imageScrollView.frame toView:self.imageScrollView.zoomView];
     
-    cropRect.origin.x = round(self.imageScrollView.contentOffset.x * zoomScale);
-    cropRect.origin.y = round(self.imageScrollView.contentOffset.y * zoomScale);
-    cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
-    cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
-    
+    cropRect.origin.x = round(cropRect.origin.x);
+    cropRect.origin.y = round(cropRect.origin.y);
     cropRect = CGRectIntegral(cropRect);
     
     return cropRect;
