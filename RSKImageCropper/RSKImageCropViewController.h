@@ -108,9 +108,30 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /// -----------------------------------
 
 /**
- The mode for cropping.
+ The mode for cropping. Default value is `RSKImageCropModeCircle`.
  */
 @property (assign, nonatomic) RSKImageCropMode cropMode;
+
+/**
+ The crop rectangle.
+ 
+ @discussion The value is calculated at run time.
+ */
+@property (readonly, nonatomic) CGRect cropRect;
+
+/**
+ A value that specifies the current rotation angle of the image in radians.
+ 
+@discussion The value is calculated at run time.
+ */
+@property (readonly, nonatomic) CGFloat rotationAngle;
+
+/**
+ A floating-point value that specifies the current scale factor applied to the image.
+ 
+ @discussion The value is calculated at run time.
+ */
+@property (readonly, nonatomic) CGFloat zoomScale;
 
 /**
  A Boolean value that determines whether the image will always fill the mask space. Default value is `NO`.
@@ -121,6 +142,13 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  A Boolean value that determines whether the mask applies to the image after cropping. Default value is `NO`.
  */
 @property (assign, nonatomic) BOOL applyMaskToCroppedImage;
+
+/**
+ A Boolean value that controls whether the rotaion gesture is enabled. Default value is `NO`.
+ 
+ @discussion To support the rotation when `cropMode` is `RSKImageCropModeCustom` you must implement the data source method `imageCropViewControllerCustomMovementRect:`.
+ */
+@property (assign, getter=isRotationEnabled, nonatomic) BOOL rotationEnabled;
 
 /// -------------------------------
 /// @name Accessing the UI Elements
@@ -181,6 +209,19 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller;
 
+@optional
+
+/**
+ Asks the data source a custom rect in which the image can be moved.
+ 
+ @param controller The crop view controller object to whom a rect is provided.
+ 
+ @return A custom rect in which the image can be moved.
+ 
+ @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`. If you want to support the rotation  when `cropMode` is `RSKImageCropModeCustom` you must implement it. Will be marked as `required` in version `2.0.0`.
+ */
+- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller;
+
 @end
 
 /**
@@ -188,21 +229,26 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @protocol RSKImageCropViewControllerDelegate <NSObject>
 
+@optional
+
 /**
  Tells the delegate that crop image has been canceled.
  */
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller;
 
 /**
+ Tells the delegate that the original image will be cropped.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
+
+/**
  Tells the delegate that the original image has been cropped. Additionally provides a crop rect used to produce image.
  */
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect;
 
-@optional
-
 /**
- Tells the delegate that the original image will be cropped.
+ Tells the delegate that the original image has been cropped. Additionally provides a crop rect and a rotation angle used to produce image.
  */
-- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
 
 @end
