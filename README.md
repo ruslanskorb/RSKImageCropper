@@ -38,7 +38,7 @@ Just create a view controller for image cropping and set the delegate.
 
 ## Delegate
 
-`RSKImageCropViewControllerDelegate` provides three delegate methods. To use them, implement the delegate in your view controller.
+`RSKImageCropViewControllerDelegate` provides four delegate methods. To use them, implement the delegate in your view controller.
 
 ```objective-c
 @interface ViewController () <RSKImageCropViewControllerDelegate>
@@ -54,14 +54,27 @@ Then implement the delegate functions.
 }
 
 // The original image has been cropped.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+{
+    self.imageView.image = croppedImage;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+// The original image has been cropped. Additionally provides a rotation angle used to produce image.
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                   didCropImage:(UIImage *)croppedImage
+                  usingCropRect:(CGRect)cropRect
+                  rotationAngle:(CGFloat)rotationAngle
 {
     self.imageView.image = croppedImage;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 // The original image will be cropped.
-- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage
+- (void)imageCropViewController:(RSKImageCropViewController *)controller
+                  willCropImage:(UIImage *)originalImage
 {
     // Use when `applyMaskToCroppedImage` set to YES.
     [SVProgressHUD show];
@@ -70,7 +83,7 @@ Then implement the delegate functions.
 
 ## DataSource
 
-`RSKImageCropViewControllerDataSource` provides two data source methods. The method `imageCropViewControllerCustomMaskRect:` asks the data source a custom rect for the mask. The method `imageCropViewControllerCustomMaskPath:` asks the data source a custom path for the mask. To use them, implement the data source in your view controller.
+`RSKImageCropViewControllerDataSource` provides three data source methods. The method `imageCropViewControllerCustomMaskRect:` asks the data source a custom rect for the mask. The method `imageCropViewControllerCustomMaskPath:` asks the data source a custom path for the mask. The method `imageCropViewControllerCustomMovementRect:` asks the data source a custom rect in which the image can be moved. To use them, implement the data source in your view controller.
 
 ```objective-c
 @interface ViewController () <RSKImageCropViewControllerDataSource>
@@ -115,6 +128,12 @@ Then implement the data source functions.
     [triangle closePath];
     
     return triangle;
+}
+
+// Returns a custom rect in which the image can be moved.
+- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
+{
+    return [self imageCropViewControllerCustomMaskRect:controller];
 }
 ```
 

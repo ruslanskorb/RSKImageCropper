@@ -1,5 +1,5 @@
 //
-// UIImage+FixOrientation.h
+// UIImage+RSKImageCropper.h
 //
 // Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
 //
@@ -24,8 +24,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (FixOrientation)
+@interface UIImage (RSKImageCropper)
 
+// Fix the orientation of the image.
 - (UIImage *)fixOrientation;
+
+// Rotate the image clockwise around the center by the angle, in radians.
+- (UIImage *)rotateByAngle:(CGFloat)angleInRadians;
 
 @end
