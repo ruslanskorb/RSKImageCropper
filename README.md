@@ -1,4 +1,4 @@
-## RSKImageCropper
+## RSKImageCropper [![Build Status](https://travis-ci.org/ruslanskorb/RSKImageCropper.svg)](https://travis-ci.org/ruslanskorb/RSKImageCropper)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
