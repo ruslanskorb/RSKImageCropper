@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0510"
+   LastUpgradeVersion = "0620"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,6 +17,20 @@
                BlueprintIdentifier = "B87A99EB19A4D2CD00D12CD4"
                BuildableName = "RSKImageCropperExample.app"
                BlueprintName = "RSKImageCropperExample"
+               ReferencedContainer = "container:RSKImageCropperExample.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B87A9A0619A4D2CD00D12CD4"
+               BuildableName = "RSKImageCropperExampleTests.xctest"
+               BlueprintName = "RSKImageCropperExampleTests"
                ReferencedContainer = "container:RSKImageCropperExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
