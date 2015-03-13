@@ -1,0 +1,25 @@
+osx_image: xcode61
+language: objective-c
+
+cache:
+  - bundler
+
+podfile:
+  - Example/Podfile
+
+before_script:
+  - make ci
+
+install:
+  - bundle install --jobs=3 --retry=3 --deployment --path=${BUNDLE_PATH:-vendor.bundle}
+  - bundle exec pod install --project-directory=Example
+
+script:
+  - make test
+  - make lint
+
+notifications:
+  slack:
+    secure: "dUdDrioG0XXN2XQCVECpTrQjiEPj6FPnSxL5hP71vza2McmBv8KlaPbBdgcq0d9TWYkW6Xt8IehOf6sNLd2Sfa31UoCw3G+6HNqWP7/ThQZKEgl/GiLp1LiFcLqP+Ys87qf8Od6SyLLr7oVWlAkhmsgcUrUQGTLTHBvNrlqs1II="
+
+after_success: slather
