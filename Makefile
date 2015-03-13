@@ -17,7 +17,7 @@ test:
 	set -o pipefail && xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration Debug test -sdk iphonesimulator -destination $(DEVICE_HOST) | bundle exec second_curtain | bundle exec xcpretty -c --test
 
 lint:
-	bundle exec fui --path Example/RSKImageCropper find
+	bundle exec fui --path Example/RSKImageCropperExample find
 
 ci: CONFIGURATION = Debug
 ci: build
