@@ -774,7 +774,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     } else {
         // Step 5: create a new context.
         CGSize maskSize = CGRectIntegral(maskPath.bounds).size;
-        CGSize contextSize = CGSizeMake(maskSize.width / zoomScale, maskSize.height / zoomScale);
+        CGSize contextSize = CGSizeMake(ceil(maskSize.width / zoomScale),
+                                        ceil(maskSize.height / zoomScale));
         UIGraphicsBeginImageContextWithOptions(contextSize, NO, imageScale);
         
         // Step 6: apply the mask if needed.
