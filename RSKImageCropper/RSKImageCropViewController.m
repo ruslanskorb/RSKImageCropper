@@ -752,13 +752,17 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         cropRect.origin.y = round(imageSize.height - CGRectGetHeight(cropRect) - y);
     }
     
+    CGFloat imageScale = image.scale;
+    cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
+    
     // Step 2: create an image using the data contained within the specified rect.
     CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
-    UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:1.0f orientation:imageOrientation];
+    UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:imageScale orientation:imageOrientation];
     CGImageRelease(croppedCGImage);
     
     // Step 3: fix orientation of the cropped image.
     croppedImage = [croppedImage fixOrientation];
+    imageOrientation = croppedImage.imageOrientation;
     
     // Step 4: If current mode is `RSKImageCropModeSquare` and the image is not rotated
     // or mask should not be applied to the image after cropping and the image is not rotated,
@@ -771,7 +775,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // Step 5: create a new context.
         CGSize maskSize = CGRectIntegral(maskPath.bounds).size;
         CGSize contextSize = CGSizeMake(maskSize.width / zoomScale, maskSize.height / zoomScale);
-        UIGraphicsBeginImageContext(contextSize);
+        UIGraphicsBeginImageContextWithOptions(contextSize, NO, imageScale);
         
         // Step 6: apply the mask if needed.
         if (applyMaskToCroppedImage) {
@@ -779,7 +783,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             UIBezierPath *maskPathCopy = [maskPath copy];
             CGFloat scale = 1 / zoomScale;
             [maskPathCopy applyTransform:CGAffineTransformMakeScale(scale, scale)];
-        
+            
             // 6b: move the mask to the top-left.
             CGPoint translation = CGPointMake(-CGRectGetMinX(maskPathCopy.bounds),
                                               -CGRectGetMinY(maskPathCopy.bounds));
@@ -805,7 +809,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // Step 10: remove the context.
         UIGraphicsEndImageContext();
         
-        croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage];
+        croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage scale:imageScale orientation:imageOrientation];
         
         // Step 11: return the cropped image affter processing.
         return croppedImage;
