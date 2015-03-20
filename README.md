@@ -133,7 +133,8 @@ Then implement the data source functions.
 // Returns a custom rect in which the image can be moved.
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
 {
-    return [self imageCropViewControllerCustomMaskRect:controller];
+    // If the image is not rotated, then the movement rect coincides with the mask rect.
+    return controller.maskRect;
 }
 ```
 

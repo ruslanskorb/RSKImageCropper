@@ -49,6 +49,9 @@ __tg_promote2((__x), (__y))(__y))
 #undef fabs
 #define fabs(__x) __tg_fabs(__tg_promote1((__x))(__x))
 
+#undef ceil
+#define ceil(__x) __tg_ceil(__tg_promote1((__x))(__x))
+
 #ifdef CGFLOAT_IS_DOUBLE
     #define RSK_EPSILON DBL_EPSILON
 #else

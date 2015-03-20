@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		89BB37728461FC8C20D81A2B /* libPods-RSKImageCropperExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74203A87984840A534E55F6C /* libPods-RSKImageCropperExampleTests.a */; };
 		B803F69E1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B803F69D1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m */; };
+		B8182F2E1ABC998B00601E43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */; };
 		B87A99F019A4D2CD00D12CD4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */; };
 		B87A99F219A4D2CD00D12CD4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99F119A4D2CD00D12CD4 /* CoreGraphics.framework */; };
 		B87A99F419A4D2CD00D12CD4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99F319A4D2CD00D12CD4 /* UIKit.framework */; };
@@ -43,6 +44,7 @@
 		74203A87984840A534E55F6C /* libPods-RSKImageCropperExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSKImageCropperExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B803F69C1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+RSKImageCropper.h"; sourceTree = "<group>"; };
 		B803F69D1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+RSKImageCropper.m"; sourceTree = "<group>"; };
+		B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		B87A99EC19A4D2CD00D12CD4 /* RSKImageCropperExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSKImageCropperExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B87A99F119A4D2CD00D12CD4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -139,6 +141,7 @@
 				B87A9A2119A4D31A00D12CD4 /* Controllers */,
 				B87A9A0119A4D2CD00D12CD4 /* Images.xcassets */,
 				B87A99F619A4D2CD00D12CD4 /* Supporting Files */,
+				B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */,
 			);
 			name = Classes;
 			path = RSKImageCropperExample;
@@ -299,6 +302,7 @@
 			files = (
 				B87A99FA19A4D2CD00D12CD4 /* InfoPlist.strings in Resources */,
 				B87A9A0219A4D2CD00D12CD4 /* Images.xcassets in Resources */,
+				B8182F2E1ABC998B00601E43 /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
