@@ -27,6 +27,7 @@
 #import "RSKImageScrollView.h"
 #import "UIImage+RSKImageCropper.h"
 #import "CGGeometry+RSKImageCropper.h"
+#import "UIApplication+RSKImageCropper.h"
 
 static const CGFloat kPortraitCircleMaskRectInnerEdgeInset = 15.0f;
 static const CGFloat kPortraitSquareMaskRectInnerEdgeInset = 20.0f;
@@ -127,8 +128,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewWillAppear:animated];
     
-    self.originalStatusBarHidden = [UIApplication sharedApplication].statusBarHidden;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    UIApplication *application = [UIApplication rsk_sharedApplication];
+    if (application) {
+        self.originalStatusBarHidden = application.statusBarHidden;
+        [application setStatusBarHidden:YES];
+    }
     
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
@@ -146,7 +150,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewWillDisappear:animated];
     
-    [[UIApplication sharedApplication] setStatusBarHidden:self.originalStatusBarHidden];
+    UIApplication *application = [UIApplication rsk_sharedApplication];
+    if (application) {
+        [application setStatusBarHidden:self.originalStatusBarHidden];
+    }
+    
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];
     self.navigationController.view.backgroundColor = self.originalNavigationControllerViewBackgroundColor;
 }
@@ -451,12 +459,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-#pragma mark - Private
+#pragma mark - Public
 
 - (BOOL)isPortraitInterfaceOrientation
 {
-    return UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation);
+    return CGRectGetHeight(self.view.frame) > CGRectGetWidth(self.view.frame);
 }
+
+#pragma mark - Private
 
 - (void)reset:(BOOL)animated
 {
