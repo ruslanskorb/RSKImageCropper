@@ -22,4 +22,5 @@ notifications:
   slack:
     secure: "dUdDrioG0XXN2XQCVECpTrQjiEPj6FPnSxL5hP71vza2McmBv8KlaPbBdgcq0d9TWYkW6Xt8IehOf6sNLd2Sfa31UoCw3G+6HNqWP7/ThQZKEgl/GiLp1LiFcLqP+Ys87qf8Od6SyLLr7oVWlAkhmsgcUrUQGTLTHBvNrlqs1II="
 
-after_success: slather
+after_success:
+  - bundle exec slather
