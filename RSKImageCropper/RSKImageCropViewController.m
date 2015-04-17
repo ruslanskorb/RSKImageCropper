@@ -102,6 +102,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return self;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
