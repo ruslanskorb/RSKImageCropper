@@ -14,7 +14,12 @@
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (assign, nonatomic) CGFloat rotationAngle;
 
+- (void)cancelCrop;
+- (void)cropImage;
 - (void)displayImage;
+- (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer;
+- (void)onCancelButtonTouch:(UIBarButtonItem *)sender;
+- (void)onChooseButtonTouch:(UIBarButtonItem *)sender;
 - (void)reset:(BOOL)animated;
 - (void)resetContentOffset;
 - (void)resetFrame;
@@ -144,6 +149,45 @@ describe(@"reset", ^{
         expect(imageCropViewController.imageScrollView.frame).to.equal(initialFrame);
         expect(imageCropViewController.zoomScale).to.equal(initialZoomScale);
         expect(imageCropViewController.imageScrollView.contentOffset).to.equal(initialContentOffset);
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
+});
+
+describe(@"taps", ^{
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+    });
+    
+    it(@"handles double tap on the image", ^{
+        id mock = [OCMockObject partialMockForObject:imageCropViewController];
+        [[mock expect] reset:YES];
+        
+        [imageCropViewController handleDoubleTap:nil];
+        
+        [mock verify];
+    });
+    
+    it(@"handles tap on the cancel button", ^{
+        id mock = [OCMockObject partialMockForObject:imageCropViewController];
+        [[mock expect] cancelCrop];
+        
+        [imageCropViewController onCancelButtonTouch:nil];
+        
+        [mock verify];
+    });
+    
+    it(@"handles tap on the choose button", ^{
+        id mock = [OCMockObject partialMockForObject:imageCropViewController];
+        [[mock expect] cropImage];
+        
+        [imageCropViewController onChooseButtonTouch:nil];
+        
+        [mock verify];
     });
     
     after(^{
