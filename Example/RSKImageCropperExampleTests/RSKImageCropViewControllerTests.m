@@ -12,6 +12,7 @@
 @interface RSKImageCropViewController (Testing)
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
+@property (assign, nonatomic) BOOL originalStatusBarHidden;
 @property (assign, nonatomic) CGFloat rotationAngle;
 
 - (void)cancelCrop;
@@ -153,6 +154,37 @@ describe(@"reset", ^{
     
     after(^{
         imageCropViewController = nil;
+    });
+});
+
+describe(@"status bar", ^{
+    it(@"hides status bar in viewWillAppear:", ^{
+        UIApplication *application = [UIApplication sharedApplication];
+        id mock = [OCMockObject partialMockForObject:application];
+        
+        [[mock expect] setStatusBarHidden:YES];
+        
+        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        [imageCropViewController view];
+        [imageCropViewController viewWillAppear:NO];
+        
+        [mock verify];
+    });
+    
+    it(@"restores visibility of the status bar in viewWillDisappear:", ^{
+        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        
+        UIApplication *application = [UIApplication sharedApplication];
+        id mock = [OCMockObject partialMockForObject:application];
+        
+        [imageCropViewController view];
+        [imageCropViewController viewWillAppear:NO];
+        
+        [[mock expect] setStatusBarHidden:imageCropViewController.originalStatusBarHidden];
+        
+        [imageCropViewController viewWillDisappear:NO];
+        
+        [mock verify];
     });
 });
 
