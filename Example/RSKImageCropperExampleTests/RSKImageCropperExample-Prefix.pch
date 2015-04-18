@@ -1,0 +1,21 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#ifndef RSKImageCropperExample_Prefix_pch
+#define RSKImageCropperExample_Prefix_pch
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #define EXP_SHORTHAND
+    #import <Specta/Specta.h>
+    #import <Expecta/Expecta.h>
+    #import <Expecta+Snapshots/EXPMatchers+FBSnapshotTest.h>
+    #import <OCMock/OCMock.h>
+    #import <XCTest/XCTest.h>
+#endif
+
+#endif

@@ -21,7 +21,6 @@
 		B87A9A0A19A4D2CD00D12CD4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */; };
 		B87A9A0B19A4D2CD00D12CD4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99F319A4D2CD00D12CD4 /* UIKit.framework */; };
 		B87A9A1319A4D2CD00D12CD4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B87A9A1119A4D2CD00D12CD4 /* InfoPlist.strings */; };
-		B87A9A1519A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A1419A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests.m */; };
 		B87A9A2019A4D31100D12CD4 /* RSKExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A1F19A4D31100D12CD4 /* RSKExampleViewController.m */; };
 		B87A9A2C19A4D39800D12CD4 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A2419A4D39800D12CD4 /* RSKImageScrollView.m */; };
 		B87A9A2D19A4D39800D12CD4 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A2719A4D39800D12CD4 /* RSKImageCropViewController.m */; };
@@ -46,6 +45,7 @@
 		B803F69C1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+RSKImageCropper.h"; sourceTree = "<group>"; };
 		B803F69D1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CGGeometry+RSKImageCropper.m"; sourceTree = "<group>"; };
 		B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		B82DF9BF1AE26DAD001F4ED2 /* RSKImageCropperExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSKImageCropperExample-Prefix.pch"; sourceTree = "<group>"; };
 		B87A99EC19A4D2CD00D12CD4 /* RSKImageCropperExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSKImageCropperExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B87A99F119A4D2CD00D12CD4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -61,7 +61,6 @@
 		B87A9A0819A4D2CD00D12CD4 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		B87A9A1019A4D2CD00D12CD4 /* RSKImageCropperExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RSKImageCropperExampleTests-Info.plist"; sourceTree = "<group>"; };
 		B87A9A1219A4D2CD00D12CD4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B87A9A1419A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RSKPhotoCropperExampleTests.m; sourceTree = "<group>"; };
 		B87A9A1E19A4D31100D12CD4 /* RSKExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSKExampleViewController.h; sourceTree = "<group>"; };
 		B87A9A1F19A4D31100D12CD4 /* RSKExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKExampleViewController.m; sourceTree = "<group>"; };
 		B87A9A2319A4D39800D12CD4 /* RSKImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSKImageScrollView.h; sourceTree = "<group>"; };
@@ -108,7 +107,7 @@
 			children = (
 				B87A99F519A4D2CD00D12CD4 /* Classes */,
 				B87A9A3019A4D59D00D12CD4 /* Vendor */,
-				B87A9A0E19A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests */,
+				B87A9A0E19A4D2CD00D12CD4 /* RSKImageCropperExampleTests */,
 				B87A99EE19A4D2CD00D12CD4 /* Frameworks */,
 				B87A99ED19A4D2CD00D12CD4 /* Products */,
 				EC24B6778C72921304437F16 /* Pods */,
@@ -161,13 +160,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		B87A9A0E19A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests */ = {
+		B87A9A0E19A4D2CD00D12CD4 /* RSKImageCropperExampleTests */ = {
 			isa = PBXGroup;
 			children = (
-				B87A9A1419A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests.m */,
 				B87A9A0F19A4D2CD00D12CD4 /* Supporting Files */,
 			);
-			name = RSKPhotoCropperExampleTests;
 			path = RSKImageCropperExampleTests;
 			sourceTree = "<group>";
 		};
@@ -176,6 +173,7 @@
 			children = (
 				B87A9A1019A4D2CD00D12CD4 /* RSKImageCropperExampleTests-Info.plist */,
 				B87A9A1119A4D2CD00D12CD4 /* InfoPlist.strings */,
+				B82DF9BF1AE26DAD001F4ED2 /* RSKImageCropperExample-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -375,7 +373,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B87A9A1519A4D2CD00D12CD4 /* RSKPhotoCropperExampleTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +521,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
+				GCC_PREFIX_HEADER = "RSKImageCropperExampleTests/RSKImageCropperExample-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -547,7 +544,7 @@
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
+				GCC_PREFIX_HEADER = "RSKImageCropperExampleTests/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExampleTests/RSKImageCropperExampleTests-Info.plist";
 				PRODUCT_NAME = RSKImageCropperExampleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
