@@ -12,6 +12,7 @@
 @interface RSKImageCropViewController (Testing)
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
+@property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 @property (assign, nonatomic) CGFloat rotationAngle;
 
@@ -73,6 +74,38 @@ describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
         RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
+    });
+});
+
+describe(@"navigation controller navigation bar", ^{
+    it(@"hides navigation bar in viewWillAppear:", ^{
+        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imageCropViewController];
+        id mock = [OCMockObject partialMockForObject:navigationController];
+        
+        [[mock expect] setNavigationBarHidden:YES animated:NO];
+        
+        [imageCropViewController view];
+        [imageCropViewController viewWillAppear:NO];
+        
+        [mock verify];
+    });
+    
+    it(@"restores visibility of the navigation bar in viewWillDisappear:", ^{
+        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imageCropViewController];
+        id mock = [OCMockObject partialMockForObject:navigationController];
+        
+        [imageCropViewController view];
+        [imageCropViewController viewWillAppear:NO];
+        
+        [[mock expect] setNavigationBarHidden:imageCropViewController.originalNavigationControllerNavigationBarHidden animated:NO];
+        
+        [imageCropViewController viewWillDisappear:NO];
+        
+        [mock verify];
     });
 });
 
