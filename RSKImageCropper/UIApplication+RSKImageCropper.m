@@ -25,6 +25,8 @@
 #import "UIApplication+RSKImageCropper.h"
 #import <objc/runtime.h>
 
+static IMP rsk_sharedApplicationOriginalImplementation;
+
 @implementation UIApplication (RSKImageCropper)
 
 + (void)load
@@ -36,7 +38,7 @@
         if (sharedApplicationMethod != NULL) {
             IMP sharedApplicationMethodImplementation = method_getImplementation(sharedApplicationMethod);
             Method rsk_sharedApplicationMethod = class_getClassMethod([UIApplication class], @selector(rsk_sharedApplication));
-            method_setImplementation(rsk_sharedApplicationMethod, sharedApplicationMethodImplementation);
+            rsk_sharedApplicationOriginalImplementation = method_setImplementation(rsk_sharedApplicationMethod, sharedApplicationMethodImplementation);
         }
     }
 }
@@ -44,6 +46,11 @@
 + (UIApplication *)rsk_sharedApplication
 {
     return nil;
+}
+
++ (IMP)rsk_sharedApplicationOriginalImplementaion
+{
+    return rsk_sharedApplicationOriginalImplementation;
 }
 
 @end
