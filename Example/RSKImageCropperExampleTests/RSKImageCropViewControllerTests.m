@@ -15,20 +15,50 @@
 
 @implementation RSKImageCropViewControllerDataSourceObject1
 
+// Returns a custom rect for the mask.
 - (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
 {
-    return CGRectZero;
-};
+    CGSize maskSize;
+    if ([controller isPortraitInterfaceOrientation]) {
+        maskSize = CGSizeMake(250, 250);
+    } else {
+        maskSize = CGSizeMake(220, 220);
+    }
+    
+    CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
+    CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
+    
+    CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
+                                 (viewHeight - maskSize.height) * 0.5f,
+                                 maskSize.width,
+                                 maskSize.height);
+    
+    return maskRect;
+}
 
+// Returns a custom path for the mask.
 - (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller
 {
-    return [UIBezierPath bezierPath];
-};
+    CGRect rect = controller.maskRect;
+    CGPoint point1 = CGPointMake(CGRectGetMinX(rect), CGRectGetMaxY(rect));
+    CGPoint point2 = CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect));
+    CGPoint point3 = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    
+    UIBezierPath *triangle = [UIBezierPath bezierPath];
+    [triangle moveToPoint:point1];
+    [triangle addLineToPoint:point2];
+    [triangle addLineToPoint:point3];
+    [triangle closePath];
+    
+    return triangle;
+}
 
+// Returns a custom rect in which the image can be moved.
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
 {
-    return CGRectZero;
-};
+    // If the image is not rotated, then the movement rect coincides with the mask rect.
+    return controller.maskRect;
+}
 
 @end
 
@@ -137,6 +167,81 @@ describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
         RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
+    });
+});
+
+describe(@"crop view", ^{
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    dispatch_block_t sharedIt = ^{
+        [imageCropViewController.view setNeedsUpdateConstraints];
+        [imageCropViewController.view updateConstraintsIfNeeded];
+        
+        [imageCropViewController.view setNeedsLayout];
+        [imageCropViewController.view layoutIfNeeded];
+        
+        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController viewDidAppear:NO];
+        
+        expect(imageCropViewController.view).to.haveValidSnapshot();
+    };
+    
+    describe(@"portrait", ^{
+        dispatch_block_t sharedPortraitIt = ^{
+            imageCropViewController.view.frame = CGRectMake(0, 0, 320, 568);
+            
+            sharedIt();
+        };
+        
+        it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCircle];
+            
+            sharedPortraitIt();
+        });
+        
+        it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeSquare];
+            
+            sharedPortraitIt();
+        });
+        
+        it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
+            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCustom];
+            imageCropViewController.dataSource = dataSourceObject;
+            
+            sharedPortraitIt();
+        });
+    });
+    
+    describe(@"landscape", ^{
+        dispatch_block_t sharedLandscapeIt = ^{
+            imageCropViewController.view.frame = CGRectMake(0, 0, 568, 320);
+            
+            sharedIt();
+        };
+        
+        it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCircle];
+            
+            sharedLandscapeIt();
+        });
+        
+        it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeSquare];
+            
+            sharedLandscapeIt();
+        });
+        
+        it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
+            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCustom];
+            imageCropViewController.dataSource = dataSourceObject;
+            
+            sharedLandscapeIt();
+        });
     });
 });
 
