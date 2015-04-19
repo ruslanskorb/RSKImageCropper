@@ -660,6 +660,35 @@ describe(@"navigation controller navigation bar", ^{
     });
 });
 
+describe(@"original image", ^{
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        [imageCropViewController view];
+        [imageCropViewController.view setNeedsUpdateConstraints];
+        [imageCropViewController.view updateConstraintsIfNeeded];
+        [imageCropViewController.view setNeedsLayout];
+        [imageCropViewController.view layoutIfNeeded];
+        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController viewDidAppear:NO];
+    });
+    
+    it(@"displays new original image", ^{
+        id mock = [OCMockObject partialMockForObject:imageCropViewController];
+        [[mock expect] displayImage];
+        
+        imageCropViewController.originalImage = [UIImage imageNamed:@"photo"];
+        
+        [mock verify];
+        [mock stopMocking];
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
+});
+
 describe(@"reset", ^{
     __block RSKImageCropViewController *imageCropViewController = nil;
     
