@@ -29,6 +29,7 @@
 		B87A9A2E19A4D39800D12CD4 /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A2919A4D39800D12CD4 /* RSKTouchView.m */; };
 		B87A9A2F19A4D39800D12CD4 /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B87A9A2B19A4D39800D12CD4 /* UIImage+RSKImageCropper.m */; };
 		B8B3824C1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B8B3824B1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m */; };
+		B8F617661AE43CEF00499402 /* RSKImageCropperPerformanceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B8F617651AE43CEF00499402 /* RSKImageCropperPerformanceTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		B87A9A2B19A4D39800D12CD4 /* UIImage+RSKImageCropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSKImageCropper.m"; sourceTree = "<group>"; };
 		B8B3824A1AC721A7004C55F0 /* UIApplication+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+RSKImageCropper.h"; sourceTree = "<group>"; };
 		B8B3824B1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+RSKImageCropper.m"; sourceTree = "<group>"; };
+		B8F617651AE43CEF00499402 /* RSKImageCropperPerformanceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKImageCropperPerformanceTests.m; sourceTree = "<group>"; };
 		E1A54F64148CAD255A339567 /* Pods-RSKImageCropperExampleTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSKImageCropperExampleTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -167,6 +169,7 @@
 		B87A9A0E19A4D2CD00D12CD4 /* RSKImageCropperExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				B8F617651AE43CEF00499402 /* RSKImageCropperPerformanceTests.m */,
 				B82DF9C81AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m */,
 				B82DF9C01AE27E81001F4ED2 /* RSKTouchViewTests.m */,
 				B87A9A0F19A4D2CD00D12CD4 /* Supporting Files */,
@@ -380,6 +383,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B82DF9C11AE27E81001F4ED2 /* RSKTouchViewTests.m in Sources */,
+				B8F617661AE43CEF00499402 /* RSKImageCropperPerformanceTests.m in Sources */,
 				B82DF9C91AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
