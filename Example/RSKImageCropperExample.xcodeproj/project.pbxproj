@@ -12,6 +12,7 @@
 		B8182F2E1ABC998B00601E43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */; };
 		B82DF9C11AE27E81001F4ED2 /* RSKTouchViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B82DF9C01AE27E81001F4ED2 /* RSKTouchViewTests.m */; };
 		B82DF9C91AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B82DF9C81AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m */; };
+		B857871A1AE44E26004232F0 /* UIApplication+RSKImageCropperTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B85787191AE44E26004232F0 /* UIApplication+RSKImageCropperTests.m */; };
 		B87A99F019A4D2CD00D12CD4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */; };
 		B87A99F219A4D2CD00D12CD4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99F119A4D2CD00D12CD4 /* CoreGraphics.framework */; };
 		B87A99F419A4D2CD00D12CD4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B87A99F319A4D2CD00D12CD4 /* UIKit.framework */; };
@@ -52,6 +53,7 @@
 		B82DF9BF1AE26DAD001F4ED2 /* RSKImageCropperExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSKImageCropperExample-Prefix.pch"; sourceTree = "<group>"; };
 		B82DF9C01AE27E81001F4ED2 /* RSKTouchViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKTouchViewTests.m; sourceTree = "<group>"; };
 		B82DF9C81AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKImageCropViewControllerTests.m; sourceTree = "<group>"; };
+		B85787191AE44E26004232F0 /* UIApplication+RSKImageCropperTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+RSKImageCropperTests.m"; sourceTree = "<group>"; };
 		B87A99EC19A4D2CD00D12CD4 /* RSKImageCropperExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSKImageCropperExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B87A99EF19A4D2CD00D12CD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		B87A99F119A4D2CD00D12CD4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -176,6 +178,7 @@
 				B8F617671AE4468000499402 /* RSKImageScrollViewTests.m */,
 				B82DF9C01AE27E81001F4ED2 /* RSKTouchViewTests.m */,
 				B87A9A0F19A4D2CD00D12CD4 /* Supporting Files */,
+				B85787191AE44E26004232F0 /* UIApplication+RSKImageCropperTests.m */,
 			);
 			path = RSKImageCropperExampleTests;
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 			files = (
 				B8F617681AE4468000499402 /* RSKImageScrollViewTests.m in Sources */,
 				B82DF9C11AE27E81001F4ED2 /* RSKTouchViewTests.m in Sources */,
+				B857871A1AE44E26004232F0 /* UIApplication+RSKImageCropperTests.m in Sources */,
 				B8F617661AE43CEF00499402 /* RSKImageCropperPerformanceTests.m in Sources */,
 				B82DF9C91AE2B28B001F4ED2 /* RSKImageCropViewControllerTests.m in Sources */,
 			);
