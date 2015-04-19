@@ -9,6 +9,47 @@
 #import "RSKImageCropViewController.h"
 #import "RSKImageScrollView.h"
 
+@interface RSKImageCropViewControllerDataSourceObject1 : NSObject <RSKImageCropViewControllerDataSource>
+
+@end
+
+@implementation RSKImageCropViewControllerDataSourceObject1
+
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
+{
+    return CGRectZero;
+};
+
+- (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller
+{
+    return [UIBezierPath bezierPath];
+};
+
+- (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
+{
+    return CGRectZero;
+};
+
+@end
+
+@interface RSKImageCropViewControllerDataSourceObject2 : NSObject <RSKImageCropViewControllerDataSource>
+
+@end
+
+@implementation RSKImageCropViewControllerDataSourceObject2
+
+- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
+{
+    return CGRectZero;
+};
+
+- (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller
+{
+    return [UIBezierPath bezierPath];
+};
+
+@end
+
 @interface RSKImageCropViewControllerDelegateObject1 : NSObject <RSKImageCropViewControllerDelegate>
 
 @end
@@ -96,6 +137,117 @@ describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
         RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
+    });
+});
+
+describe(@"dataSource", ^{
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCustom];
+    });
+    
+    describe(@"with all methods", ^{
+        __block id <RSKImageCropViewControllerDataSource> dataSourceObject = nil;
+        
+        before(^{
+            dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            imageCropViewController.dataSource = dataSourceObject;
+        });
+        
+        it(@"gives the right custom mask rect", ^{
+            CGRect customMaskRect = CGRectMake(20, 40, 250, 250);
+            
+            id dataSourceMock = [OCMockObject partialMockForObject:dataSourceObject];
+            [[[dataSourceMock stub] andReturnValue:[NSValue valueWithCGRect:customMaskRect]] imageCropViewControllerCustomMaskRect:imageCropViewController];
+            [[dataSourceMock expect] imageCropViewControllerCustomMaskRect:imageCropViewController];
+            
+            [imageCropViewController view];
+            
+            [imageCropViewController.view setNeedsUpdateConstraints];
+            [imageCropViewController.view updateConstraintsIfNeeded];
+            
+            [imageCropViewController.view setNeedsLayout];
+            [imageCropViewController.view layoutIfNeeded];
+            
+            expect(imageCropViewController.maskRect).to.equal(customMaskRect);
+            
+            [dataSourceMock stopMocking];
+        });
+        
+        it(@"gives the right custom movement rect", ^{
+            CGRect customMovementRect = CGRectMake(20, 40, 250, 250);
+            
+            id dataSourceMock = [OCMockObject partialMockForObject:dataSourceObject];
+            [[[dataSourceMock stub] andReturnValue:[NSValue valueWithCGRect:customMovementRect]] imageCropViewControllerCustomMovementRect:imageCropViewController];
+            [[dataSourceMock expect] imageCropViewControllerCustomMovementRect:imageCropViewController];
+            
+            [imageCropViewController view];
+            
+            [imageCropViewController.view setNeedsUpdateConstraints];
+            [imageCropViewController.view updateConstraintsIfNeeded];
+            
+            [imageCropViewController.view setNeedsLayout];
+            [imageCropViewController.view layoutIfNeeded];
+            
+            expect(imageCropViewController.imageScrollView.frame).to.equal(customMovementRect);
+            
+            [dataSourceMock stopMocking];
+        });
+        
+        it(@"gives the right custom mask path", ^{
+            CGRect customMaskRect = CGRectMake(20, 40, 250, 250);
+            UIBezierPath *customMaskPath = [UIBezierPath bezierPathWithRect:customMaskRect];
+            
+            id dataSourceMock = [OCMockObject partialMockForObject:dataSourceObject];
+            [[[dataSourceMock stub] andReturn:customMaskPath] imageCropViewControllerCustomMaskPath:imageCropViewController];
+            [[dataSourceMock expect] imageCropViewControllerCustomMaskPath:imageCropViewController];
+            
+            [imageCropViewController view];
+            
+            [imageCropViewController.view setNeedsUpdateConstraints];
+            [imageCropViewController.view updateConstraintsIfNeeded];
+            
+            [imageCropViewController.view setNeedsLayout];
+            [imageCropViewController.view layoutIfNeeded];
+            
+            expect(imageCropViewController.maskPath).to.equal(customMaskPath);
+            
+            [dataSourceMock stopMocking];
+        });
+        
+        after(^{
+            dataSourceObject = nil;
+        });
+    });
+    
+    describe(@"without optional methods", ^{
+        __block id <RSKImageCropViewControllerDataSource> dataSourceObject = nil;
+        
+        before(^{
+            dataSourceObject = [[RSKImageCropViewControllerDataSourceObject2 alloc] init];
+            imageCropViewController.dataSource = dataSourceObject;
+        });
+        
+        it(@"sets the right custom movement rect", ^{
+            [imageCropViewController view];
+            
+            [imageCropViewController.view setNeedsUpdateConstraints];
+            [imageCropViewController.view updateConstraintsIfNeeded];
+            
+            [imageCropViewController.view setNeedsLayout];
+            [imageCropViewController.view layoutIfNeeded];
+            
+            expect(imageCropViewController.imageScrollView.frame).to.equal(imageCropViewController.maskRect);
+        });
+        
+        after(^{
+            dataSourceObject = nil;
+        });
+    });
+    
+    after(^{
+        imageCropViewController = nil;
     });
 });
 
