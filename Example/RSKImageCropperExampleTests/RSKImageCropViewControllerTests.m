@@ -126,6 +126,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 @property (assign, nonatomic) CGFloat rotationAngle;
+@property (strong, nonatomic) UIRotationGestureRecognizer *rotationGestureRecognizer;
 
 - (void)cancelCrop;
 - (void)cropImage;
@@ -752,6 +753,19 @@ describe(@"rotation", ^{
         mockRotationGestureRecognizer = [OCMockObject partialMockForObject:rotationGestureRecognizer];
         [[[mockRotationGestureRecognizer stub] andReturnValue:@(testRotationAngle)] rotation];
         [[[mockRotationGestureRecognizer stub] andReturnValue:@(UIGestureRecognizerStateEnded)] state];
+    });
+    
+    it(@"enables the rotation", ^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        BOOL testRotationEnabled = YES;
+        
+        id mockRotationGestureRecognizer = [OCMockObject partialMockForObject:imageCropViewController.rotationGestureRecognizer];
+        [[mockRotationGestureRecognizer expect] setEnabled:testRotationEnabled];
+        
+        imageCropViewController.rotationEnabled = testRotationEnabled;
+        
+        [mockRotationGestureRecognizer verify];
+        [mockRotationGestureRecognizer stopMocking];
     });
     
     it(@"handles the rotation", ^{
