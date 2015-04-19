@@ -1,5 +1,5 @@
 //
-// UIApplication+RSKImageCropper.m
+// UIApplication+RSKImageCropperTests.m
 //
 // Copyright (c) 2015 Ruslan Skorb, http://ruslanskorb.com/
 //
@@ -25,32 +25,25 @@
 #import "UIApplication+RSKImageCropper.h"
 #import <objc/runtime.h>
 
-static IMP rsk_sharedApplicationOriginalImplementation;
+@interface UIApplication (Testing)
 
-@implementation UIApplication (RSKImageCropper)
-
-+ (void)load
-{
-    // When you build an extension based on an Xcode template, you get an extension bundle that ends in .appex.
-    // https://developer.apple.com/library/ios/documentation/General/Conceptual/ExtensibilityPG/ExtensionCreation.html
-    if (![[[NSBundle mainBundle] bundlePath] hasSuffix:@".appex"]) {
-        Method sharedApplicationMethod = class_getClassMethod([UIApplication class], @selector(sharedApplication));
-        if (sharedApplicationMethod != NULL) {
-            IMP sharedApplicationMethodImplementation = method_getImplementation(sharedApplicationMethod);
-            Method rsk_sharedApplicationMethod = class_getClassMethod([UIApplication class], @selector(rsk_sharedApplication));
-            rsk_sharedApplicationOriginalImplementation = method_setImplementation(rsk_sharedApplicationMethod, sharedApplicationMethodImplementation);
-        }
-    }
-}
-
-+ (UIApplication *)rsk_sharedApplication
-{
-    return nil;
-}
-
-+ (IMP)rsk_sharedApplicationOriginalImplementaion
-{
-    return rsk_sharedApplicationOriginalImplementation;
-}
++ (IMP)rsk_sharedApplicationOriginalImplementaion;
 
 @end
+
+SpecBegin(UIApplicationRSKImageCropper)
+
+describe(@"rsk_sharedApplication", ^{
+    it(@"should return the singleton app instance", ^{
+        expect([UIApplication rsk_sharedApplication]).to.equal([UIApplication sharedApplication]);
+    });
+    
+    it(@"should return `nil` in original implementaion", ^{
+        IMP rsk_sharedApplicationOriginalImplementation = [UIApplication rsk_sharedApplicationOriginalImplementaion];
+        UIApplication *application = rsk_sharedApplicationOriginalImplementation([UIApplication class], @selector(rsk_sharedApplication));
+        
+        expect(application).to.beNil();
+    });
+});
+
+SpecEnd
