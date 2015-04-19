@@ -174,6 +174,20 @@ describe(@"initWithImage:cropMode:", ^{
     });
 });
 
+describe(@"empty space around the image", ^{
+    it(@"sets `aspectFill` of `imageScrollView` identical to `avoidEmptySpaceAroundImage`", ^{
+        BOOL testAvoidEmptySpaceAroundImage = YES;
+        
+        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        
+        expect(imageCropViewController.imageScrollView.aspectFill).notTo.equal(testAvoidEmptySpaceAroundImage);
+        
+        imageCropViewController.avoidEmptySpaceAroundImage = testAvoidEmptySpaceAroundImage;
+        
+        expect(imageCropViewController.imageScrollView.aspectFill).to.equal(testAvoidEmptySpaceAroundImage);
+    });
+});
+
 describe(@"crop view", ^{
     __block RSKImageCropViewController *imageCropViewController = nil;
     
