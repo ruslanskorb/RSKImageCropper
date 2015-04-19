@@ -102,6 +102,8 @@
 
 @end
 
+static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
+
 @interface RSKImageCropViewController (Testing)
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
@@ -113,8 +115,10 @@
 - (void)cropImage;
 - (void)displayImage;
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer;
+- (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer;
 - (void)onCancelButtonTouch:(UIBarButtonItem *)sender;
 - (void)onChooseButtonTouch:(UIBarButtonItem *)sender;
+- (void)layoutImageScrollView;
 - (void)reset:(BOOL)animated;
 - (void)resetContentOffset;
 - (void)resetFrame;
@@ -520,6 +524,90 @@ describe(@"reset", ^{
     });
     
     after(^{
+        imageCropViewController = nil;
+    });
+});
+
+describe(@"rotation", ^{
+    __block id mockRotationGestureRecognizer = nil;
+    __block CGFloat testRotationAngle;
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    before(^{
+        testRotationAngle = M_PI_2;
+        
+        UIRotationGestureRecognizer *rotationGestureRecognizer = [[UIRotationGestureRecognizer alloc] init];
+        mockRotationGestureRecognizer = [OCMockObject partialMockForObject:rotationGestureRecognizer];
+        [[[mockRotationGestureRecognizer stub] andReturnValue:@(testRotationAngle)] rotation];
+        [[[mockRotationGestureRecognizer stub] andReturnValue:@(UIGestureRecognizerStateEnded)] state];
+    });
+    
+    it(@"handles the rotation", ^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        id mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
+        
+        [[mockImageCropViewController expect] setRotationAngle:testRotationAngle];
+        [[mockImageCropViewController expect] layoutImageScrollView];
+        
+        [mockImageCropViewController handleRotation:mockRotationGestureRecognizer];
+        
+        [mockImageCropViewController verifyWithDelay:kLayoutImageScrollViewAnimationDuration];
+        [mockImageCropViewController stopMocking];
+    });
+    
+    it(@"correctly sets the rotation angle", ^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController.rotationAngle = testRotationAngle;
+        
+        expect(imageCropViewController.rotationAngle).to.equal(testRotationAngle);
+    });
+    
+    describe(@"movement rect", ^{
+        dispatch_block_t sharedIt = ^{
+            [imageCropViewController view];
+            
+            [imageCropViewController.view setNeedsUpdateConstraints];
+            [imageCropViewController.view updateConstraintsIfNeeded];
+            
+            [imageCropViewController.view setNeedsLayout];
+            [imageCropViewController.view layoutIfNeeded];
+            
+            [imageCropViewController handleRotation:mockRotationGestureRecognizer];
+        };
+        
+        it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeCircle`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCircle];
+            
+            sharedIt();
+            
+            expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
+        });
+        
+        it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeSquare`", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
+            
+            sharedIt();
+            
+            expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
+        });
+        
+        it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeCustom`", ^{
+            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCustom];
+            imageCropViewController.dataSource = dataSourceObject;
+            
+            sharedIt();
+            
+            expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal([dataSourceObject imageCropViewControllerCustomMovementRect:imageCropViewController]);
+        });
+        
+        after(^{
+            imageCropViewController = nil;
+        });
+    });
+    
+    after(^{
+        [mockRotationGestureRecognizer stopMocking];
         imageCropViewController = nil;
     });
 });
