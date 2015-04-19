@@ -9,6 +9,28 @@
 #import "RSKImageCropViewController.h"
 #import "RSKImageScrollView.h"
 
+@interface RSKImageCropViewControllerDelegateObject1 : NSObject <RSKImageCropViewControllerDelegate>
+
+@end
+
+@implementation RSKImageCropViewControllerDelegateObject1
+
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage {}
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {};
+- (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {};
+
+@end
+
+@interface RSKImageCropViewControllerDelegateObject2 : NSObject <RSKImageCropViewControllerDelegate>
+
+@end
+
+@implementation RSKImageCropViewControllerDelegateObject2
+
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle {}
+
+@end
+
 @interface RSKImageCropViewController (Testing)
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
@@ -74,6 +96,61 @@ describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
         RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
+    });
+});
+
+describe(@"delegate", ^{
+    __block RSKImageCropViewController *imageCropViewController = nil;
+    
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+    });
+    
+    it(@"calls appropriate delegate methods before and after cropping image", ^{
+        RSKImageCropViewControllerDelegateObject1 *delegateObject = [[RSKImageCropViewControllerDelegateObject1 alloc] init];
+        imageCropViewController.delegate = delegateObject;
+        
+        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
+        
+        [[delegateMock expect] imageCropViewController:imageCropViewController willCropImage:OCMOCK_ANY];
+        [[delegateMock expect] imageCropViewController:imageCropViewController didCropImage:OCMOCK_ANY usingCropRect:imageCropViewController.cropRect];
+        
+        [imageCropViewController cropImage];
+        
+        [delegateMock verifyWithDelay:1.0];
+        [delegateMock stopMocking];
+    });
+    
+    it(@"calls the appropriate delegate method after cropping image", ^{
+        RSKImageCropViewControllerDelegateObject2 *delegateObject = [[RSKImageCropViewControllerDelegateObject2 alloc] init];
+        imageCropViewController.delegate = delegateObject;
+        
+        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
+        
+        [[delegateMock expect] imageCropViewController:imageCropViewController didCropImage:OCMOCK_ANY usingCropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle];
+        
+        [imageCropViewController cropImage];
+        
+        [delegateMock verifyWithDelay:1.0];
+        [delegateMock stopMocking];
+    });
+    
+    it(@"calls the appropriate delegate method if the user cancel cropping image", ^{
+        RSKImageCropViewControllerDelegateObject1 *delegateObject = [[RSKImageCropViewControllerDelegateObject1 alloc] init];
+        imageCropViewController.delegate = delegateObject;
+        
+        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
+        
+        [[delegateMock expect] imageCropViewControllerDidCancelCrop:imageCropViewController];
+        
+        [imageCropViewController cancelCrop];
+        
+        [delegateMock verify];
+        [delegateMock stopMocking];
+    });
+    
+    after(^{
+        imageCropViewController = nil;
     });
 });
 
