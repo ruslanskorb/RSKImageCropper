@@ -150,6 +150,9 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (assign, getter=isRotationEnabled, nonatomic) BOOL rotationEnabled;
 
+// Added by https://github.com/Arvkon
+- (void)setMinOutputSize:(CGSize)minSize;
+
 /// -------------------------------
 /// @name Accessing the UI Elements
 /// -------------------------------
