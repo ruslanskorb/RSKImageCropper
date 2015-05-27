@@ -398,7 +398,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     if (![_originalImage isEqual:originalImage]) {
         _originalImage = originalImage;
-        if (self.isViewLoaded) {
+        if (self.isViewLoaded && self.view.window) {
             [self displayImage];
         }
     }
