@@ -45,8 +45,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
+@property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
+@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
@@ -141,6 +142,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    self.originalNavigationControllerNavigationBarShadowImage = self.navigationController.navigationBar.shadowImage;
+    self.navigationController.navigationBar.shadowImage = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -161,6 +165,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
     
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];
+    self.navigationController.navigationBar.shadowImage = self.originalNavigationControllerNavigationBarShadowImage;
     self.navigationController.view.backgroundColor = self.originalNavigationControllerViewBackgroundColor;
 }
 
