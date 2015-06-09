@@ -53,6 +53,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode;
 
+/**
+ *  Crop Image at current coordinates in scrollView Action
+ */
+- (void)cropImage;
+
 ///-----------------------------
 /// @name Accessing the Delegate
 ///-----------------------------
