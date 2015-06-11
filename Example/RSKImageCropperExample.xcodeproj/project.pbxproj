@@ -211,6 +211,7 @@
 				B87A9A2519A4D39800D12CD4 /* RSKImageCropper.h */,
 				B87A9A2619A4D39800D12CD4 /* RSKImageCropViewController.h */,
 				B87A9A2719A4D39800D12CD4 /* RSKImageCropViewController.m */,
+				46AAEE5D1B29155700E10C42 /* RSKImageCropViewController+Protected.h */,
 				B87A9A2319A4D39800D12CD4 /* RSKImageScrollView.h */,
 				B87A9A2419A4D39800D12CD4 /* RSKImageScrollView.m */,
 				B87A9A2819A4D39800D12CD4 /* RSKTouchView.h */,
@@ -219,7 +220,6 @@
 				B8B3824B1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m */,
 				B87A9A2A19A4D39800D12CD4 /* UIImage+RSKImageCropper.h */,
 				B87A9A2B19A4D39800D12CD4 /* UIImage+RSKImageCropper.m */,
-				46AAEE5D1B29155700E10C42 /* RSKImageCropViewController+Protected.h */,
 			);
 			name = RSKImageCropper;
 			path = ../RSKImageCropper;
