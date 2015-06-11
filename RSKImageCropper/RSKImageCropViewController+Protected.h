@@ -1,5 +1,5 @@
 //
-// RSKTouchView.h
+// RSKImageCropViewController+Protected.h
 //
 // Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
 //
