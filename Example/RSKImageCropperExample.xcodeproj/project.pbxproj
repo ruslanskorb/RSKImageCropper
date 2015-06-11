@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		46AAEE591B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AAEE581B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.m */; };
 		89BB37728461FC8C20D81A2B /* libPods-RSKImageCropperExampleTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74203A87984840A534E55F6C /* libPods-RSKImageCropperExampleTests.a */; };
 		B803F69E1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = B803F69D1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.m */; };
 		B8182F2E1ABC998B00601E43 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B8182F2D1ABC998B00601E43 /* LaunchScreen.xib */; };
@@ -46,8 +45,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		46AAEE571B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RSKImageCropViewController+RSKImageCropViewControllerProtected.h"; sourceTree = "<group>"; };
-		46AAEE581B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RSKImageCropViewController+RSKImageCropViewControllerProtected.m"; sourceTree = "<group>"; };
 		57E1277B2ACCBFB99F6EC92E /* Pods-RSKImageCropperExampleTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSKImageCropperExampleTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests.debug.xcconfig"; sourceTree = "<group>"; };
 		74203A87984840A534E55F6C /* libPods-RSKImageCropperExampleTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-RSKImageCropperExampleTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B803F69C1AAB0A1F004141CF /* CGGeometry+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CGGeometry+RSKImageCropper.h"; sourceTree = "<group>"; };
@@ -221,8 +218,6 @@
 				B8B3824B1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m */,
 				B87A9A2A19A4D39800D12CD4 /* UIImage+RSKImageCropper.h */,
 				B87A9A2B19A4D39800D12CD4 /* UIImage+RSKImageCropper.m */,
-				46AAEE571B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.h */,
-				46AAEE581B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.m */,
 			);
 			name = RSKImageCropper;
 			path = ../RSKImageCropper;
@@ -377,7 +372,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46AAEE591B28E9B200E10C42 /* RSKImageCropViewController+RSKImageCropViewControllerProtected.m in Sources */,
 				B8B3824C1AC721A7004C55F0 /* UIApplication+RSKImageCropper.m in Sources */,
 				B87A9A2C19A4D39800D12CD4 /* RSKImageScrollView.m in Sources */,
 				B87A9A2E19A4D39800D12CD4 /* RSKTouchView.m in Sources */,

@@ -15,10 +15,10 @@ DEPENDENCIES:
   - Specta (= 0.4.0)
 
 SPEC CHECKSUMS:
-  Expecta: ee641011fe10aa1855d487b40e4976dac50ec342
-  Expecta+Snapshots: 4a56b9411c6ed156987072e52c39de67d864015a
-  FBSnapshotTestCase: e2914fbaabccea1dcc773d6a16b1c24540642488
-  OCMock: 6db79185520e24f9f299548f2b8b07e41d881bd5
-  Specta: 1df326d6ec48603c77f507a0ab1f89ad2df1c582
+  Expecta: 8c507baf13211207b1e9d0a741480600e6b4ed15
+  Expecta+Snapshots: 4a0b46d3ba755bd43dffa7d53e4585fc6cbfe8cd
+  FBSnapshotTestCase: 26f32d8fa9eb30e9f09712ecfb097808bc79b898
+  OCMock: a6a7dc0e3997fb9f35d99f72528698ebf60d64f2
+  Specta: a353759f073ffcc0a365b782fe4aaeac064c03c6
 
-COCOAPODS: 0.36.0
+COCOAPODS: 0.36.3
