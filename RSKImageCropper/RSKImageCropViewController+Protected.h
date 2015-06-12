@@ -1,7 +1,7 @@
 //
-// RSKTouchView.h
+// RSKImageCropViewController+Protected.h
 //
-// Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
+// Copyright (c) 2014-present Ruslan Skorb, http://ruslanskorb.com/
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,19 +25,19 @@
 @interface RSKImageCropViewController (Protected)
 
 /**
- *  Asynchronously crops the original image in accordance with the current settings
+ Asynchronously crops the original image in accordance with the current settings and tells the delegate that the original image will be / has been cropped.
  */
 - (void)cropImage;
 
 /**
- *  Method that invokes the protocol method imageCropViewControllerDidCancelCrop:
+ Tells the delegate that the crop has been canceled.
  */
 - (void)cancelCrop;
 
 /**
- *  Method that resets the image to its original position in the scroll view.
- *
- *  @param animated BOOL
+ Resets the rotation angle, the position and the zoom scale of the original image to the default values.
+ 
+ @param animated Set this value to YES to animate the reset.
  */
 - (void)reset:(BOOL)animated;
 
