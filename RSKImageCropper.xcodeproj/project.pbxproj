@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A5BE39D91B32BD2B00ECDF88 /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CB1B32BD2B00ECDF88 /* RSKImageCropper.h */; };
+		A5BE39D91B32BD2B00ECDF88 /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CB1B32BD2B00ECDF88 /* RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39DA1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CC1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h */; };
 		A5BE39DB1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39CD1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.m */; };
-		A5BE39DC1B32BD2B00ECDF88 /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CE1B32BD2B00ECDF88 /* RSKImageCropViewController.h */; };
+		A5BE39DC1B32BD2B00ECDF88 /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CE1B32BD2B00ECDF88 /* RSKImageCropViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39DD1B32BD2B00ECDF88 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39CF1B32BD2B00ECDF88 /* RSKImageCropViewController.m */; };
-		A5BE39DE1B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D01B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h */; };
+		A5BE39DE1B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D01B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39DF1B32BD2B00ECDF88 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D11B32BD2B00ECDF88 /* RSKImageScrollView.h */; };
 		A5BE39E01B32BD2B00ECDF88 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39D21B32BD2B00ECDF88 /* RSKImageScrollView.m */; };
 		A5BE39E11B32BD2B00ECDF88 /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D31B32BD2B00ECDF88 /* RSKTouchView.h */; };
@@ -106,14 +106,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5BE39D91B32BD2B00ECDF88 /* RSKImageCropper.h in Headers */,
+				A5BE39DC1B32BD2B00ECDF88 /* RSKImageCropViewController.h in Headers */,
+				A5BE39DE1B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h in Headers */,
 				A5BE39DF1B32BD2B00ECDF88 /* RSKImageScrollView.h in Headers */,
 				A5BE39E51B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h in Headers */,
-				A5BE39D91B32BD2B00ECDF88 /* RSKImageCropper.h in Headers */,
 				A5BE39E11B32BD2B00ECDF88 /* RSKTouchView.h in Headers */,
 				A5BE39E31B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.h in Headers */,
 				A5BE39DA1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h in Headers */,
-				A5BE39DC1B32BD2B00ECDF88 /* RSKImageCropViewController.h in Headers */,
-				A5BE39DE1B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
