@@ -473,7 +473,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (BOOL)isPortraitInterfaceOrientation
 {
-    return CGRectGetHeight(self.view.frame) > CGRectGetWidth(self.view.frame);
+    return CGRectGetHeight(self.view.bounds) > CGRectGetWidth(self.view.bounds);
 }
 
 #pragma mark - Private
@@ -677,8 +677,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
-            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+            CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
             
             CGFloat diameter;
             if ([self isPortraitInterfaceOrientation]) {
@@ -696,8 +696,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeSquare: {
-            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+            CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
             
             CGFloat length;
             if ([self isPortraitInterfaceOrientation]) {
