@@ -66,6 +66,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (strong, nonatomic) NSLayoutConstraint *moveAndScaleLabelTopConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *cancelButtonBottomConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *chooseButtonBottomConstraint;
+@property (strong, nonatomic) NSBundle *bundle;
 
 @end
 
@@ -81,8 +82,21 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _applyMaskToCroppedImage = NO;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
+        
+        NSString *bundlePath = [NSBundle.mainBundle.resourcePath
+            stringByAppendingPathComponent:@"Frameworks/RSKImageCropper.framework/RSKImageCropper.bundle"];
+        
+        _bundle = [NSBundle bundleWithPath:bundlePath];
+        if (!_bundle) {
+            _bundle = NSBundle.mainBundle;
+        }
     }
     return self;
+}
+
+- (NSString *)locStr:(NSString *)key
+{
+    return [_bundle localizedStringForKey:key value:key table:@"RSKImageCropper"];
 }
 
 - (instancetype)initWithImage:(UIImage *)originalImage
@@ -301,7 +315,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _moveAndScaleLabel = [[UILabel alloc] init];
         _moveAndScaleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _moveAndScaleLabel.backgroundColor = [UIColor clearColor];
-        _moveAndScaleLabel.text = NSLocalizedString(@"Move and Scale", @"Move and Scale label");
+        _moveAndScaleLabel.text = [self locStr:@"Move and Scale"];
         _moveAndScaleLabel.textColor = [UIColor whiteColor];
         _moveAndScaleLabel.opaque = NO;
     }
@@ -313,7 +327,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (!_cancelButton) {
         _cancelButton = [[UIButton alloc] init];
         _cancelButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"Cancel button") forState:UIControlStateNormal];
+        [_cancelButton setTitle:[self locStr:@"Cancel"] forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(onCancelButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _cancelButton.opaque = NO;
     }
@@ -325,7 +339,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (!_chooseButton) {
         _chooseButton = [[UIButton alloc] init];
         _chooseButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_chooseButton setTitle:NSLocalizedString(@"Choose", @"Choose button") forState:UIControlStateNormal];
+        [_chooseButton setTitle:[self locStr:@"Choose"] forState:UIControlStateNormal];
         [_chooseButton addTarget:self action:@selector(onChooseButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _chooseButton.opaque = NO;
     }
