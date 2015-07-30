@@ -657,6 +657,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
                 frame = self.view.bounds;
                 frame.origin.x += offset.x;
                 frame.origin.y += offset.y;
+
+                frame = self.maskRect;
             }
             else if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMovementRect:)]) {
                 frame = [self.dataSource imageCropViewControllerCustomMovementRect:self];
