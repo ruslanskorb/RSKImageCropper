@@ -513,7 +513,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     } else {
         contentOffset.y = 0;
     }
-    
+
+    // User adjustment on top of the default content offset
+    if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerInitialImageOffset:)]) {
+        CGPoint offset = [self.dataSource imageCropViewControllerInitialImageOffset:self];
+
+        contentOffset.x += offset.x;
+        contentOffset.y += offset.y;
+    }
+
     self.imageScrollView.contentOffset = contentOffset;
 }
 
@@ -651,16 +659,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerInitialImageOffset:)]) {
-                CGPoint offset = [self.dataSource imageCropViewControllerInitialImageOffset:self];
-
-                frame = self.view.bounds;
-                frame.origin.x += offset.x;
-                frame.origin.y += offset.y;
-
-                frame = self.maskRect;
-            }
-            else if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMovementRect:)]) {
+            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMovementRect:)]) {
                 frame = [self.dataSource imageCropViewControllerCustomMovementRect:self];
             } else {
                 // Will be changed to `CGRectNull` in version `2.0.0`.
