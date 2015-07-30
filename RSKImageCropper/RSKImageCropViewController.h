@@ -224,7 +224,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 
 
 /**
- Asks the data source for a custom placement where the image should be offset initially.
+ Asks the data source for a default offset for the image view
  
  @param controller The crop view controller object to whom a rect is provided.
  
