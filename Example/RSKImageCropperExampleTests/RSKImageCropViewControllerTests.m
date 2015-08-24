@@ -675,13 +675,18 @@ describe(@"original image", ^{
     });
     
     it(@"displays new original image", ^{
-        id mock = [OCMockObject partialMockForObject:imageCropViewController];
-        [[mock expect] displayImage];
+        id mockImageCropViewControllerView = [OCMockObject partialMockForObject:imageCropViewController.view];
+        [[[mockImageCropViewControllerView stub] andReturn:[[UIWindow alloc] init]] window];
+        
+        id mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
+        [[[mockImageCropViewController stub] andReturn:mockImageCropViewControllerView] view];
+        [[mockImageCropViewController expect] displayImage];
         
         imageCropViewController.originalImage = [UIImage imageNamed:@"photo"];
         
-        [mock verify];
-        [mock stopMocking];
+        [mockImageCropViewController verify];
+        [mockImageCropViewController stopMocking];
+        [mockImageCropViewControllerView stopMocking];
     });
     
     after(^{

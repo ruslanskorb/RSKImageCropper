@@ -1,7 +1,7 @@
 //
 // RSKImageCropViewController.m
 //
-// Copyright (c) 2014 Ruslan Skorb, http://ruslanskorb.com/
+// Copyright (c) 2014-present Ruslan Skorb, http://ruslanskorb.com/
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -45,8 +45,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
+@property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
+@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
@@ -141,6 +142,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    self.originalNavigationControllerNavigationBarShadowImage = self.navigationController.navigationBar.shadowImage;
+    self.navigationController.navigationBar.shadowImage = nil;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -161,6 +165,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
     
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];
+    self.navigationController.navigationBar.shadowImage = self.originalNavigationControllerNavigationBarShadowImage;
     self.navigationController.view.backgroundColor = self.originalNavigationControllerViewBackgroundColor;
 }
 
@@ -398,7 +403,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     if (![_originalImage isEqual:originalImage]) {
         _originalImage = originalImage;
-        if (self.isViewLoaded) {
+        if (self.isViewLoaded && self.view.window) {
             [self displayImage];
         }
     }
@@ -474,7 +479,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (BOOL)isPortraitInterfaceOrientation
 {
-    return CGRectGetHeight(self.view.frame) > CGRectGetWidth(self.view.frame);
+    return CGRectGetHeight(self.view.bounds) > CGRectGetWidth(self.view.bounds);
 }
 
 #pragma mark - Private
@@ -678,8 +683,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
-            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+            CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
             
             CGFloat diameter;
             if ([self isPortraitInterfaceOrientation]) {
@@ -697,8 +702,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeSquare: {
-            CGFloat viewWidth = CGRectGetWidth(self.view.frame);
-            CGFloat viewHeight = CGRectGetHeight(self.view.frame);
+            CGFloat viewWidth = CGRectGetWidth(self.view.bounds);
+            CGFloat viewHeight = CGRectGetHeight(self.view.bounds);
             
             CGFloat length;
             if ([self isPortraitInterfaceOrientation]) {
