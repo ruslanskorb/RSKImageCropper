@@ -43,6 +43,13 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
+// K is a constant such that the accumulated error of our floating-point computations is definitely bounded by K units in the last place.
+#ifdef CGFLOAT_IS_DOUBLE
+    static const CGFloat kK = 9;
+#else
+    static const CGFloat kK = 0;
+#endif
+
 @interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
@@ -364,7 +371,20 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
     cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
     
-    cropRect = CGRectIntegral(cropRect);
+    CGFloat width = CGRectGetWidth(cropRect);
+    CGFloat height = CGRectGetHeight(cropRect);
+    CGFloat ceilWidth = ceil(width);
+    CGFloat ceilHeight = ceil(height);
+    
+    if (fabs(ceilWidth - width) < pow(10, kK) * RSK_EPSILON * fabs(ceilWidth + width) || fabs(ceilWidth - width) < RSK_MIN ||
+        fabs(ceilHeight - height) < pow(10, kK) * RSK_EPSILON * fabs(ceilHeight + height) || fabs(ceilHeight - height) < RSK_MIN) {
+        
+        cropRect.size.width = ceilWidth;
+        cropRect.size.height = ceilHeight;
+    } else {
+        cropRect.size.height = floor(CGRectGetWidth(cropRect));
+        cropRect.size.width = floor(CGRectGetHeight(cropRect));
+    }
     
     return cropRect;
 }
