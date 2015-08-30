@@ -9,5 +9,6 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '6.0'
   s.source_files = 'RSKImageCropper'
   s.frameworks = 'QuartzCore', 'UIKit'
+  s.ios.resource_bundle = { 'RSKImageCropper' => ['RSKImageCropper/*.lproj'] }
   s.requires_arc = true
 end
