@@ -391,6 +391,148 @@ describe(@"crop image", ^{
     });
 });
 
+describe(@"crop size", ^{
+    __block UIImage *originalImage1 = nil;
+    __block UIImage *originalImage2 = nil;
+    
+    __block id mockImageCropViewController = nil;
+    __block id mockImageCropViewControllerView = nil;
+    
+    __block RSKImageCropMode cropMode;
+    __block UIImage *photo = nil;
+    
+    before(^{
+        originalImage1 = [UIImage imageNamed:@"photo"];
+        originalImage2 = [UIImage imageNamed:@"photo_2"];
+        
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        sharedLoadView();
+        
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        
+        mockImageCropViewControllerView = [OCMockObject partialMockForObject:imageCropViewController.view];
+        [[[mockImageCropViewControllerView stub] andReturn:window] window];
+        
+        mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
+        [[[mockImageCropViewController stub] andReturn:mockImageCropViewControllerView] view];
+    });
+    
+    describe(@"when `avoidEmptySpaceAroundImage` is disabled", ^{
+        
+        dispatch_block_t sharedIt = ^{
+            imageCropViewController.originalImage = photo;
+            imageCropViewController.cropMode = cropMode;
+            imageCropViewController.imageScrollView.zoomScale = imageCropViewController.imageScrollView.minimumZoomScale;
+            
+            CGFloat maxSize = (photo.size.width > photo.size.height) ? photo.size.width : photo.size.height;
+            expect(imageCropViewController.cropRect.size).to.equal(CGSizeMake(maxSize, maxSize));
+        };
+        
+        describe(@"when crop mode is `RSKImageCropModeCircle`", ^{
+            before(^{
+                cropMode = RSKImageCropModeCircle;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+        
+        describe(@"when crop mode is `RSKImageCropModeSquare`", ^{
+            before(^{
+                cropMode = RSKImageCropModeSquare;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+    });
+    
+    describe(@"when `avoidEmptySpaceAroundImage` is enabled", ^{
+        
+        dispatch_block_t sharedIt = ^{
+            imageCropViewController.originalImage = photo;
+            imageCropViewController.cropMode = cropMode;
+            imageCropViewController.imageScrollView.zoomScale = imageCropViewController.imageScrollView.minimumZoomScale;
+            imageCropViewController.avoidEmptySpaceAroundImage = YES;
+            
+            CGFloat minSize = (photo.size.width < photo.size.height) ? photo.size.width : photo.size.height;
+            expect(imageCropViewController.cropRect.size).to.equal(CGSizeMake(minSize, minSize));
+        };
+        
+        describe(@"when crop mode is `RSKImageCropModeCircle`", ^{
+            before(^{
+                cropMode = RSKImageCropModeCircle;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+        
+        describe(@"when crop mode is `RSKImageCropModeSquare`", ^{
+            before(^{
+                cropMode = RSKImageCropModeSquare;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+        
+        [mockImageCropViewController stopMocking];
+        mockImageCropViewController = nil;
+        
+        [mockImageCropViewControllerView stopMocking];
+        mockImageCropViewControllerView = nil;
+    });
+});
+
 describe(@"crop view", ^{
     dispatch_block_t sharedIt = ^{
         sharedLoadView();
