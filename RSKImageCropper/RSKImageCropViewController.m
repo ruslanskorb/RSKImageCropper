@@ -410,12 +410,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (void)setRotationEnabled:(BOOL)rotationEnabled
+- (void)setCropMode:(RSKImageCropMode)cropMode
 {
-    if (_rotationEnabled != rotationEnabled) {
-        _rotationEnabled = rotationEnabled;
+    if (_cropMode != cropMode) {
+        _cropMode = cropMode;
         
-        self.rotationGestureRecognizer.enabled = rotationEnabled;
+        if (self.imageScrollView.zoomView) {
+            [self reset:NO];
+        }
     }
 }
 
@@ -453,6 +455,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         CGFloat rotation = (rotationAngle - self.rotationAngle);
         CGAffineTransform transform = CGAffineTransformRotate(self.imageScrollView.transform, rotation);
         self.imageScrollView.transform = transform;
+    }
+}
+
+- (void)setRotationEnabled:(BOOL)rotationEnabled
+{
+    if (_rotationEnabled != rotationEnabled) {
+        _rotationEnabled = rotationEnabled;
+        
+        self.rotationGestureRecognizer.enabled = rotationEnabled;
     }
 }
 
