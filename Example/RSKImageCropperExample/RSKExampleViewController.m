@@ -26,6 +26,7 @@
 #import "RSKImageCropper.h"
 
 static const CGFloat kPhotoDiameter = 130.0f;
+static const CGFloat kPhotoFrameViewPadding = 2.0f;
 
 @interface RSKExampleViewController () <RSKImageCropViewControllerDelegate>
 
@@ -57,7 +58,7 @@ static const CGFloat kPhotoDiameter = 130.0f;
     self.photoFrameView.backgroundColor = [UIColor colorWithRed:182/255.0f green:182/255.0f blue:187/255.0f alpha:1.0f];
     self.photoFrameView.translatesAutoresizingMaskIntoConstraints = NO;
     self.photoFrameView.layer.masksToBounds = YES;
-    self.photoFrameView.layer.cornerRadius = (kPhotoDiameter + 2) / 2;
+    self.photoFrameView.layer.cornerRadius = (kPhotoDiameter + kPhotoFrameViewPadding) / 2;
     [self.view addSubview:self.photoFrameView];
     
     // ---------------------------
@@ -98,12 +99,12 @@ static const CGFloat kPhotoDiameter = 130.0f;
     
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.photoFrameView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
                                                                      toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                                                   constant:(self.photoFrameView.layer.cornerRadius * 2)];
+                                                                   constant:(kPhotoDiameter + kPhotoFrameViewPadding)];
     [self.photoFrameView addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.photoFrameView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                               constant:(self.photoFrameView.layer.cornerRadius * 2)];
+                                               constant:(kPhotoDiameter + kPhotoFrameViewPadding)];
     [self.photoFrameView addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.photoFrameView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual
@@ -122,12 +123,12 @@ static const CGFloat kPhotoDiameter = 130.0f;
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual
                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                               constant:(self.addPhotoButton.layer.cornerRadius * 2)];
+                                               constant:kPhotoDiameter];
     [self.addPhotoButton addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual
                                                  toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f
-                                               constant:(self.addPhotoButton.layer.cornerRadius * 2)];
+                                               constant:kPhotoDiameter];
     [self.addPhotoButton addConstraint:constraint];
     
     constraint = [NSLayoutConstraint constraintWithItem:self.addPhotoButton attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual

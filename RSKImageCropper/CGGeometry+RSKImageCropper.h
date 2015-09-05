@@ -52,10 +52,18 @@ __tg_promote2((__x), (__y))(__y))
 #undef ceil
 #define ceil(__x) __tg_ceil(__tg_promote1((__x))(__x))
 
+#undef floor
+#define floor(__x) __tg_floor(__tg_promote1((__x))(__x))
+
+#undef round
+#define round(__x) __tg_round(__tg_promote1((__x))(__x))
+
 #ifdef CGFLOAT_IS_DOUBLE
     #define RSK_EPSILON DBL_EPSILON
+    #define RSK_MIN DBL_MIN
 #else
     #define RSK_EPSILON FLT_EPSILON
+    #define RSK_MIN FLT_MIN
 #endif
 
 // Line segments.

@@ -1,4 +1,4 @@
-## RSKImageCropper [![Build Status](https://travis-ci.org/ruslanskorb/RSKImageCropper.svg)](https://travis-ci.org/ruslanskorb/RSKImageCropper) [![Coverage Status](https://coveralls.io/repos/ruslanskorb/RSKImageCropper/badge.svg)](https://coveralls.io/r/ruslanskorb/RSKImageCropper)
+## RSKImageCropper [![Build Status](https://travis-ci.org/ruslanskorb/RSKImageCropper.svg)](https://travis-ci.org/ruslanskorb/RSKImageCropper) [![Coverage Status](https://coveralls.io/repos/ruslanskorb/RSKImageCropper/badge.svg)](https://coveralls.io/r/ruslanskorb/RSKImageCropper) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/ruslanskorb/RSKImageCropper)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
@@ -7,14 +7,27 @@
 An image cropper for iOS like in the Contacts app with support for landscape orientation.
 
 ## Installation
+*RSKImageCropper requires iOS 6.0 or later.*
 
-[CocoaPods](http://cocoapods.org) is the recommended method of installing RSKImageCropper. Simply add the following line to your `Podfile`:
+### Using [CocoaPods](http://cocoapods.org)
 
-#### Podfile
+1.  Add the pod `RSKImageCropper` to your [Podfile](http://guides.cocoapods.org/using/the-podfile.html).
 
-```ruby
-pod 'RSKImageCropper'
-```
+        pod 'RSKImageCropper'
+
+2.  Run `pod install` from Terminal, then open your app's `.xcworkspace` file to launch Xcode.
+3.  Import the `RSKImageCropper.h` header. Typically, this should be written as `#import <RSKImageCropper/RSKImageCropper.h>`
+
+### Using [Carthage](https://github.com/Carthage/Carthage)
+
+1.  Add the `ruslanskorb/RSKImageCropper` project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+
+        github "ruslanskorb/RSKImageCropper"
+
+2.  Run `carthage update`, then follow the [additional steps required](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the iOS and/or Mac frameworks into your project.
+3.  Import the RSKImageCropper framework/module.
+    *  Using Modules: `@import RSKImageCropper`
+    *  Without Modules: `#import <RSKImageCroper/RSKImageCropper.h>`
 
 ## Basic Usage
 
