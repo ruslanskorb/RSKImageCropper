@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/ruslanskorb/RSKImageCropper.git', :tag => s.version.to_s }
   s.platform     = :ios, '6.0'
   s.source_files = 'RSKImageCropper/*.{h,m}'
-  s.frameworks = 'QuartzCore', 'UIKit'
+  s.resources    = 'RSKImageCropper/RSKImageCropperStrings.bundle'
+  s.frameworks   = 'QuartzCore', 'UIKit'
   s.requires_arc = true
 end
