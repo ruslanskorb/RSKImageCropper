@@ -383,8 +383,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         cropRect.size.width = ceilWidth;
         cropRect.size.height = ceilHeight;
     } else {
-        cropRect.size.height = floor(CGRectGetWidth(cropRect));
-        cropRect.size.width = floor(CGRectGetHeight(cropRect));
+        cropRect.size.width = floor(CGRectGetWidth(cropRect));
+        cropRect.size.height = floor(CGRectGetHeight(cropRect));
     }
     
     return cropRect;
