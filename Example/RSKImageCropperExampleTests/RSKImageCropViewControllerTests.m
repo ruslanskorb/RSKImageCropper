@@ -147,9 +147,20 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 SpecBegin(RSKImageCropViewController)
 
-describe(@"init", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
+__block RSKImageCropViewController *imageCropViewController = nil;
+
+dispatch_block_t sharedLoadView = ^{
+    [imageCropViewController.view setNeedsUpdateConstraints];
+    [imageCropViewController.view updateConstraintsIfNeeded];
     
+    [imageCropViewController.view setNeedsLayout];
+    [imageCropViewController.view layoutIfNeeded];
+    
+    [imageCropViewController viewWillAppear:YES];
+    [imageCropViewController viewDidAppear:YES];
+};
+
+describe(@"init", ^{
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
     });
@@ -165,11 +176,14 @@ describe(@"init", ^{
     it(@"should init with disabled avoiding empty space around image", ^{
         expect(imageCropViewController.avoidEmptySpaceAroundImage).to.beFalsy();
     });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
 });
 
 describe(@"initWithImage:", ^{
     __block UIImage *image = nil;
-    __block RSKImageCropViewController *imageCropViewController = nil;
     
     before(^{
         image = [UIImage imageNamed:@"photo"];
@@ -183,11 +197,15 @@ describe(@"initWithImage:", ^{
     it(@"should init with default crop mode of `RSKImageCropModeCircle`", ^{
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeCircle);
     });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
 });
 
 describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
     });
 });
@@ -196,7 +214,7 @@ describe(@"empty space around the image", ^{
     it(@"sets `aspectFill` of `imageScrollView` identical to `avoidEmptySpaceAroundImage`", ^{
         BOOL testAvoidEmptySpaceAroundImage = YES;
         
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
         
         expect(imageCropViewController.imageScrollView.aspectFill).notTo.equal(testAvoidEmptySpaceAroundImage);
         
@@ -207,21 +225,7 @@ describe(@"empty space around the image", ^{
 });
 
 describe(@"crop image", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
     __block UIImage *originalImage = nil;
-    
-    dispatch_block_t sharedLoadView = ^{
-        [imageCropViewController view];
-        
-        [imageCropViewController.view setNeedsUpdateConstraints];
-        [imageCropViewController.view updateConstraintsIfNeeded];
-        
-        [imageCropViewController.view setNeedsLayout];
-        [imageCropViewController.view layoutIfNeeded];
-        
-        [imageCropViewController viewWillAppear:YES];
-        [imageCropViewController viewDidAppear:YES];
-    };
     
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
@@ -387,18 +391,151 @@ describe(@"crop image", ^{
     });
 });
 
-describe(@"crop view", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
+describe(@"crop size", ^{
+    __block UIImage *originalImage1 = nil;
+    __block UIImage *originalImage2 = nil;
     
+    __block id mockImageCropViewController = nil;
+    __block id mockImageCropViewControllerView = nil;
+    
+    __block RSKImageCropMode cropMode;
+    __block UIImage *photo = nil;
+    
+    before(^{
+        originalImage1 = [UIImage imageNamed:@"photo"];
+        originalImage2 = [UIImage imageNamed:@"photo_2"];
+        
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        sharedLoadView();
+        
+        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        
+        mockImageCropViewControllerView = [OCMockObject partialMockForObject:imageCropViewController.view];
+        [[[mockImageCropViewControllerView stub] andReturn:window] window];
+        
+        mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
+        [[[mockImageCropViewController stub] andReturn:mockImageCropViewControllerView] view];
+    });
+    
+    describe(@"when `avoidEmptySpaceAroundImage` is disabled", ^{
+        
+        dispatch_block_t sharedIt = ^{
+            imageCropViewController.originalImage = photo;
+            imageCropViewController.cropMode = cropMode;
+            imageCropViewController.imageScrollView.zoomScale = imageCropViewController.imageScrollView.minimumZoomScale;
+            
+            CGFloat maxSize = (photo.size.width > photo.size.height) ? photo.size.width : photo.size.height;
+            expect(imageCropViewController.cropRect.size).to.equal(CGSizeMake(maxSize, maxSize));
+        };
+        
+        describe(@"when crop mode is `RSKImageCropModeCircle`", ^{
+            before(^{
+                cropMode = RSKImageCropModeCircle;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+        
+        describe(@"when crop mode is `RSKImageCropModeSquare`", ^{
+            before(^{
+                cropMode = RSKImageCropModeSquare;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+    });
+    
+    describe(@"when `avoidEmptySpaceAroundImage` is enabled", ^{
+        
+        dispatch_block_t sharedIt = ^{
+            imageCropViewController.originalImage = photo;
+            imageCropViewController.cropMode = cropMode;
+            imageCropViewController.imageScrollView.zoomScale = imageCropViewController.imageScrollView.minimumZoomScale;
+            imageCropViewController.avoidEmptySpaceAroundImage = YES;
+            
+            CGFloat minSize = (photo.size.width < photo.size.height) ? photo.size.width : photo.size.height;
+            expect(imageCropViewController.cropRect.size).to.equal(CGSizeMake(minSize, minSize));
+        };
+        
+        describe(@"when crop mode is `RSKImageCropModeCircle`", ^{
+            before(^{
+                cropMode = RSKImageCropModeCircle;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+        
+        describe(@"when crop mode is `RSKImageCropModeSquare`", ^{
+            before(^{
+                cropMode = RSKImageCropModeSquare;
+            });
+            
+            it(@"for photo", ^{
+                photo = originalImage1;
+                sharedIt();
+            });
+            
+            it(@"for photo_2", ^{
+                photo = originalImage2;
+                sharedIt();
+            });
+            
+            after(^{
+                photo = nil;
+            });
+        });
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+        
+        [mockImageCropViewController stopMocking];
+        mockImageCropViewController = nil;
+        
+        [mockImageCropViewControllerView stopMocking];
+        mockImageCropViewControllerView = nil;
+    });
+});
+
+describe(@"crop view", ^{
     dispatch_block_t sharedIt = ^{
-        [imageCropViewController.view setNeedsUpdateConstraints];
-        [imageCropViewController.view updateConstraintsIfNeeded];
-        
-        [imageCropViewController.view setNeedsLayout];
-        [imageCropViewController.view layoutIfNeeded];
-        
-        [imageCropViewController viewWillAppear:NO];
-        [imageCropViewController viewDidAppear:NO];
+        sharedLoadView();
         
         expect(imageCropViewController.view).to.haveValidSnapshot();
     };
@@ -463,8 +600,6 @@ describe(@"crop view", ^{
 });
 
 describe(@"dataSource", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
-    
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCustom];
     });
@@ -574,8 +709,6 @@ describe(@"dataSource", ^{
 });
 
 describe(@"delegate", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
-    
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
     });
@@ -630,7 +763,7 @@ describe(@"delegate", ^{
 
 describe(@"navigation controller navigation bar", ^{
     it(@"hides navigation bar in viewWillAppear:", ^{
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imageCropViewController];
         id mock = [OCMockObject partialMockForObject:navigationController];
@@ -644,7 +777,7 @@ describe(@"navigation controller navigation bar", ^{
     });
     
     it(@"restores visibility of the navigation bar in viewWillDisappear:", ^{
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
         
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imageCropViewController];
         id mock = [OCMockObject partialMockForObject:navigationController];
@@ -658,20 +791,16 @@ describe(@"navigation controller navigation bar", ^{
         
         [mock verify];
     });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
 });
 
 describe(@"original image", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
-    
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
-        [imageCropViewController view];
-        [imageCropViewController.view setNeedsUpdateConstraints];
-        [imageCropViewController.view updateConstraintsIfNeeded];
-        [imageCropViewController.view setNeedsLayout];
-        [imageCropViewController.view layoutIfNeeded];
-        [imageCropViewController viewWillAppear:NO];
-        [imageCropViewController viewDidAppear:NO];
+        sharedLoadView();
     });
     
     it(@"displays new original image", ^{
@@ -695,18 +824,9 @@ describe(@"original image", ^{
 });
 
 describe(@"reset", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
-    
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"]];
-        // Loads view and calls viewDidLoad.
-        [imageCropViewController view];
-        
-        [imageCropViewController.view setNeedsUpdateConstraints];
-        [imageCropViewController.view updateConstraintsIfNeeded];
-        
-        [imageCropViewController.view setNeedsLayout];
-        [imageCropViewController.view layoutIfNeeded];
+        sharedLoadView();
     });
     
     it(@"should reset rotation", ^{
@@ -778,7 +898,6 @@ describe(@"reset", ^{
 describe(@"rotation", ^{
     __block id mockRotationGestureRecognizer = nil;
     __block CGFloat testRotationAngle;
-    __block RSKImageCropViewController *imageCropViewController = nil;
     
     before(^{
         testRotationAngle = M_PI_2;
@@ -824,13 +943,7 @@ describe(@"rotation", ^{
     
     describe(@"movement rect", ^{
         dispatch_block_t sharedIt = ^{
-            [imageCropViewController view];
-            
-            [imageCropViewController.view setNeedsUpdateConstraints];
-            [imageCropViewController.view updateConstraintsIfNeeded];
-            
-            [imageCropViewController.view setNeedsLayout];
-            [imageCropViewController.view layoutIfNeeded];
+            sharedLoadView();
             
             [imageCropViewController handleRotation:mockRotationGestureRecognizer];
         };
@@ -868,6 +981,8 @@ describe(@"rotation", ^{
     
     after(^{
         [mockRotationGestureRecognizer stopMocking];
+        mockRotationGestureRecognizer = nil;
+        
         imageCropViewController = nil;
     });
 });
@@ -879,7 +994,7 @@ describe(@"status bar", ^{
         
         [[mock expect] setStatusBarHidden:YES];
         
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
         [imageCropViewController view];
         [imageCropViewController viewWillAppear:NO];
         
@@ -887,7 +1002,7 @@ describe(@"status bar", ^{
     });
     
     it(@"restores visibility of the status bar in viewWillDisappear:", ^{
-        RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] init];
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
         
         UIApplication *application = [UIApplication sharedApplication];
         id mock = [OCMockObject partialMockForObject:application];
@@ -904,8 +1019,6 @@ describe(@"status bar", ^{
 });
 
 describe(@"taps", ^{
-    __block RSKImageCropViewController *imageCropViewController = nil;
-    
     before(^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
     });
@@ -940,6 +1053,10 @@ describe(@"taps", ^{
     after(^{
         imageCropViewController = nil;
     });
+});
+
+afterAll(^{
+    imageCropViewController = nil;
 });
 
 SpecEnd

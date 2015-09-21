@@ -25,6 +25,7 @@
 #import "RSKImageCropViewController.h"
 #import "RSKTouchView.h"
 #import "RSKImageScrollView.h"
+#import "RSKInternalUtility.h"
 #import "UIImage+RSKImageCropper.h"
 #import "CGGeometry+RSKImageCropper.h"
 #import "UIApplication+RSKImageCropper.h"
@@ -42,6 +43,13 @@ static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
 
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
+
+// K is a constant such that the accumulated error of our floating-point computations is definitely bounded by K units in the last place.
+#ifdef CGFLOAT_IS_DOUBLE
+    static const CGFloat kK = 9;
+#else
+    static const CGFloat kK = 0;
+#endif
 
 @interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
 
@@ -301,7 +309,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _moveAndScaleLabel = [[UILabel alloc] init];
         _moveAndScaleLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _moveAndScaleLabel.backgroundColor = [UIColor clearColor];
-        _moveAndScaleLabel.text = NSLocalizedString(@"Move and Scale", @"Move and Scale label");
+        _moveAndScaleLabel.text = RSKLocalizedString(@"Move and Scale", @"Move and Scale label");
         _moveAndScaleLabel.textColor = [UIColor whiteColor];
         _moveAndScaleLabel.opaque = NO;
     }
@@ -313,7 +321,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (!_cancelButton) {
         _cancelButton = [[UIButton alloc] init];
         _cancelButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_cancelButton setTitle:NSLocalizedString(@"Cancel", @"Cancel button") forState:UIControlStateNormal];
+        [_cancelButton setTitle:RSKLocalizedString(@"Cancel", @"Cancel button") forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(onCancelButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _cancelButton.opaque = NO;
     }
@@ -325,7 +333,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (!_chooseButton) {
         _chooseButton = [[UIButton alloc] init];
         _chooseButton.translatesAutoresizingMaskIntoConstraints = NO;
-        [_chooseButton setTitle:NSLocalizedString(@"Choose", @"Choose button") forState:UIControlStateNormal];
+        [_chooseButton setTitle:RSKLocalizedString(@"Choose", @"Choose button") forState:UIControlStateNormal];
         [_chooseButton addTarget:self action:@selector(onChooseButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _chooseButton.opaque = NO;
     }
@@ -364,7 +372,20 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
     cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
     
-    cropRect = CGRectIntegral(cropRect);
+    CGFloat width = CGRectGetWidth(cropRect);
+    CGFloat height = CGRectGetHeight(cropRect);
+    CGFloat ceilWidth = ceil(width);
+    CGFloat ceilHeight = ceil(height);
+    
+    if (fabs(ceilWidth - width) < pow(10, kK) * RSK_EPSILON * fabs(ceilWidth + width) || fabs(ceilWidth - width) < RSK_MIN ||
+        fabs(ceilHeight - height) < pow(10, kK) * RSK_EPSILON * fabs(ceilHeight + height) || fabs(ceilHeight - height) < RSK_MIN) {
+        
+        cropRect.size.width = ceilWidth;
+        cropRect.size.height = ceilHeight;
+    } else {
+        cropRect.size.width = floor(width);
+        cropRect.size.height = floor(height);
+    }
     
     return cropRect;
 }
@@ -390,12 +411,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (void)setRotationEnabled:(BOOL)rotationEnabled
+- (void)setCropMode:(RSKImageCropMode)cropMode
 {
-    if (_rotationEnabled != rotationEnabled) {
-        _rotationEnabled = rotationEnabled;
+    if (_cropMode != cropMode) {
+        _cropMode = cropMode;
         
-        self.rotationGestureRecognizer.enabled = rotationEnabled;
+        if (self.imageScrollView.zoomView) {
+            [self reset:NO];
+        }
     }
 }
 
@@ -440,6 +463,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)setMinOutputSize:(CGSize)minSize
 {
     self.imageScrollView.minOutputSize = minSize;
+}
+
+- (void)setRotationEnabled:(BOOL)rotationEnabled
+{
+    if (_rotationEnabled != rotationEnabled) {
+        _rotationEnabled = rotationEnabled;
+        
+        self.rotationGestureRecognizer.enabled = rotationEnabled;
+    }
 }
 
 #pragma mark - Action handling
