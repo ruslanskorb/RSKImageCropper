@@ -750,11 +750,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskRect:)]) {
-                self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
-            } else {
-                self.maskRect = CGRectNull;
-            }
+            self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
             break;
         }
     }
@@ -772,11 +768,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskPath:)]) {
-                self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
-            } else {
-                self.maskPath = nil;
-            }
+            self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
             break;
         }
     }
