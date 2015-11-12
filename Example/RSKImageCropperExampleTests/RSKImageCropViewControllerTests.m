@@ -148,6 +148,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 SpecBegin(RSKImageCropViewController)
 
 __block RSKImageCropViewController *imageCropViewController = nil;
+__block UIImage *originalImage = nil;
 
 dispatch_block_t sharedLoadView = ^{
     [imageCropViewController.view setNeedsUpdateConstraints];
@@ -159,6 +160,10 @@ dispatch_block_t sharedLoadView = ^{
     [imageCropViewController viewWillAppear:YES];
     [imageCropViewController viewDidAppear:YES];
 };
+
+beforeAll(^{
+    originalImage = [UIImage imageNamed:@"photo"];
+});
 
 describe(@"init", ^{
     before(^{
@@ -183,15 +188,12 @@ describe(@"init", ^{
 });
 
 describe(@"initWithImage:", ^{
-    __block UIImage *image = nil;
-    
     before(^{
-        image = [UIImage imageNamed:@"photo"];
-        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:image];
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage];
     });
     
     it(@"should init with the specified image", ^{
-        expect(imageCropViewController.originalImage).to.equal(image);
+        expect(imageCropViewController.originalImage).to.equal(originalImage);
     });
     
     it(@"should init with default crop mode of `RSKImageCropModeCircle`", ^{
@@ -205,7 +207,7 @@ describe(@"initWithImage:", ^{
 
 describe(@"initWithImage:cropMode:", ^{
     it(@"should init with specified crop mode", ^{
-        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
         expect(imageCropViewController.cropMode).to.equal(RSKImageCropModeSquare);
     });
 });
@@ -225,8 +227,6 @@ describe(@"empty space around the image", ^{
 });
 
 describe(@"crop image", ^{
-    __block UIImage *originalImage = nil;
-    
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
@@ -234,9 +234,6 @@ describe(@"crop image", ^{
         expect(croppedImage.imageOrientation).to.equal(UIImageOrientationUp);
         expect(croppedImage.scale).to.equal(imageCropViewController.originalImage.scale);
     };
-    before(^{
-        originalImage = [UIImage imageNamed:@"photo"];
-    });
     
     describe(@"crop mode is `RSKImageCropModeCircle`", ^{
         before(^{
@@ -548,13 +545,13 @@ describe(@"crop view", ^{
         };
         
         it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCircle];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
             
             sharedPortraitIt();
         });
         
         it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeSquare];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
             
             sharedPortraitIt();
         });
@@ -562,7 +559,7 @@ describe(@"crop view", ^{
         it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
             RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
             
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCustom];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
             imageCropViewController.dataSource = dataSourceObject;
             
             sharedPortraitIt();
@@ -577,13 +574,13 @@ describe(@"crop view", ^{
         };
         
         it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCircle];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
             
             sharedLandscapeIt();
         });
         
         it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeSquare];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
             
             sharedLandscapeIt();
         });
@@ -591,7 +588,7 @@ describe(@"crop view", ^{
         it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
             RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
             
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"] cropMode:RSKImageCropModeCustom];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
             imageCropViewController.dataSource = dataSourceObject;
             
             sharedLandscapeIt();
@@ -601,7 +598,7 @@ describe(@"crop view", ^{
 
 describe(@"dataSource", ^{
     before(^{
-        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCustom];
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
     });
     
     describe(@"with all methods", ^{
@@ -811,7 +808,7 @@ describe(@"original image", ^{
         [[[mockImageCropViewController stub] andReturn:mockImageCropViewControllerView] view];
         [[mockImageCropViewController expect] displayImage];
         
-        imageCropViewController.originalImage = [UIImage imageNamed:@"photo"];
+        imageCropViewController.originalImage = originalImage;
         
         [mockImageCropViewController verify];
         [mockImageCropViewController stopMocking];
@@ -825,7 +822,7 @@ describe(@"original image", ^{
 
 describe(@"reset", ^{
     before(^{
-        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:[UIImage imageNamed:@"photo"]];
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage];
         sharedLoadView();
     });
     
@@ -949,7 +946,7 @@ describe(@"rotation", ^{
         };
         
         it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeCircle`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCircle];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
             
             sharedIt();
             
@@ -957,7 +954,7 @@ describe(@"rotation", ^{
         });
         
         it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeSquare`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeSquare];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
             
             sharedIt();
             
@@ -966,7 +963,7 @@ describe(@"rotation", ^{
         
         it(@"correctly sets the movement rect after rotation when crop mode is `RSKImageCropModeCustom`", ^{
             RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:nil cropMode:RSKImageCropModeCustom];
+            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
             imageCropViewController.dataSource = dataSourceObject;
             
             sharedIt();
@@ -1056,6 +1053,7 @@ describe(@"taps", ^{
 });
 
 afterAll(^{
+    originalImage = nil;
     imageCropViewController = nil;
 });
 
