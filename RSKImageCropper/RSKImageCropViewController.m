@@ -291,6 +291,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillRule = kCAFillRuleEvenOdd;
         _maskLayer.fillColor = self.maskLayerColor.CGColor;
+        _maskLayer.strokeColor = self.maskLayerStrokeColor.CGColor;
     }
     return _maskLayer;
 }
