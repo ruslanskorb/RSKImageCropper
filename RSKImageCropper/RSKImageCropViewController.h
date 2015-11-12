@@ -87,7 +87,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  The color of the layer with the mask. Default value is [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f].
  */
-@property (strong, nonatomic) UIColor *maskLayerColor;
+@property (copy, nonatomic) UIColor *maskLayerColor;
 
 /**
  The line width used when stroking the path of the mask layer. Default value is 1.0.
@@ -111,7 +111,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  
  @discussion Updating each time before the crop view lays out its subviews.
  */
-@property (strong, readonly, nonatomic) UIBezierPath *maskPath;
+@property (copy, readonly, nonatomic) UIBezierPath *maskPath;
 
 /// -----------------------------------
 /// @name Accessing the Crop Attributes

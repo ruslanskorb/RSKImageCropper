@@ -55,14 +55,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
-@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
+@property (copy, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
 @property (assign, nonatomic) CGRect maskRect;
-@property (strong, nonatomic) UIBezierPath *maskPath;
+@property (copy, nonatomic) UIBezierPath *maskPath;
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
