@@ -20,6 +20,8 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+*.gcno
+*.gcda
 
 # CocoaPods
 #

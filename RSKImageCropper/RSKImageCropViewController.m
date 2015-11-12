@@ -55,14 +55,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
-@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
+@property (copy, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
 @property (assign, nonatomic) CGRect maskRect;
-@property (strong, nonatomic) UIBezierPath *maskPath;
+@property (copy, nonatomic) UIBezierPath *maskPath;
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
@@ -87,6 +87,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (self) {
         _avoidEmptySpaceAroundImage = NO;
         _applyMaskToCroppedImage = NO;
+        _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
     }
@@ -291,6 +292,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillRule = kCAFillRuleEvenOdd;
         _maskLayer.fillColor = self.maskLayerColor.CGColor;
+        _maskLayer.lineWidth = self.maskLayerLineWidth;
+        _maskLayer.strokeColor = self.maskLayerStrokeColor.CGColor;
     }
     return _maskLayer;
 }
@@ -747,11 +750,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskRect:)]) {
-                self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
-            } else {
-                self.maskRect = CGRectNull;
-            }
+            self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
             break;
         }
     }
@@ -769,11 +768,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskPath:)]) {
-                self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
-            } else {
-                self.maskPath = nil;
-            }
+            self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
             break;
         }
     }

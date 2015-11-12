@@ -24,6 +24,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol RSKImageCropViewControllerDataSource;
 @protocol RSKImageCropViewControllerDelegate;
 
@@ -62,14 +64,14 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  
  @discussion A `RSKImageCropViewControllerDelegate` delegate responds to messages sent by completing / canceling crop the image in the image crop view controller.
  */
-@property (weak, nonatomic) id<RSKImageCropViewControllerDelegate> delegate;
+@property (weak, nonatomic, nullable) id<RSKImageCropViewControllerDelegate> delegate;
 
 /**
  The receiver's data source.
  
  @discussion A `RSKImageCropViewControllerDataSource` data source provides a custom rect and a custom path for the mask.
  */
-@property (weak, nonatomic) id<RSKImageCropViewControllerDataSource> dataSource;
+@property (weak, nonatomic, nullable) id<RSKImageCropViewControllerDataSource> dataSource;
 
 ///--------------------------
 /// @name Accessing the Image
@@ -87,7 +89,17 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  The color of the layer with the mask. Default value is [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.7f].
  */
-@property (strong, nonatomic) UIColor *maskLayerColor;
+@property (copy, nonatomic) UIColor *maskLayerColor;
+
+/**
+ The line width used when stroking the path of the mask layer. Default value is 1.0.
+ */
+@property (assign, nonatomic) CGFloat maskLayerLineWidth;
+
+/**
+ The color to fill the stroked outline of the path of the mask layer, or nil for no stroking. Default valus is nil.
+ */
+@property (copy, nonatomic, nullable) UIColor *maskLayerStrokeColor;
 
 /**
  The rect of the mask.
@@ -101,7 +113,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  
  @discussion Updating each time before the crop view lays out its subviews.
  */
-@property (strong, readonly, nonatomic) UIBezierPath *maskPath;
+@property (copy, readonly, nonatomic) UIBezierPath *maskPath;
 
 /// -----------------------------------
 /// @name Accessing the Crop Attributes
@@ -252,3 +264,5 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
 
 @end
+
+NS_ASSUME_NONNULL_END
