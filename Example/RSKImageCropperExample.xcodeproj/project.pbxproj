@@ -287,6 +287,7 @@
 				B87A9A0419A4D2CD00D12CD4 /* Frameworks */,
 				B87A9A0519A4D2CD00D12CD4 /* Resources */,
 				1FBE576EED23AE715DE8D985 /* Copy Pods Resources */,
+				30BFDCE5CCC8AFD4C0515BE1 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -305,7 +306,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = RSK;
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Ruslan Skorb";
 				TargetAttributes = {
 					B87A9A0619A4D2CD00D12CD4 = {
@@ -367,6 +368,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30BFDCE5CCC8AFD4C0515BE1 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6AFE7950ADB38A86FEE6F8CB /* Check Pods Manifest.lock */ = {
@@ -464,6 +480,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_GENERATE_TEST_COVERAGE_FILES = YES;
@@ -540,6 +557,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExample/RSKImageCropperExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExample;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -554,6 +572,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExample/RSKImageCropperExample-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExample;
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -566,7 +585,6 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSKImageCropperExample.app/RSKImageCropperExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
@@ -577,6 +595,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "RSKImageCropperExampleTests/RSKImageCropperExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExampleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
@@ -589,13 +608,13 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/RSKImageCropperExample.app/RSKImageCropperExample";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSKImageCropperExampleTests/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExampleTests/RSKImageCropperExampleTests-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExampleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
