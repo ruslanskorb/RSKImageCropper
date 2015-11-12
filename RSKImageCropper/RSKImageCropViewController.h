@@ -90,6 +90,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (strong, nonatomic) UIColor *maskLayerColor;
 
 /**
+ The line width used when stroking the path of the mask layer. Default value is 1.0.
+ */
+@property (assign, nonatomic) CGFloat maskLayerLineWidth;
+
+/**
  The color to fill the stroked outline of the path of the mask layer, or nil for no stroking. Default valus is nil.
  */
 @property (copy, nonatomic) UIColor *maskLayerStrokeColor;

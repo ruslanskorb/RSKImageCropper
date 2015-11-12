@@ -87,6 +87,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (self) {
         _avoidEmptySpaceAroundImage = NO;
         _applyMaskToCroppedImage = NO;
+        _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
     }
@@ -291,6 +292,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillRule = kCAFillRuleEvenOdd;
         _maskLayer.fillColor = self.maskLayerColor.CGColor;
+        _maskLayer.lineWidth = self.maskLayerLineWidth;
         _maskLayer.strokeColor = self.maskLayerStrokeColor.CGColor;
     }
     return _maskLayer;
