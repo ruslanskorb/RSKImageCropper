@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '0.36.3'
+gem 'cocoapods', '0.39.0'
 
 gem 'coveralls', require: false
 gem 'fui', '~> 0.3.0'
