@@ -544,25 +544,36 @@ describe(@"crop view", ^{
             sharedIt();
         };
         
-        it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+        describe(@"crop mode", ^{
+            it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+                
+                sharedPortraitIt();
+            });
             
-            sharedPortraitIt();
+            it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+                
+                sharedPortraitIt();
+            });
+            
+            it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
+                RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+                
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+                imageCropViewController.dataSource = dataSourceObject;
+                
+                sharedPortraitIt();
+            });
         });
         
-        it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
-            
-            sharedPortraitIt();
-        });
-        
-        it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
-            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
-            imageCropViewController.dataSource = dataSourceObject;
-            
-            sharedPortraitIt();
+        describe(@"stroke of the mask", ^{
+            it(@"looks right when stroked outline is visible", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+                imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
+                
+                sharedPortraitIt();
+            });
         });
     });
     
@@ -573,25 +584,36 @@ describe(@"crop view", ^{
             sharedIt();
         };
         
-        it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+        describe(@"crop mode", ^{
+            it(@"looks right when crop mode is `RSKImageCropModeCircle`", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+                
+                sharedLandscapeIt();
+            });
             
-            sharedLandscapeIt();
+            it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+                
+                sharedLandscapeIt();
+            });
+            
+            it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
+                RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+                
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
+                imageCropViewController.dataSource = dataSourceObject;
+                
+                sharedLandscapeIt();
+            });
         });
         
-        it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
-            
-            sharedLandscapeIt();
-        });
-        
-        it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
-            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
-            imageCropViewController.dataSource = dataSourceObject;
-            
-            sharedLandscapeIt();
+        describe(@"stroke of the mask", ^{
+            it(@"looks right when storked outline is visible", ^{
+                imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
+                imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
+                
+                sharedLandscapeIt();
+            });
         });
     });
 });
