@@ -61,8 +61,13 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
+
 @property (assign, nonatomic) CGRect maskRect;
 @property (copy, nonatomic) UIBezierPath *maskPath;
+
+@property (readonly, nonatomic) CGRect rectForMaskPath;
+@property (readonly, nonatomic) CGRect rectForClipPath;
+
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
@@ -393,6 +398,26 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return cropRect;
 }
 
+- (CGRect)rectForClipPath
+{
+    if (!self.maskLayerStrokeColor) {
+        return self.overlayView.frame;
+    } else {
+        CGFloat maskLayerLineHalfWidth = self.maskLayerLineWidth / 2.0;
+        return CGRectInset(self.overlayView.frame, -maskLayerLineHalfWidth, -maskLayerLineHalfWidth);
+    }
+}
+
+- (CGRect)rectForMaskPath
+{
+    if (!self.maskLayerStrokeColor) {
+        return self.maskRect;
+    } else {
+        CGFloat maskLayerLineHalfWidth = self.maskLayerLineWidth / 2.0;
+        return CGRectInset(self.maskRect, maskLayerLineHalfWidth, maskLayerLineHalfWidth);
+    }
+}
+
 - (CGFloat)rotationAngle
 {
     CGAffineTransform transform = self.imageScrollView.transform;
@@ -440,7 +465,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (![_maskPath isEqual:maskPath]) {
         _maskPath = maskPath;
         
-        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
+        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.rectForClipPath];
         [clipPath appendPath:maskPath];
         clipPath.usesEvenOddFillRule = YES;
         
@@ -760,11 +785,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
-            self.maskPath = [UIBezierPath bezierPathWithOvalInRect:self.maskRect];
+            self.maskPath = [UIBezierPath bezierPathWithOvalInRect:self.rectForMaskPath];
             break;
         }
         case RSKImageCropModeSquare: {
-            self.maskPath = [UIBezierPath bezierPathWithRect:self.maskRect];
+            self.maskPath = [UIBezierPath bezierPathWithRect:self.rectForMaskPath];
             break;
         }
         case RSKImageCropModeCustom: {
