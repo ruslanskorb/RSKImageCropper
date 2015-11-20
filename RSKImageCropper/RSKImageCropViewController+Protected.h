@@ -22,6 +22,8 @@
 // THE SOFTWARE.
 //
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  The methods in the RSKImageCropViewControllerProtectedMethods category
  typically should only be called by subclasses which are implementing new
@@ -47,3 +49,5 @@
 - (void)reset:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END

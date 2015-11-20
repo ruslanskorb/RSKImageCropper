@@ -55,14 +55,19 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
-@property (strong, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
+@property (copy, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
 @property (strong, nonatomic) CAShapeLayer *maskLayer;
+
 @property (assign, nonatomic) CGRect maskRect;
-@property (strong, nonatomic) UIBezierPath *maskPath;
+@property (copy, nonatomic) UIBezierPath *maskPath;
+
+@property (readonly, nonatomic) CGRect rectForMaskPath;
+@property (readonly, nonatomic) CGRect rectForClipPath;
+
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
@@ -87,6 +92,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (self) {
         _avoidEmptySpaceAroundImage = NO;
         _applyMaskToCroppedImage = NO;
+        _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
     }
@@ -291,6 +297,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _maskLayer = [CAShapeLayer layer];
         _maskLayer.fillRule = kCAFillRuleEvenOdd;
         _maskLayer.fillColor = self.maskLayerColor.CGColor;
+        _maskLayer.lineWidth = self.maskLayerLineWidth;
+        _maskLayer.strokeColor = self.maskLayerStrokeColor.CGColor;
     }
     return _maskLayer;
 }
@@ -390,6 +398,26 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return cropRect;
 }
 
+- (CGRect)rectForClipPath
+{
+    if (!self.maskLayerStrokeColor) {
+        return self.overlayView.frame;
+    } else {
+        CGFloat maskLayerLineHalfWidth = self.maskLayerLineWidth / 2.0;
+        return CGRectInset(self.overlayView.frame, -maskLayerLineHalfWidth, -maskLayerLineHalfWidth);
+    }
+}
+
+- (CGRect)rectForMaskPath
+{
+    if (!self.maskLayerStrokeColor) {
+        return self.maskRect;
+    } else {
+        CGFloat maskLayerLineHalfWidth = self.maskLayerLineWidth / 2.0;
+        return CGRectInset(self.maskRect, maskLayerLineHalfWidth, maskLayerLineHalfWidth);
+    }
+}
+
 - (CGFloat)rotationAngle
 {
     CGAffineTransform transform = self.imageScrollView.transform;
@@ -437,7 +465,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (![_maskPath isEqual:maskPath]) {
         _maskPath = maskPath;
         
-        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.overlayView.frame];
+        UIBezierPath *clipPath = [UIBezierPath bezierPathWithRect:self.rectForClipPath];
         [clipPath appendPath:maskPath];
         clipPath.usesEvenOddFillRule = YES;
         
@@ -753,11 +781,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskRect:)]) {
-                self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
-            } else {
-                self.maskRect = CGRectNull;
-            }
+            self.maskRect = [self.dataSource imageCropViewControllerCustomMaskRect:self];
             break;
         }
     }
@@ -767,19 +791,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     switch (self.cropMode) {
         case RSKImageCropModeCircle: {
-            self.maskPath = [UIBezierPath bezierPathWithOvalInRect:self.maskRect];
+            self.maskPath = [UIBezierPath bezierPathWithOvalInRect:self.rectForMaskPath];
             break;
         }
         case RSKImageCropModeSquare: {
-            self.maskPath = [UIBezierPath bezierPathWithRect:self.maskRect];
+            self.maskPath = [UIBezierPath bezierPathWithRect:self.rectForMaskPath];
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMaskPath:)]) {
-                self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
-            } else {
-                self.maskPath = nil;
-            }
+            self.maskPath = [self.dataSource imageCropViewControllerCustomMaskPath:self];
             break;
         }
     }

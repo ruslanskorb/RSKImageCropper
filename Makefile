@@ -1,7 +1,7 @@
 WORKSPACE = Example/RSKImageCropperExample.xcworkspace
 SCHEME = RSKImageCropperExample
 CONFIGURATION = Release
-DEVICE_HOST = platform='iOS Simulator',OS='7.1',name='iPhone 4s'
+DEVICE_HOST = platform='iOS Simulator',OS='8.1',name='iPhone 4s'
 
 .PHONY: all build ci clean test lint
 
