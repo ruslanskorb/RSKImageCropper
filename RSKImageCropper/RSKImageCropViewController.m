@@ -799,6 +799,22 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+- (UIImage *) cropImage:(UIImage *)image cropRect:(CGRect)cropRect scale:(CGFloat)imageScale orientation:(UIImageOrientation)imageOrientation {
+    if(image.images == nil) {
+        CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
+        UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:imageScale orientation:imageOrientation];
+        CGImageRelease(croppedCGImage);
+        return croppedImage;
+    } else {
+        NSMutableArray *scaledImages = [NSMutableArray array];
+        for (UIImage *imageFrame in image.images) {
+            UIImage *croppedFrame = [self cropImage:imageFrame cropRect:cropRect scale:imageScale orientation:imageOrientation];
+            [scaledImages addObject:croppedFrame];
+        }
+        return [UIImage animatedImageWithImages:scaledImages duration:image.duration];
+    }
+}
+
 - (UIImage *)croppedImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage
 {
     // Step 1: check and correct the crop rect.
@@ -828,9 +844,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
     
     // Step 2: create an image using the data contained within the specified rect.
-    CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
-    UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:imageScale orientation:imageOrientation];
-    CGImageRelease(croppedCGImage);
+    UIImage *croppedImage = [self cropImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
     
     // Step 3: fix orientation of the cropped image.
     croppedImage = [croppedImage fixOrientation];
