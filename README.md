@@ -27,14 +27,14 @@ An image cropper for iOS like in the Contacts app with support for landscape ori
 2.  Run `carthage update`, then follow the [additional steps required](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application) to add the iOS and/or Mac frameworks into your project.
 3.  Import the RSKImageCropper framework/module.
     *  Using Modules: `@import RSKImageCropper`
-    *  Without Modules: `#import <RSKImageCroper/RSKImageCropper.h>`
+    *  Without Modules: `#import <RSKImageCropper/RSKImageCropper.h>`
 
 ## Basic Usage
 
 Import the class header.
 
 ``` objective-c
-#import "RSKImageCropViewController.h"
+#import <RSKImageCropper/RSKImageCropper.h>
 ```
 
 Just create a view controller for image cropping and set the delegate.
