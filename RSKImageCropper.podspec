@@ -13,6 +13,6 @@ Pod::Spec.new do |s|
   s.requires_arc        = true
   s.public_header_files = [
     'RSKImageCropper/RSKImageCropViewController.h',
-    'RSKImageCropViewController+Protected.h',
+    'RSKImageCropper/RSKImageCropViewController+Protected.h',
   ]
 end
