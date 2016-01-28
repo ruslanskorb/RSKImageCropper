@@ -799,19 +799,21 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (UIImage *) cropImage:(UIImage *)image cropRect:(CGRect)cropRect scale:(CGFloat)imageScale orientation:(UIImageOrientation)imageOrientation {
-    if(image.images == nil) {
+- (UIImage *)croppedImage:(UIImage *)image cropRect:(CGRect)cropRect scale:(CGFloat)imageScale orientation:(UIImageOrientation)imageOrientation
+{
+    if (!image.images) {
         CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
         UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:imageScale orientation:imageOrientation];
         CGImageRelease(croppedCGImage);
         return croppedImage;
     } else {
-        NSMutableArray *scaledImages = [NSMutableArray array];
-        for (UIImage *imageFrame in image.images) {
-            UIImage *croppedFrame = [self cropImage:imageFrame cropRect:cropRect scale:imageScale orientation:imageOrientation];
-            [scaledImages addObject:croppedFrame];
+        UIImage *animatedImage = image;
+        NSMutableArray *croppedImages = [NSMutableArray array];
+        for (UIImage *image in animatedImage.images) {
+            UIImage *croppedImage = [self croppedImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
+            [croppedImages addObject:croppedImage];
         }
-        return [UIImage animatedImageWithImages:scaledImages duration:image.duration];
+        return [UIImage animatedImageWithImages:croppedImages duration:image.duration];
     }
 }
 
@@ -844,7 +846,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
     
     // Step 2: create an image using the data contained within the specified rect.
-    UIImage *croppedImage = [self cropImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
+    UIImage *croppedImage = [self croppedImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
     
     // Step 3: fix orientation of the cropped image.
     croppedImage = [croppedImage fixOrientation];
