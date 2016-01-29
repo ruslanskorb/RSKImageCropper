@@ -192,6 +192,80 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (BOOL)isPortraitInterfaceOrientation;
 
+/// -------------------------------------
+/// @name Accessing the Layout Attributes
+/// -------------------------------------
+
+/**
+ The inset of the circle mask rect's area within the crop view's area in portrait orientation. Default value is `15.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitCircleMaskRectInnerEdgeInset;
+
+/**
+ The inset of the square mask rect's area within the crop view's area in portrait orientation. Default value is `20.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitSquareMaskRectInnerEdgeInset;
+
+/**
+ The vertical space between the top of the 'Move and Scale' label and the top of the crop view in portrait orientation. Default value is `64.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitMoveAndScaleLabelTopAndCropViewTopVerticalSpace;
+
+/**
+ The vertical space between the bottom of the crop view and the bottom of the 'Cancel' button in portrait orientation. Default value is `21.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitCropViewBottomAndCancelButtonBottomVerticalSpace;
+
+/**
+ The vertical space between the bottom of the crop view and the bottom of the 'Choose' button in portrait orientation. Default value is `21.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitCropViewBottomAndChooseButtonBottomVerticalSpace;
+
+/**
+ The horizontal space between the leading of the 'Cancel' button and the leading of the crop view in portrait orientation. Default value is `13.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitCancelButtonLeadingAndCropViewLeadingHorizontalSpace;
+
+/**
+ The horizontal space between the trailing of the crop view and the trailing of the 'Choose' button in portrait orientation. Default value is `13.0f`.
+ */
+@property (assign, nonatomic) CGFloat portraitCropViewTrailingAndChooseButtonTrailingHorizontalSpace;
+
+/**
+ The inset of the circle mask rect's area within the crop view's area in landscape orientation. Default value is `45.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeCircleMaskRectInnerEdgeInset;
+
+/**
+ The inset of the square mask rect's area within the crop view's area in landscape orientation. Default value is `45.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeSquareMaskRectInnerEdgeInset;
+
+/**
+ The vertical space between the top of the 'Move and Scale' label and the top of the crop view in landscape orientation. Default value is `12.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeMoveAndScaleLabelTopAndCropViewTopVerticalSpace;
+
+/**
+ The vertical space between the bottom of the crop view and the bottom of the 'Cancel' button in landscape orientation. Default value is `12.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeCropViewBottomAndCancelButtonBottomVerticalSpace;
+
+/**
+ The vertical space between the bottom of the crop view and the bottom of the 'Choose' button in landscape orientation. Default value is `12.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeCropViewBottomAndChooseButtonBottomVerticalSpace;
+
+/**
+ The horizontal space between the leading of the 'Cancel' button and the leading of the crop view in landscape orientation. Default value is `13.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeCancelButtonLeadingAndCropViewLeadingHorizontalSpace;
+
+/**
+ The horizontal space between the trailing of the crop view and the trailing of the 'Choose' button in landscape orientation. Default value is `13.0f`.
+ */
+@property (assign, nonatomic) CGFloat landscapeCropViewTrailingAndChooseButtonTrailingHorizontalSpace;
+
 @end
 
 /**
