@@ -30,17 +30,6 @@
 #import "CGGeometry+RSKImageCropper.h"
 #import "UIApplication+RSKImageCropper.h"
 
-static const CGFloat kPortraitCircleMaskRectInnerEdgeInset = 15.0f;
-static const CGFloat kPortraitSquareMaskRectInnerEdgeInset = 20.0f;
-static const CGFloat kPortraitMoveAndScaleLabelVerticalMargin = 64.0f;
-static const CGFloat kPortraitCancelAndChooseButtonsHorizontalMargin = 13.0f;
-static const CGFloat kPortraitCancelAndChooseButtonsVerticalMargin = 21.0f;
-
-static const CGFloat kLandscapeCircleMaskRectInnerEdgeInset = 45.0f;
-static const CGFloat kLandscapeSquareMaskRectInnerEdgeInset = 45.0f;
-static const CGFloat kLandscapeMoveAndScaleLabelVerticalMargin = 12.0f;
-static const CGFloat kLandscapeCancelAndChooseButtonsVerticalMargin = 12.0f;
-
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
@@ -97,6 +86,22 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
+        
+        _portraitCircleMaskRectInnerEdgeInset = 15.0f;
+        _portraitSquareMaskRectInnerEdgeInset = 20.0f;
+        _portraitMoveAndScaleLabelTopAndCropViewTopVerticalSpace = 64.0f;
+        _portraitCropViewBottomAndCancelButtonBottomVerticalSpace = 21.0f;
+        _portraitCropViewBottomAndChooseButtonBottomVerticalSpace = 21.0f;
+        _portraitCancelButtonLeadingAndCropViewLeadingHorizontalSpace = 13.0f;
+        _portraitCropViewTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
+        
+        _landscapeCircleMaskRectInnerEdgeInset = 45.0f;
+        _landscapeSquareMaskRectInnerEdgeInset = 45.0f;
+        _landscapeMoveAndScaleLabelTopAndCropViewTopVerticalSpace = 12.0f;
+        _landscapeCropViewBottomAndCancelButtonBottomVerticalSpace = 12.0f;
+        _landscapeCropViewBottomAndChooseButtonBottomVerticalSpace = 12.0f;
+        _landscapeCancelButtonLeadingAndCropViewLeadingHorizontalSpace = 13.0;
+        _landscapeCropViewTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
     }
     return self;
 }
@@ -219,7 +224,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
                                                                        constant:0.0f];
         [self.view addConstraint:constraint];
         
-        CGFloat constant = kPortraitMoveAndScaleLabelVerticalMargin;
+        CGFloat constant = self.portraitMoveAndScaleLabelTopAndCropViewTopVerticalSpace;
         self.moveAndScaleLabelTopConstraint = [NSLayoutConstraint constraintWithItem:self.moveAndScaleLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.view attribute:NSLayoutAttributeTop multiplier:1.0f
                                                                             constant:constant];
@@ -229,15 +234,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // The button "Cancel".
         // --------------------
         
-        constant = kPortraitCancelAndChooseButtonsHorizontalMargin;
+        constant = self.portraitCancelButtonLeadingAndCropViewLeadingHorizontalSpace;
         self.cancelButtonLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.cancelButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
                                                                              toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0f
                                                                            constant:constant];
         [self.view addConstraint:self.cancelButtonLeadingConstraint];
         
-        constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
-        self.cancelButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.cancelButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0f
+        constant = self.portraitCropViewBottomAndCancelButtonBottomVerticalSpace;
+        self.cancelButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.cancelButton attribute:NSLayoutAttributeBottom multiplier:1.0f
                                                                           constant:constant];
         [self.view addConstraint:self.cancelButtonBottomConstraint];
         
@@ -245,28 +250,32 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // The button "Choose".
         // --------------------
         
-        constant = -kPortraitCancelAndChooseButtonsHorizontalMargin;
-        self.chooseButtonTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.chooseButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0f
+        constant = self.portraitCropViewTrailingAndChooseButtonTrailingHorizontalSpace;
+        self.chooseButtonTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                                              toItem:self.chooseButton attribute:NSLayoutAttributeTrailing multiplier:1.0f
                                                                             constant:constant];
         [self.view addConstraint:self.chooseButtonTrailingConstraint];
         
-        constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
-        self.chooseButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.chooseButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self.view attribute:NSLayoutAttributeBottom multiplier:1.0f
+        constant = self.portraitCropViewBottomAndChooseButtonBottomVerticalSpace;
+        self.chooseButtonBottomConstraint = [NSLayoutConstraint constraintWithItem:self.view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self.chooseButton attribute:NSLayoutAttributeBottom multiplier:1.0f
                                                                           constant:constant];
         [self.view addConstraint:self.chooseButtonBottomConstraint];
         
         self.didSetupConstraints = YES;
     } else {
         if ([self isPortraitInterfaceOrientation]) {
-            self.moveAndScaleLabelTopConstraint.constant = kPortraitMoveAndScaleLabelVerticalMargin;
-            self.cancelButtonBottomConstraint.constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
-            self.chooseButtonBottomConstraint.constant = -kPortraitCancelAndChooseButtonsVerticalMargin;
+            self.moveAndScaleLabelTopConstraint.constant = self.portraitMoveAndScaleLabelTopAndCropViewTopVerticalSpace;
+            self.cancelButtonBottomConstraint.constant = self.portraitCropViewBottomAndCancelButtonBottomVerticalSpace;
+            self.cancelButtonLeadingConstraint.constant = self.portraitCancelButtonLeadingAndCropViewLeadingHorizontalSpace;
+            self.chooseButtonBottomConstraint.constant = self.portraitCropViewBottomAndChooseButtonBottomVerticalSpace;
+            self.chooseButtonTrailingConstraint.constant = self.portraitCropViewTrailingAndChooseButtonTrailingHorizontalSpace;
         } else {
-            self.moveAndScaleLabelTopConstraint.constant = kLandscapeMoveAndScaleLabelVerticalMargin;
-            self.cancelButtonBottomConstraint.constant = -kLandscapeCancelAndChooseButtonsVerticalMargin;
-            self.chooseButtonBottomConstraint.constant = -kLandscapeCancelAndChooseButtonsVerticalMargin;
+            self.moveAndScaleLabelTopConstraint.constant = self.landscapeMoveAndScaleLabelTopAndCropViewTopVerticalSpace;
+            self.cancelButtonBottomConstraint.constant = self.landscapeCropViewBottomAndCancelButtonBottomVerticalSpace;
+            self.cancelButtonLeadingConstraint.constant = self.landscapeCancelButtonLeadingAndCropViewLeadingHorizontalSpace;
+            self.chooseButtonBottomConstraint.constant = self.landscapeCropViewBottomAndChooseButtonBottomVerticalSpace;
+            self.chooseButtonTrailingConstraint.constant = self.landscapeCropViewTrailingAndChooseButtonTrailingHorizontalSpace;
         }
     }
 }
@@ -749,9 +758,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGFloat diameter;
             if ([self isPortraitInterfaceOrientation]) {
-                diameter = MIN(viewWidth, viewHeight) - kPortraitCircleMaskRectInnerEdgeInset * 2;
+                diameter = MIN(viewWidth, viewHeight) - self.portraitCircleMaskRectInnerEdgeInset * 2;
             } else {
-                diameter = MIN(viewWidth, viewHeight) - kLandscapeCircleMaskRectInnerEdgeInset * 2;
+                diameter = MIN(viewWidth, viewHeight) - self.landscapeCircleMaskRectInnerEdgeInset * 2;
             }
             
             CGSize maskSize = CGSizeMake(diameter, diameter);
@@ -768,9 +777,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGFloat length;
             if ([self isPortraitInterfaceOrientation]) {
-                length = MIN(viewWidth, viewHeight) - kPortraitSquareMaskRectInnerEdgeInset * 2;
+                length = MIN(viewWidth, viewHeight) - self.portraitSquareMaskRectInnerEdgeInset * 2;
             } else {
-                length = MIN(viewWidth, viewHeight) - kLandscapeSquareMaskRectInnerEdgeInset * 2;
+                length = MIN(viewWidth, viewHeight) - self.landscapeSquareMaskRectInnerEdgeInset * 2;
             }
             
             CGSize maskSize = CGSizeMake(length, length);
