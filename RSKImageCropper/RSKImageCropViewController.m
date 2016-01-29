@@ -228,8 +228,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // --------------------
         
         constant = kPortraitCancelAndChooseButtonsHorizontalMargin;
-        constraint = [NSLayoutConstraint constraintWithItem:self.cancelButton attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual
-                                                     toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1.0f
+        constraint = [NSLayoutConstraint constraintWithItem:self.cancelButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual
+                                                     toItem:self.view attribute:NSLayoutAttributeLeading multiplier:1.0f
                                                    constant:constant];
         [self.view addConstraint:constraint];
         
@@ -244,8 +244,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         // --------------------
         
         constant = -kPortraitCancelAndChooseButtonsHorizontalMargin;
-        constraint = [NSLayoutConstraint constraintWithItem:self.chooseButton attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual
-                                                     toItem:self.view attribute:NSLayoutAttributeRight multiplier:1.0f
+        constraint = [NSLayoutConstraint constraintWithItem:self.chooseButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual
+                                                     toItem:self.view attribute:NSLayoutAttributeTrailing multiplier:1.0f
                                                    constant:constant];
         [self.view addConstraint:constraint];
         
