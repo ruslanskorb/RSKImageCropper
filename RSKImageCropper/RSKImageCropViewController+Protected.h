@@ -55,6 +55,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setRotationAngle:(CGFloat)rotationAngle;
 
+/**
+ Sets the current scale factor for the image.
+ 
+ @param zoomScale The scale factor for the image.
+ */
+- (void)setZoomScale:(CGFloat)zoomScale;
+
 @end
 
 NS_ASSUME_NONNULL_END

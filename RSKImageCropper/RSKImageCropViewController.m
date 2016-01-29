@@ -496,6 +496,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+- (void)setZoomScale:(CGFloat)zoomScale
+{
+    self.imageScrollView.zoomScale = zoomScale;
+}
+
 #pragma mark - Action handling
 
 - (void)onCancelButtonTouch:(UIBarButtonItem *)sender
