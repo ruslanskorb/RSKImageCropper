@@ -8,22 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		A5BE39D91B32BD2B00ECDF88 /* RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CB1B32BD2B00ECDF88 /* RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5BE39DA1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CC1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h */; };
+		A5BE39DA1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CC1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39DB1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39CD1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.m */; };
 		A5BE39DC1B32BD2B00ECDF88 /* RSKImageCropViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39CE1B32BD2B00ECDF88 /* RSKImageCropViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39DD1B32BD2B00ECDF88 /* RSKImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39CF1B32BD2B00ECDF88 /* RSKImageCropViewController.m */; };
 		A5BE39DE1B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D01B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A5BE39DF1B32BD2B00ECDF88 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D11B32BD2B00ECDF88 /* RSKImageScrollView.h */; };
+		A5BE39DF1B32BD2B00ECDF88 /* RSKImageScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D11B32BD2B00ECDF88 /* RSKImageScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39E01B32BD2B00ECDF88 /* RSKImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39D21B32BD2B00ECDF88 /* RSKImageScrollView.m */; };
-		A5BE39E11B32BD2B00ECDF88 /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D31B32BD2B00ECDF88 /* RSKTouchView.h */; };
+		A5BE39E11B32BD2B00ECDF88 /* RSKTouchView.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D31B32BD2B00ECDF88 /* RSKTouchView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39E21B32BD2B00ECDF88 /* RSKTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39D41B32BD2B00ECDF88 /* RSKTouchView.m */; };
-		A5BE39E31B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D51B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.h */; };
+		A5BE39E31B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D51B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39E41B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39D61B32BD2B00ECDF88 /* UIApplication+RSKImageCropper.m */; };
-		A5BE39E51B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D71B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h */; };
+		A5BE39E51B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = A5BE39D71B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5BE39E61B32BD2B00ECDF88 /* UIImage+RSKImageCropper.m in Sources */ = {isa = PBXBuildFile; fileRef = A5BE39D81B32BD2B00ECDF88 /* UIImage+RSKImageCropper.m */; };
-		B02D70CE1BD5DCE200B51B33 /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B02D70CB1BD5DCE200B51B33 /* RSKInternalUtility.h */; settings = {ASSET_TAGS = (); }; };
-		B02D70CF1BD5DCE200B51B33 /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */; settings = {ASSET_TAGS = (); }; };
-		B8585B951BD609A100032364 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */; settings = {ASSET_TAGS = (); }; };
+		B02D70CE1BD5DCE200B51B33 /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B02D70CB1BD5DCE200B51B33 /* RSKInternalUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B02D70CF1BD5DCE200B51B33 /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */; };
+		B8585B951BD609A100032364 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -226,7 +226,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.5.0;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -274,7 +274,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1.5.0;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -300,8 +300,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1.5.0;
-				DYLIB_CURRENT_VERSION = 1.5.0;
+				DYLIB_COMPATIBILITY_VERSION = 1.5.1;
+				DYLIB_CURRENT_VERSION = 1.5.1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -316,8 +316,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1.5.0;
-				DYLIB_CURRENT_VERSION = 1.5.0;
+				DYLIB_COMPATIBILITY_VERSION = 1.5.1;
+				DYLIB_CURRENT_VERSION = 1.5.1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

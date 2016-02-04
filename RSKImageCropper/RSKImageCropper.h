@@ -34,5 +34,11 @@ FOUNDATION_EXPORT double RSKImageCropperVersionNumber;
 //! Project version string for RSKImageCropper.
 FOUNDATION_EXPORT const unsigned char RSKImageCropperVersionString[];
 
+#import <RSKImageCropper/CGGeometry+RSKImageCropper.h>
 #import <RSKImageCropper/RSKImageCropViewController.h>
 #import <RSKImageCropper/RSKImageCropViewController+Protected.h>
+#import <RSKImageCropper/RSKImageScrollView.h>
+#import <RSKImageCropper/RSKInternalUtility.h>
+#import <RSKImageCropper/RSKTouchView.h>
+#import <RSKImageCropper/UIApplication+RSKImageCropper.h>
+#import <RSKImageCropper/UIImage+RSKImageCropper.h>
