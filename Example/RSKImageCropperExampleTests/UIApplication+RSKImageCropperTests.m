@@ -27,7 +27,7 @@
 
 @interface UIApplication (Testing)
 
-+ (IMP)rsk_sharedApplicationOriginalImplementaion;
++ (IMP)rsk_sharedApplicationOriginalImplementation;
 
 @end
 
@@ -39,7 +39,7 @@ describe(@"rsk_sharedApplication", ^{
     });
     
     it(@"should return `nil` in original implementaion", ^{
-        IMP rsk_sharedApplicationOriginalImplementation = [UIApplication rsk_sharedApplicationOriginalImplementaion];
+        IMP rsk_sharedApplicationOriginalImplementation = [UIApplication rsk_sharedApplicationOriginalImplementation];
         UIApplication *application = rsk_sharedApplicationOriginalImplementation([UIApplication class], @selector(rsk_sharedApplication));
         
         expect(application).to.beNil();
