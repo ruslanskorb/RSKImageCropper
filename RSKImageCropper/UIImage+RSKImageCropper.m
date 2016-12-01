@@ -117,7 +117,7 @@
     CGSize rotatedSize = rotatedViewBox.frame.size;
     
     // Create the bitmap context
-    UIGraphicsBeginImageContext(rotatedSize);
+    UIGraphicsBeginImageContextWithOptions(rotatedSize, NO, self.scale);
     CGContextRef bitmap = UIGraphicsGetCurrentContext();
     
     // Move the origin to the middle of the image so we will rotate and scale around the center.
