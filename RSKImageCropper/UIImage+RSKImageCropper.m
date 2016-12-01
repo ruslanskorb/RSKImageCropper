@@ -110,29 +110,33 @@
 
 - (UIImage *)rotateByAngle:(CGFloat)angleInRadians
 {
-    // calculate the size of the rotated view's containing box for our drawing space
-    UIView *rotatedViewBox = [[UIView alloc] initWithFrame:CGRectMake(0,0,self.size.width, self.size.height)];
-    CGAffineTransform t = CGAffineTransformMakeRotation(angleInRadians);
-    rotatedViewBox.transform = t;
-    CGSize rotatedSize = rotatedViewBox.frame.size;
+    // Calculate the size of the rotated image.
+    UIView *rotatedView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.size.width, self.size.height)];
+    rotatedView.transform = CGAffineTransformMakeRotation(angleInRadians);
+    CGSize rotatedViewSize = rotatedView.frame.size;
     
-    // Create the bitmap context
-    UIGraphicsBeginImageContextWithOptions(rotatedSize, NO, self.scale);
-    CGContextRef bitmap = UIGraphicsGetCurrentContext();
+    // Create a bitmap-based graphics context.
+    UIGraphicsBeginImageContextWithOptions(rotatedViewSize, NO, self.scale);
     
-    // Move the origin to the middle of the image so we will rotate and scale around the center.
-    CGContextTranslateCTM(bitmap, rotatedSize.width/2, rotatedSize.height/2);
+    CGContextRef context = UIGraphicsGetCurrentContext();
     
-    // Rotate the image context
-    CGContextRotateCTM(bitmap, angleInRadians);
+    // Move the origin of the user coordinate system in the context to the middle.
+    CGContextTranslateCTM(context, rotatedViewSize.width / 2, rotatedViewSize.height / 2);
     
-    // Now, draw the rotated/scaled image into the context
-    CGContextScaleCTM(bitmap, 1.0, -1.0);
-    CGContextDrawImage(bitmap, CGRectMake(-self.size.width / 2, -self.size.height / 2, self.size.width, self.size.height), [self CGImage]);
+    // Rotates the user coordinate system in the context.
+    CGContextRotateCTM(context, angleInRadians);
     
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    // Flip the handedness of the user coordinate system in the context.
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    // Draw the image into the context.
+    CGContextDrawImage(context, CGRectMake(-self.size.width / 2, -self.size.height / 2, self.size.width, self.size.height), self.CGImage);
+    
+    UIImage *rotatedImage = UIGraphicsGetImageFromCurrentImageContext();
+    
     UIGraphicsEndImageContext();
-    return newImage;
+    
+    return rotatedImage;
 }
 
 @end
