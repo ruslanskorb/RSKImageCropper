@@ -151,6 +151,16 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (assign, nonatomic) BOOL avoidEmptySpaceAroundImage;
 
 /**
+ A Boolean value that determines whether the image will always bounce horizontally. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL alwaysBounceHorizontal;
+
+/**
+ A Boolean value that determines whether the image will always bounce vertically. Default value is `NO`.
+ */
+@property (assign, nonatomic) BOOL alwaysBounceVertical;
+
+/**
  A Boolean value that determines whether the mask applies to the image after cropping. Default value is `NO`.
  */
 @property (assign, nonatomic) BOOL applyMaskToCroppedImage;

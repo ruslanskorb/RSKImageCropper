@@ -82,6 +82,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     self = [super init];
     if (self) {
         _avoidEmptySpaceAroundImage = NO;
+        _alwaysBounceVertical = NO;
+        _alwaysBounceHorizontal = NO;
         _applyMaskToCroppedImage = NO;
         _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
@@ -288,6 +290,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _imageScrollView = [[RSKImageScrollView alloc] init];
         _imageScrollView.clipsToBounds = NO;
         _imageScrollView.aspectFill = self.avoidEmptySpaceAroundImage;
+        _imageScrollView.alwaysBounceHorizontal = self.alwaysBounceHorizontal;
+        _imageScrollView.alwaysBounceVertical = self.alwaysBounceVertical;
     }
     return _imageScrollView;
 }
@@ -447,6 +451,24 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _avoidEmptySpaceAroundImage = avoidEmptySpaceAroundImage;
         
         self.imageScrollView.aspectFill = avoidEmptySpaceAroundImage;
+    }
+}
+
+- (void)setAlwaysBounceVertical:(BOOL)alwaysBounceVertical
+{
+    if (_alwaysBounceVertical != alwaysBounceVertical) {
+        _alwaysBounceVertical = alwaysBounceVertical;
+        
+        self.imageScrollView.alwaysBounceVertical = alwaysBounceVertical;
+    }
+}
+
+- (void)setAlwaysBounceHorizontal:(BOOL)alwaysBounceHorizontal
+{
+    if (_alwaysBounceHorizontal != alwaysBounceHorizontal) {
+        _alwaysBounceHorizontal = alwaysBounceHorizontal;
+        
+        self.imageScrollView.alwaysBounceHorizontal = alwaysBounceHorizontal;
     }
 }
 
