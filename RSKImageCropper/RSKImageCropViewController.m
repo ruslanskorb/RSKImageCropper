@@ -880,6 +880,18 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         cropRect.origin.y = round(imageSize.height - CGRectGetHeight(cropRect) - y);
     }
     
+    if (rotationAngle != 0) {
+        // create square rect around circle of available rects
+        CGFloat cropWidth = cropRect.size.width;
+        CGFloat cropHeight = cropRect.size.height;
+        // side of square is equal to the hypotenuse from triangle with cropWidth and cropHeight as legs
+        CGFloat side = sqrt(cropWidth * cropWidth + cropHeight * cropHeight);
+        CGFloat diffWidth = side - cropRect.size.width;
+        CGFloat diffHeight = side - cropRect.size.height;
+        // create rect with insets from original rect
+        cropRect = CGRectInset(cropRect, - diffWidth / 2, - diffHeight / 2);
+    }
+    
     CGFloat imageScale = image.scale;
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
     
