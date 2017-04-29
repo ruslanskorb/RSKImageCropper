@@ -318,6 +318,18 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller;
 
+
+/**
+ Asks the data source for a default offset for the image view
+ 
+ @param controller The crop view controller object to whom a rect is provided.
+ 
+ @return A custom offset for the image view
+ 
+ @discussion The offset is judged from the upper left corner of the view and determines the initial placement of the image view behind the mask
+ */
+- (CGPoint)imageCropViewControllerInitialImageOffset:(RSKImageCropViewController *)controller;
+
 @end
 
 /**

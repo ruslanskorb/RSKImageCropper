@@ -611,7 +611,15 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     } else {
         contentOffset.y = 0;
     }
-    
+
+    // User adjustment on top of the default content offset
+    if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerInitialImageOffset:)]) {
+        CGPoint offset = [self.dataSource imageCropViewControllerInitialImageOffset:self];
+
+        contentOffset.x += offset.x;
+        contentOffset.y += offset.y;
+    }
+
     self.imageScrollView.contentOffset = contentOffset;
 }
 
