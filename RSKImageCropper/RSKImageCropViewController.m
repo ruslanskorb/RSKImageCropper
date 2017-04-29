@@ -543,6 +543,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)onChooseButtonTouch:(UIBarButtonItem *)sender
 {
+    [sender setEnabled:NO];
     [self cropImage];
 }
 
