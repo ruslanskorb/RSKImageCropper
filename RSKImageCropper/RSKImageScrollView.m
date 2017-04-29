@@ -218,7 +218,7 @@
     
     // Image must fit/fill the screen, even if its size is smaller.
     CGFloat xImageScale = maxScale*_imageSize.width / boundsSize.width;
-    CGFloat yImageScale = maxScale*_imageSize.height / boundsSize.width;
+    CGFloat yImageScale = maxScale*_imageSize.height / boundsSize.height;
     CGFloat maxImageScale = MAX(xImageScale, yImageScale);
     
     maxImageScale = MAX(minScale, maxImageScale);
