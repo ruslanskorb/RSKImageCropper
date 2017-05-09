@@ -118,6 +118,14 @@
     [self centerZoomView];
 }
 
+#pragma mark - Property Methods
+- (void)setMinimumZoomScale:(CGFloat)minimumZoomScale
+{
+    [super setMinimumZoomScale:minimumZoomScale];
+    
+    self.zoomScale = self.minimumZoomScale;
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
@@ -196,7 +204,6 @@
     _imageSize = imageSize;
     self.contentSize = imageSize;
     [self setMaxMinZoomScalesForCurrentBounds];
-    [self setInitialZoomScale];
     [self setInitialContentOffset];
     self.contentInset = UIEdgeInsetsZero;
 }
@@ -231,15 +238,6 @@
         
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
-}
-
-- (void)setInitialZoomScale
-{
-    CGSize boundsSize = self.bounds.size;
-    CGFloat xScale = boundsSize.width  / _imageSize.width;    // the scale needed to perfectly fit the image width-wise
-    CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
-    CGFloat scale = MAX(xScale, yScale);
-    self.zoomScale = scale;
 }
 
 - (void)setInitialContentOffset
