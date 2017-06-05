@@ -192,6 +192,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     self.navigationController.view.backgroundColor = self.originalNavigationControllerViewBackgroundColor;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return self.originalStatusBarHidden;
+}
+
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
