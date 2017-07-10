@@ -520,6 +520,12 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+// Added by https://github.com/Arvkon
+- (void)setMinOutputSize:(CGSize)minSize
+{
+    self.imageScrollView.minOutputSize = minSize;
+}
+
 - (void)setRotationEnabled:(BOOL)rotationEnabled
 {
     if (_rotationEnabled != rotationEnabled) {
