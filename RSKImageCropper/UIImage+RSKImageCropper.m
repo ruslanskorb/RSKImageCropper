@@ -111,17 +111,16 @@
 - (UIImage *)rotateByAngle:(CGFloat)angleInRadians
 {
     // Calculate the size of the rotated image.
-    UIView *rotatedView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.size.width, self.size.height)];
-    rotatedView.transform = CGAffineTransformMakeRotation(angleInRadians);
-    CGSize rotatedViewSize = rotatedView.frame.size;
+    CGRect rotatedImageFrame = CGRectMake(0.0, 0.0, self.size.width, self.size.height);
+    CGSize rotatedImageSize = CGRectApplyAffineTransform(rotatedImageFrame, CGAffineTransformMakeRotation(angleInRadians)).size;
     
     // Create a bitmap-based graphics context.
-    UIGraphicsBeginImageContextWithOptions(rotatedViewSize, NO, self.scale);
+    UIGraphicsBeginImageContextWithOptions(rotatedImageSize, NO, self.scale);
     
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     // Move the origin of the user coordinate system in the context to the middle.
-    CGContextTranslateCTM(context, rotatedViewSize.width / 2, rotatedViewSize.height / 2);
+    CGContextTranslateCTM(context, rotatedImageSize.width / 2, rotatedImageSize.height / 2);
     
     // Rotates the user coordinate system in the context.
     CGContextRotateCTM(context, angleInRadians);
