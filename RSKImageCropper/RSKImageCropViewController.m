@@ -390,8 +390,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     CGRect cropRect = CGRectZero;
     float zoomScale = 1.0 / self.imageScrollView.zoomScale;
     
-    cropRect.origin.x = round(self.imageScrollView.contentOffset.x * zoomScale);
-    cropRect.origin.y = round(self.imageScrollView.contentOffset.y * zoomScale);
+    cropRect.origin.x = floor(self.imageScrollView.contentOffset.x * zoomScale);
+    cropRect.origin.y = floor(self.imageScrollView.contentOffset.y * zoomScale);
     cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
     cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
     
@@ -734,8 +734,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
                     frame = RSKRectScaleAroundPoint(initialRect, center, scale, scale);
                     
                     // Step 7: Avoid floats.
-                    frame.origin.x = round(CGRectGetMinX(frame));
-                    frame.origin.y = round(CGRectGetMinY(frame));
+                    frame.origin.x = floor(CGRectGetMinX(frame));
+                    frame.origin.y = floor(CGRectGetMinY(frame));
                     frame = CGRectIntegral(frame);
                 } else {
                     // Step 4: Use the initial rect.
@@ -867,17 +867,17 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     UIImageOrientation imageOrientation = image.imageOrientation;
     if (imageOrientation == UIImageOrientationRight || imageOrientation == UIImageOrientationRightMirrored) {
         cropRect.origin.x = y;
-        cropRect.origin.y = round(imageSize.width - CGRectGetWidth(cropRect) - x);
+        cropRect.origin.y = floor(imageSize.width - CGRectGetWidth(cropRect) - x);
         cropRect.size.width = height;
         cropRect.size.height = width;
     } else if (imageOrientation == UIImageOrientationLeft || imageOrientation == UIImageOrientationLeftMirrored) {
-        cropRect.origin.x = round(imageSize.height - CGRectGetHeight(cropRect) - y);
+        cropRect.origin.x = floor(imageSize.height - CGRectGetHeight(cropRect) - y);
         cropRect.origin.y = x;
         cropRect.size.width = height;
         cropRect.size.height = width;
     } else if (imageOrientation == UIImageOrientationDown || imageOrientation == UIImageOrientationDownMirrored) {
-        cropRect.origin.x = round(imageSize.width - CGRectGetWidth(cropRect) - x);
-        cropRect.origin.y = round(imageSize.height - CGRectGetHeight(cropRect) - y);
+        cropRect.origin.x = floor(imageSize.width - CGRectGetWidth(cropRect) - x);
+        cropRect.origin.y = floor(imageSize.height - CGRectGetHeight(cropRect) - y);
     }
     
     CGFloat imageScale = image.scale;
@@ -899,9 +899,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         return croppedImage;
     } else {
         // Step 5: create a new context.
-        CGSize maskSize = CGRectIntegral(maskPath.bounds).size;
-        CGSize contextSize = CGSizeMake(ceil(maskSize.width / zoomScale),
-                                        ceil(maskSize.height / zoomScale));
+        CGSize maskSize = CGSizeMake(floor(maskPath.bounds.size.width),
+                                     floor(maskPath.bounds.size.height));
+        CGSize contextSize = CGSizeMake(floor(maskSize.width / zoomScale),
+                                        floor(maskSize.height / zoomScale));
         UIGraphicsBeginImageContextWithOptions(contextSize, NO, imageScale);
         
         // Step 6: apply the mask if needed.
@@ -926,8 +927,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         }
         
         // Step 8: draw the cropped image.
-        CGPoint point = CGPointMake(round((contextSize.width - croppedImage.size.width) * 0.5f),
-                                    round((contextSize.height - croppedImage.size.height) * 0.5f));
+        CGPoint point = CGPointMake(floor((contextSize.width - croppedImage.size.width) * 0.5f),
+                                    floor((contextSize.height - croppedImage.size.height) * 0.5f));
         [croppedImage drawAtPoint:point];
         
         // Step 9: get the cropped image affter processing from the context.
