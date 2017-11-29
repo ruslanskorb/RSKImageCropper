@@ -47,11 +47,15 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface RSKImageScrollView : UIScrollView
 
-@property (nonatomic, strong) UIImageView *zoomView;
+@property (nonatomic, nullable, strong) UIImageView *zoomView;
 @property (nonatomic, assign) BOOL aspectFill;
 
 - (void)displayImage:(UIImage *)image;
 
 @end
+
+NS_ASSUME_NONNULL_END
