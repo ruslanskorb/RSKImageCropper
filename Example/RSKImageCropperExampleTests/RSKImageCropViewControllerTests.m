@@ -85,18 +85,8 @@
 @implementation RSKImageCropViewControllerDelegateObject1
 
 - (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage {}
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect {};
+- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle {};
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {};
-
-@end
-
-@interface RSKImageCropViewControllerDelegateObject2 : NSObject <RSKImageCropViewControllerDelegate>
-
-@end
-
-@implementation RSKImageCropViewControllerDelegateObject2
-
-- (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle {}
 
 @end
 
@@ -696,20 +686,6 @@ describe(@"delegate", ^{
         id delegateMock = [OCMockObject partialMockForObject:delegateObject];
         
         [[delegateMock expect] imageCropViewController:imageCropViewController willCropImage:OCMOCK_ANY];
-        [[delegateMock expect] imageCropViewController:imageCropViewController didCropImage:OCMOCK_ANY usingCropRect:imageCropViewController.cropRect];
-        
-        [imageCropViewController cropImage];
-        
-        [delegateMock verifyWithDelay:1.0];
-        [delegateMock stopMocking];
-    });
-    
-    it(@"calls the appropriate delegate method after cropping image", ^{
-        RSKImageCropViewControllerDelegateObject2 *delegateObject = [[RSKImageCropViewControllerDelegateObject2 alloc] init];
-        imageCropViewController.delegate = delegateObject;
-        
-        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
-        
         [[delegateMock expect] imageCropViewController:imageCropViewController didCropImage:OCMOCK_ANY usingCropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle];
         
         [imageCropViewController cropImage];
