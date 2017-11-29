@@ -317,23 +317,22 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @protocol RSKImageCropViewControllerDelegate <NSObject>
 
-@optional
-
 /**
  Tells the delegate that crop image has been canceled.
  */
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller;
 
 /**
- Tells the delegate that the original image will be cropped.
- */
-- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
-
-
-/**
  Tells the delegate that the original image has been cropped. Additionally provides a crop rect and a rotation angle used to produce image.
  */
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
+
+@optional
+
+/**
+ Tells the delegate that the original image will be cropped.
+ */
+- (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage;
 
 @end
 
