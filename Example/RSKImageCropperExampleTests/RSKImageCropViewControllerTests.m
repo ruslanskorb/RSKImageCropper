@@ -78,24 +78,6 @@
 
 @end
 
-@interface RSKImageCropViewControllerDataSourceObject2 : NSObject <RSKImageCropViewControllerDataSource>
-
-@end
-
-@implementation RSKImageCropViewControllerDataSourceObject2
-
-- (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
-{
-    return CGRectZero;
-};
-
-- (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller
-{
-    return [UIBezierPath bezierPath];
-};
-
-@end
-
 @interface RSKImageCropViewControllerDelegateObject1 : NSObject <RSKImageCropViewControllerDelegate>
 
 @end
@@ -690,31 +672,6 @@ describe(@"dataSource", ^{
             expect(imageCropViewController.maskPath).to.equal(customMaskPath);
             
             [dataSourceMock stopMocking];
-        });
-        
-        after(^{
-            dataSourceObject = nil;
-        });
-    });
-    
-    describe(@"without optional methods", ^{
-        __block id <RSKImageCropViewControllerDataSource> dataSourceObject = nil;
-        
-        before(^{
-            dataSourceObject = [[RSKImageCropViewControllerDataSourceObject2 alloc] init];
-            imageCropViewController.dataSource = dataSourceObject;
-        });
-        
-        it(@"sets the right custom movement rect", ^{
-            [imageCropViewController view];
-            
-            [imageCropViewController.view setNeedsUpdateConstraints];
-            [imageCropViewController.view updateConstraintsIfNeeded];
-            
-            [imageCropViewController.view setNeedsLayout];
-            [imageCropViewController.view layoutIfNeeded];
-            
-            expect(imageCropViewController.imageScrollView.frame).to.equal(imageCropViewController.maskRect);
         });
         
         after(^{

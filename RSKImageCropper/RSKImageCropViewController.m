@@ -749,12 +749,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             break;
         }
         case RSKImageCropModeCustom: {
-            if ([self.dataSource respondsToSelector:@selector(imageCropViewControllerCustomMovementRect:)]) {
-                frame = [self.dataSource imageCropViewControllerCustomMovementRect:self];
-            } else {
-                // Will be changed to `CGRectNull` in version `2.0.0`.
-                frame = self.maskRect;
-            }
+            frame = [self.dataSource imageCropViewControllerCustomMovementRect:self];
             break;
         }
     }

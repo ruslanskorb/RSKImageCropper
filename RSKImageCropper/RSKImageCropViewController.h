@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  The receiver's data source.
  
- @discussion A `RSKImageCropViewControllerDataSource` data source provides a custom rect and a custom path for the mask.
+ @discussion A `RSKImageCropViewControllerDataSource` data source provides a custom rect and a custom path for the mask and a custom movement rect for the image.
  */
 @property (weak, nonatomic, nullable) id<RSKImageCropViewControllerDataSource> dataSource;
 
@@ -279,7 +279,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @end
 
 /**
- The `RSKImageCropViewControllerDataSource` protocol is adopted by an object that provides a custom rect and a custom path for the mask.
+ The `RSKImageCropViewControllerDataSource` protocol is adopted by an object that provides a custom rect and a custom path for the mask and a custom movement rect for the image.
  */
 @protocol RSKImageCropViewControllerDataSource <NSObject>
 
@@ -289,8 +289,6 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  @param controller The crop view controller object to whom a rect is provided.
  
  @return A custom rect for the mask.
- 
- @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`.
  */
 - (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller;
 
@@ -300,12 +298,8 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  @param controller The crop view controller object to whom a path is provided.
  
  @return A custom path for the mask.
- 
- @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`.
  */
 - (UIBezierPath *)imageCropViewControllerCustomMaskPath:(RSKImageCropViewController *)controller;
-
-@optional
 
 /**
  Asks the data source a custom rect in which the image can be moved.
@@ -313,8 +307,6 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  @param controller The crop view controller object to whom a rect is provided.
  
  @return A custom rect in which the image can be moved.
- 
- @discussion Only valid if `cropMode` is `RSKImageCropModeCustom`. If you want to support the rotation  when `cropMode` is `RSKImageCropModeCustom` you must implement it. Will be marked as `required` in version `2.0.0`.
  */
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller;
 
