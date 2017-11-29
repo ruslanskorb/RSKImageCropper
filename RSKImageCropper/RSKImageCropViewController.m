@@ -899,17 +899,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         return croppedImage;
     } else {
         // Step 5: create a new context.
-        CGSize maskSize = CGSizeMake(floor(maskPath.bounds.size.width),
-                                     floor(maskPath.bounds.size.height));
-        CGSize contextSize = CGSizeMake(floor(maskSize.width / zoomScale),
-                                        floor(maskSize.height / zoomScale));
+        CGSize contextSize = cropRect.size;
         UIGraphicsBeginImageContextWithOptions(contextSize, NO, imageScale);
         
         // Step 6: apply the mask if needed.
         if (applyMaskToCroppedImage) {
             // 6a: scale the mask to the size of the crop rect.
             UIBezierPath *maskPathCopy = [maskPath copy];
-            CGFloat scale = 1 / zoomScale;
+            CGFloat scale = 1.0 / zoomScale;
             [maskPathCopy applyTransform:CGAffineTransformMakeScale(scale, scale)];
             
             // 6b: move the mask to the top-left.
