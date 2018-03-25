@@ -136,7 +136,16 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     [super viewDidLoad];
     
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
+    if (@available(iOS 11.0, *)) {
+        
+        self.imageScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    else if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)] == YES) {
+        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
     
