@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'cocoapods', '1.3.1'
+gem 'cocoapods', '1.4.0'
 
-gem 'coveralls', require: false
-gem 'fui', '~> 0.3.0'
-gem 'second_curtain', '~> 0.2.3'
-gem 'slather'
-gem 'xcpretty'
+gem 'coveralls', '0.8.21', require: false
+gem 'fui', '0.4.0'
+gem 'second_curtain', '0.6.0'
+gem 'slather', '2.4.5'
+gem 'xcpretty', '0.2.8'
