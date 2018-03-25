@@ -940,34 +940,45 @@ describe(@"rotation", ^{
 });
 
 describe(@"status bar", ^{
-    it(@"hides status bar in viewWillAppear:", ^{
-        UIApplication *application = [UIApplication sharedApplication];
-        id mock = [OCMockObject partialMockForObject:application];
+    if (@available(iOS 7.0, *)) {
         
-        [[mock expect] setStatusBarHidden:YES];
+        it(@"hides status bar", ^{
+            
+            imageCropViewController = [[RSKImageCropViewController alloc] init];
+            expect(imageCropViewController.prefersStatusBarHidden).to.beTruthy();
+        });
+    }
+    else {
         
-        imageCropViewController = [[RSKImageCropViewController alloc] init];
-        [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
+        it(@"hides status bar in viewWillAppear:", ^{
+            UIApplication *application = [UIApplication sharedApplication];
+            id mock = [OCMockObject partialMockForObject:application];
+            
+            [[mock expect] setStatusBarHidden:YES];
+            
+            imageCropViewController = [[RSKImageCropViewController alloc] init];
+            [imageCropViewController view];
+            [imageCropViewController viewWillAppear:NO];
+            
+            [mock verify];
+        });
         
-        [mock verify];
-    });
-    
-    it(@"restores visibility of the status bar in viewWillDisappear:", ^{
-        imageCropViewController = [[RSKImageCropViewController alloc] init];
-        
-        UIApplication *application = [UIApplication sharedApplication];
-        id mock = [OCMockObject partialMockForObject:application];
-        
-        [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
-        
-        [[mock expect] setStatusBarHidden:imageCropViewController.originalStatusBarHidden];
-        
-        [imageCropViewController viewWillDisappear:NO];
-        
-        [mock verify];
-    });
+        it(@"restores visibility of the status bar in viewWillDisappear:", ^{
+            imageCropViewController = [[RSKImageCropViewController alloc] init];
+            
+            UIApplication *application = [UIApplication sharedApplication];
+            id mock = [OCMockObject partialMockForObject:application];
+            
+            [imageCropViewController view];
+            [imageCropViewController viewWillAppear:NO];
+            
+            [[mock expect] setStatusBarHidden:imageCropViewController.originalStatusBarHidden];
+            
+            [imageCropViewController viewWillDisappear:NO];
+            
+            [mock verify];
+        });
+    }
 });
 
 describe(@"taps", ^{
