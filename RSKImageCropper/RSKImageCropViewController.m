@@ -584,6 +584,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+- (void)zoomToRect:(CGRect)zoomRect animated:(BOOL)animated
+{
+    [self.imageScrollView zoomToRect:zoomRect animated:animated];
+}
+
 #pragma mark - Public
 
 - (BOOL)isPortraitInterfaceOrientation
@@ -694,6 +699,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (self.originalImage) {
         [self.imageScrollView displayImage:self.originalImage];
         [self reset:NO];
+
+        if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDisplayedImage:)]) {
+            [self.delegate imageCropViewControllerDisplayedImage:self];
+        }
+
     }
 }
 
