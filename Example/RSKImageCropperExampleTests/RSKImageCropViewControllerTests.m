@@ -1034,6 +1034,26 @@ describe(@"taps", ^{
     });
 });
 
+describe(@"zoomToRect", ^{
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage];
+        sharedLoadView();
+    });
+    
+    it(@"zooms the image", ^{
+        float initialScale = imageCropViewController.imageScrollView.zoomScale;
+        [imageCropViewController zoomToRect:CGRectMake(0, 0, 1, 1) animated:NO];
+        float afterZoomScale = imageCropViewController.imageScrollView.zoomScale;
+        
+        expect(initialScale).to.beLessThan(1);
+        expect(afterZoomScale).to.beGreaterThanOrEqualTo(1);
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
+});
+
 afterAll(^{
     originalImage = nil;
     imageCropViewController = nil;
