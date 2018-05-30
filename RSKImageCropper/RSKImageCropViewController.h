@@ -56,12 +56,12 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 - (instancetype)initWithImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode;
 
 /**
- Zoom the image to make sure a specific region is displayed.
+ Zooms to a specific area of the image so that it is visible.
  
- @param zoomRect The rect to center in the view.
- @param animated If the zoom should be animated.
+ @param zoomRect A rectangle defining an area of the image.
+ @param animated YES if the scrolling should be animated, NO if it should be immediate.
  */
-- (void)zoomToRect:(CGRect)zoomRect animated:(BOOL)animated;
+- (void)zoomToRect:(CGRect)rect animated:(BOOL)animated;
 
 ///-----------------------------
 /// @name Accessing the Delegate
@@ -326,11 +326,6 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @protocol RSKImageCropViewControllerDelegate <NSObject>
 
 /**
- Tells the delegate that the image has been displayed.
- */
-- (void)imageCropViewControllerDisplayedImage:(RSKImageCropViewController *)controller;
-
-/**
  Tells the delegate that crop image has been canceled.
  */
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller;
@@ -341,6 +336,11 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
 
 @optional
+
+/**
+ Tells the delegate that the image has been displayed.
+ */
+- (void)imageCropViewControllerDidDisplayImage:(RSKImageCropViewController *)controller;
 
 /**
  Tells the delegate that the original image will be cropped.

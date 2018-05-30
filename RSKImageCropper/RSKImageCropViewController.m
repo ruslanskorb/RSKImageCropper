@@ -584,9 +584,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (void)zoomToRect:(CGRect)zoomRect animated:(BOOL)animated
+- (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
 {
-    [self.imageScrollView zoomToRect:zoomRect animated:animated];
+    [self.imageScrollView zoomToRect:rect animated:animated];
 }
 
 #pragma mark - Public
@@ -700,8 +700,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         [self.imageScrollView displayImage:self.originalImage];
         [self reset:NO];
 
-        if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDisplayedImage:)]) {
-            [self.delegate imageCropViewControllerDisplayedImage:self];
+        if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDidDisplayImage:)]) {
+            [self.delegate imageCropViewControllerDidDisplayImage:self];
         }
 
     }
