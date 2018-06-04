@@ -1040,13 +1040,18 @@ describe(@"zoomToRect", ^{
         sharedLoadView();
     });
     
-    it(@"zooms the image", ^{
-        float initialScale = imageCropViewController.imageScrollView.zoomScale;
-        [imageCropViewController zoomToRect:CGRectMake(0, 0, 1, 1) animated:NO];
-        float afterZoomScale = imageCropViewController.imageScrollView.zoomScale;
+    it(@"zooms to a specific area of the image", ^{
+        CGRect rect = CGRectMake(100.0, 100.0, 400.0, 400.0);
+        [imageCropViewController zoomToRect:rect animated:NO];
         
-        expect(initialScale).to.beLessThan(1);
-        expect(afterZoomScale).to.beGreaterThanOrEqualTo(1);
+        UIScrollView *imageScrollView = imageCropViewController.imageScrollView;
+        CGRect visibleRect = CGRectMake(round(imageScrollView.contentOffset.x / imageScrollView.zoomScale),
+                                        round(imageScrollView.contentOffset.y / imageScrollView.zoomScale),
+                                        imageScrollView.bounds.size.width / imageScrollView.zoomScale,
+                                        imageScrollView.bounds.size.height / imageScrollView.zoomScale);
+        
+        BOOL contains = CGRectContainsRect(visibleRect, rect);
+        expect(contains).to.beTruthy();
     });
     
     after(^{
