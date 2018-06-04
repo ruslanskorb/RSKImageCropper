@@ -703,7 +703,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDidDisplayImage:)]) {
             [self.delegate imageCropViewControllerDidDisplayImage:self];
         }
-
     }
 }
 
