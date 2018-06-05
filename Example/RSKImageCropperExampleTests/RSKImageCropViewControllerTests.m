@@ -87,6 +87,7 @@
 - (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage {}
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle {};
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {};
+- (void)imageCropViewControllerDidDisplayImage:(RSKImageCropViewController *)controller {};
 
 @end
 
@@ -708,6 +709,21 @@ describe(@"delegate", ^{
         [delegateMock stopMocking];
     });
     
+    it(@"calls the appropriate delegate method when the image is displayed", ^{
+        RSKImageCropViewControllerDelegateObject1 *delegateObject = [[RSKImageCropViewControllerDelegateObject1 alloc] init];
+        imageCropViewController.delegate = delegateObject;
+        imageCropViewController.originalImage = originalImage;
+        
+        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
+        
+        [[delegateMock expect] imageCropViewControllerDidDisplayImage:imageCropViewController];
+        
+        [imageCropViewController displayImage];
+        
+        [delegateMock verify];
+        [delegateMock stopMocking];
+    });
+    
     after(^{
         imageCropViewController = nil;
     });
@@ -1011,6 +1027,31 @@ describe(@"taps", ^{
         [imageCropViewController onChooseButtonTouch:nil];
         
         [mock verify];
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
+});
+
+describe(@"zoomToRect", ^{
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage];
+        sharedLoadView();
+    });
+    
+    it(@"zooms to a specific area of the image", ^{
+        CGRect rect = CGRectMake(100.0, 100.0, 400.0, 400.0);
+        [imageCropViewController zoomToRect:rect animated:NO];
+        
+        UIScrollView *imageScrollView = imageCropViewController.imageScrollView;
+        CGRect visibleRect = CGRectMake(round(imageScrollView.contentOffset.x / imageScrollView.zoomScale),
+                                        round(imageScrollView.contentOffset.y / imageScrollView.zoomScale),
+                                        imageScrollView.bounds.size.width / imageScrollView.zoomScale,
+                                        imageScrollView.bounds.size.height / imageScrollView.zoomScale);
+        
+        BOOL contains = CGRectContainsRect(visibleRect, rect);
+        expect(contains).to.beTruthy();
     });
     
     after(^{
