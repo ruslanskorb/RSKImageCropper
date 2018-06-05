@@ -95,6 +95,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @interface RSKImageCropViewController (Testing)
 
+@property (readonly, nonatomic) CGRect imageRect;
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
@@ -103,7 +104,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)cancelCrop;
 - (void)cropImage;
-- (UIImage *)croppedImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage;
+- (UIImage *)croppedImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect imageRect:(CGRect)imageRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage;
 - (void)displayImage;
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer;
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer;
@@ -201,7 +202,7 @@ describe(@"empty space around the image", ^{
 
 describe(@"crop image", ^{
     dispatch_block_t sharedIt = ^{
-        UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
+        UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
         expect(croppedImage).notTo.beNil();
         expect(croppedImage.imageOrientation).to.equal(UIImageOrientationUp);

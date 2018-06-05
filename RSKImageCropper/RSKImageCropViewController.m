@@ -57,6 +57,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (readonly, nonatomic) CGRect rectForMaskPath;
 @property (readonly, nonatomic) CGRect rectForClipPath;
 
+@property (readonly, nonatomic) CGRect imageRect;
+
 @property (strong, nonatomic) UILabel *moveAndScaleLabel;
 @property (strong, nonatomic) UIButton *cancelButton;
 @property (strong, nonatomic) UIButton *chooseButton;
@@ -402,30 +404,134 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return _rotationGestureRecognizer;
 }
 
-- (CGRect)cropRect
+- (CGRect)normalizedRect:(CGRect)rect
 {
-    CGRect cropRect = CGRectZero;
-    float zoomScale = 1.0 / self.imageScrollView.zoomScale;
+    CGPoint origin = rect.origin;
     
-    cropRect.origin.x = floor(self.imageScrollView.contentOffset.x * zoomScale);
-    cropRect.origin.y = floor(self.imageScrollView.contentOffset.y * zoomScale);
-    cropRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
-    cropRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
+    CGFloat x = origin.x;
+    CGFloat y = origin.y;
+    CGFloat ceilX = ceil(x);
+    CGFloat ceilY = ceil(y);
     
-    CGFloat width = CGRectGetWidth(cropRect);
-    CGFloat height = CGRectGetHeight(cropRect);
+    if (fabs(ceilX - x) < pow(10, kK) * RSK_EPSILON * fabs(ceilX + x) || fabs(ceilX - x) < RSK_MIN ||
+        fabs(ceilY - y) < pow(10, kK) * RSK_EPSILON * fabs(ceilY + y) || fabs(ceilY - y) < RSK_MIN) {
+        
+        origin.x = ceilX;
+        origin.y = ceilY;
+    } else {
+        origin.x = floor(x);
+        origin.y = floor(y);
+    }
+    
+    CGSize size = rect.size;
+    
+    CGFloat width = size.width;
+    CGFloat height = size.height;
     CGFloat ceilWidth = ceil(width);
     CGFloat ceilHeight = ceil(height);
     
     if (fabs(ceilWidth - width) < pow(10, kK) * RSK_EPSILON * fabs(ceilWidth + width) || fabs(ceilWidth - width) < RSK_MIN ||
         fabs(ceilHeight - height) < pow(10, kK) * RSK_EPSILON * fabs(ceilHeight + height) || fabs(ceilHeight - height) < RSK_MIN) {
         
-        cropRect.size.width = ceilWidth;
-        cropRect.size.height = ceilHeight;
+        size.width = ceilWidth;
+        size.height = ceilHeight;
     } else {
-        cropRect.size.width = floor(width);
-        cropRect.size.height = floor(height);
+        size.width = floor(width);
+        size.height = floor(height);
     }
+    
+    return CGRectMake(origin.x, origin.y, size.width, size.height);
+}
+
+- (CGRect)imageRect
+{
+    float zoomScale = 1.0 / self.imageScrollView.zoomScale;
+    
+    CGRect imageRect = CGRectZero;
+    
+    imageRect.origin.x = self.imageScrollView.contentOffset.x * zoomScale;
+    imageRect.origin.y = self.imageScrollView.contentOffset.y * zoomScale;
+    imageRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
+    imageRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
+    
+    imageRect = [self normalizedRect:imageRect];
+    
+    CGSize imageSize = self.originalImage.size;
+    CGFloat x = CGRectGetMinX(imageRect);
+    CGFloat y = CGRectGetMinY(imageRect);
+    CGFloat width = CGRectGetWidth(imageRect);
+    CGFloat height = CGRectGetHeight(imageRect);
+    
+    UIImageOrientation imageOrientation = self.originalImage.imageOrientation;
+    if (imageOrientation == UIImageOrientationRight || imageOrientation == UIImageOrientationRightMirrored) {
+        imageRect.origin.x = y;
+        imageRect.origin.y = floor(imageSize.width - CGRectGetWidth(imageRect) - x);
+        imageRect.size.width = height;
+        imageRect.size.height = width;
+    } else if (imageOrientation == UIImageOrientationLeft || imageOrientation == UIImageOrientationLeftMirrored) {
+        imageRect.origin.x = floor(imageSize.height - CGRectGetHeight(imageRect) - y);
+        imageRect.origin.y = x;
+        imageRect.size.width = height;
+        imageRect.size.height = width;
+    } else if (imageOrientation == UIImageOrientationDown || imageOrientation == UIImageOrientationDownMirrored) {
+        imageRect.origin.x = floor(imageSize.width - CGRectGetWidth(imageRect) - x);
+        imageRect.origin.y = floor(imageSize.height - CGRectGetHeight(imageRect) - y);
+    }
+    
+    CGFloat imageScale = self.originalImage.scale;
+    imageRect = CGRectApplyAffineTransform(imageRect, CGAffineTransformMakeScale(imageScale, imageScale));
+    
+    return imageRect;
+}
+
+- (CGRect)cropRect
+{
+    CGRect maskRect = self.maskRect;
+    CGFloat rotationAngle = self.rotationAngle;
+    CGRect rotatedImageScrollViewFrame = self.imageScrollView.frame;
+    float zoomScale = 1.0 / self.imageScrollView.zoomScale;
+    
+    CGAffineTransform imageScrollViewTransform = self.imageScrollView.transform;
+    self.imageScrollView.transform = CGAffineTransformIdentity;
+    
+    CGRect imageScrollViewFrame = self.imageScrollView.frame;
+    self.imageScrollView.frame = self.maskRect;
+    
+    CGRect imageFrame = CGRectZero;
+    imageFrame.origin.x = CGRectGetMinX(maskRect) - self.imageScrollView.contentOffset.x;
+    imageFrame.origin.y = CGRectGetMinY(maskRect) - self.imageScrollView.contentOffset.y;
+    imageFrame.size = self.imageScrollView.contentSize;
+    
+    CGFloat tx = CGRectGetMinX(imageFrame) + self.imageScrollView.contentOffset.x + CGRectGetWidth(maskRect) * 0.5f;
+    CGFloat ty = CGRectGetMinY(imageFrame) + self.imageScrollView.contentOffset.y + CGRectGetHeight(maskRect) * 0.5f;
+    
+    CGFloat sx = CGRectGetWidth(rotatedImageScrollViewFrame) / CGRectGetWidth(imageScrollViewFrame);
+    CGFloat sy = CGRectGetHeight(rotatedImageScrollViewFrame) / CGRectGetHeight(imageScrollViewFrame);
+    
+    CGAffineTransform t1 = CGAffineTransformMakeTranslation(-tx, -ty);
+    CGAffineTransform t2 = CGAffineTransformMakeRotation(rotationAngle);
+    CGAffineTransform t3 = CGAffineTransformMakeScale(sx, sy);
+    CGAffineTransform t4 = CGAffineTransformMakeTranslation(tx, ty);
+    CGAffineTransform t1t2 = CGAffineTransformConcat(t1, t2);
+    CGAffineTransform t1t2t3 = CGAffineTransformConcat(t1t2, t3);
+    CGAffineTransform t1t2t3t4 = CGAffineTransformConcat(t1t2t3, t4);
+    
+    imageFrame = CGRectApplyAffineTransform(imageFrame, t1t2t3t4);
+    
+    CGRect cropRect = CGRectMake(0.0, 0.0, CGRectGetWidth(maskRect), CGRectGetHeight(maskRect));
+    
+    cropRect.origin.x = -CGRectGetMinX(imageFrame) + CGRectGetMinX(maskRect);
+    cropRect.origin.y = -CGRectGetMinY(imageFrame) + CGRectGetMinY(maskRect);
+    
+    cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(zoomScale, zoomScale));
+    
+    cropRect = [self normalizedRect:cropRect];
+    
+    CGFloat imageScale = self.originalImage.scale;
+    cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
+    
+    self.imageScrollView.frame = imageScrollViewFrame;
+    self.imageScrollView.transform = imageScrollViewTransform;
     
     return cropRect;
 }
@@ -858,106 +964,79 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (UIImage *)croppedImage:(UIImage *)image cropRect:(CGRect)cropRect scale:(CGFloat)imageScale orientation:(UIImageOrientation)imageOrientation
+- (UIImage *)imageWithImage:(UIImage *)image inRect:(CGRect)rect scale:(CGFloat)scale imageOrientation:(UIImageOrientation)imageOrientation
 {
     if (!image.images) {
-        CGImageRef croppedCGImage = CGImageCreateWithImageInRect(image.CGImage, cropRect);
-        UIImage *croppedImage = [UIImage imageWithCGImage:croppedCGImage scale:imageScale orientation:imageOrientation];
-        CGImageRelease(croppedCGImage);
-        return croppedImage;
+        CGImageRef cgImage = CGImageCreateWithImageInRect(image.CGImage, rect);
+        UIImage *image = [UIImage imageWithCGImage:cgImage scale:scale orientation:imageOrientation];
+        CGImageRelease(cgImage);
+        return image;
     } else {
         UIImage *animatedImage = image;
-        NSMutableArray *croppedImages = [NSMutableArray array];
-        for (UIImage *image in animatedImage.images) {
-            UIImage *croppedImage = [self croppedImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
-            [croppedImages addObject:croppedImage];
+        NSMutableArray *images = [NSMutableArray array];
+        for (UIImage *animatedImageImage in animatedImage.images) {
+            UIImage *image = [self imageWithImage:animatedImageImage inRect:rect scale:scale imageOrientation:imageOrientation];
+            [images addObject:image];
         }
-        return [UIImage animatedImageWithImages:croppedImages duration:image.duration];
+        return [UIImage animatedImageWithImages:images duration:image.duration];
     }
 }
 
-- (UIImage *)croppedImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage
+- (UIImage *)croppedImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect imageRect:(CGRect)imageRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage
 {
-    // Step 1: check and correct the crop rect.
-    CGSize imageSize = image.size;
-    CGFloat x = CGRectGetMinX(cropRect);
-    CGFloat y = CGRectGetMinY(cropRect);
-    CGFloat width = CGRectGetWidth(cropRect);
-    CGFloat height = CGRectGetHeight(cropRect);
+    // Step 1: create an image using the data contained within the specified rect.
+    UIImage *image = [self imageWithImage:originalImage inRect:imageRect scale:originalImage.scale imageOrientation:originalImage.imageOrientation];
     
-    UIImageOrientation imageOrientation = image.imageOrientation;
-    if (imageOrientation == UIImageOrientationRight || imageOrientation == UIImageOrientationRightMirrored) {
-        cropRect.origin.x = y;
-        cropRect.origin.y = floor(imageSize.width - CGRectGetWidth(cropRect) - x);
-        cropRect.size.width = height;
-        cropRect.size.height = width;
-    } else if (imageOrientation == UIImageOrientationLeft || imageOrientation == UIImageOrientationLeftMirrored) {
-        cropRect.origin.x = floor(imageSize.height - CGRectGetHeight(cropRect) - y);
-        cropRect.origin.y = x;
-        cropRect.size.width = height;
-        cropRect.size.height = width;
-    } else if (imageOrientation == UIImageOrientationDown || imageOrientation == UIImageOrientationDownMirrored) {
-        cropRect.origin.x = floor(imageSize.width - CGRectGetWidth(cropRect) - x);
-        cropRect.origin.y = floor(imageSize.height - CGRectGetHeight(cropRect) - y);
-    }
+    // Step 2: fix orientation of the image.
+    image = [image fixOrientation];
     
-    CGFloat imageScale = image.scale;
-    cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
-    
-    // Step 2: create an image using the data contained within the specified rect.
-    UIImage *croppedImage = [self croppedImage:image cropRect:cropRect scale:imageScale orientation:imageOrientation];
-    
-    // Step 3: fix orientation of the cropped image.
-    croppedImage = [croppedImage fixOrientation];
-    imageOrientation = croppedImage.imageOrientation;
-    
-    // Step 4: If current mode is `RSKImageCropModeSquare` and the image is not rotated
-    // or mask should not be applied to the image after cropping and the image is not rotated,
-    // we can return the cropped image immediately.
+    // Step 3: If current mode is `RSKImageCropModeSquare` and the original image is not rotated
+    // or mask should not be applied to the image after cropping and the original image is not rotated,
+    // we can return the image immediately.
     // Otherwise, we must further process the image.
     if ((cropMode == RSKImageCropModeSquare || !applyMaskToCroppedImage) && rotationAngle == 0.0) {
-        // Step 5: return the cropped image immediately.
-        return croppedImage;
+        // Step 4: return the image immediately.
+        return image;
     } else {
-        // Step 5: create a new context.
+        // Step 4: create a new context.
         CGSize contextSize = cropRect.size;
-        UIGraphicsBeginImageContextWithOptions(contextSize, NO, imageScale);
+        UIGraphicsBeginImageContextWithOptions(contextSize, NO, originalImage.scale);
         
-        // Step 6: apply the mask if needed.
+        // Step 5: apply the mask if needed.
         if (applyMaskToCroppedImage) {
-            // 6a: scale the mask to the size of the crop rect.
+            // 5a: scale the mask to the size of the crop rect.
             UIBezierPath *maskPathCopy = [maskPath copy];
             CGFloat scale = 1.0 / zoomScale;
             [maskPathCopy applyTransform:CGAffineTransformMakeScale(scale, scale)];
             
-            // 6b: move the mask to the top-left.
+            // 5b: move the mask to the top-left.
             CGPoint translation = CGPointMake(-CGRectGetMinX(maskPathCopy.bounds),
                                               -CGRectGetMinY(maskPathCopy.bounds));
             [maskPathCopy applyTransform:CGAffineTransformMakeTranslation(translation.x, translation.y)];
             
-            // 6c: apply the mask.
+            // 5c: apply the mask.
             [maskPathCopy addClip];
         }
         
-        // Step 7: rotate the cropped image if needed.
+        // Step 6: rotate the image if needed.
         if (rotationAngle != 0) {
-            croppedImage = [croppedImage rotateByAngle:rotationAngle];
+            image = [image rotateByAngle:rotationAngle];
         }
         
-        // Step 8: draw the cropped image.
-        CGPoint point = CGPointMake(floor((contextSize.width - croppedImage.size.width) * 0.5f),
-                                    floor((contextSize.height - croppedImage.size.height) * 0.5f));
-        [croppedImage drawAtPoint:point];
+        // Step 7: draw the image.
+        CGPoint point = CGPointMake(floor((contextSize.width - image.size.width) * 0.5f),
+                                    floor((contextSize.height - image.size.height) * 0.5f));
+        [image drawAtPoint:point];
         
-        // Step 9: get the cropped image affter processing from the context.
-        croppedImage = UIGraphicsGetImageFromCurrentImageContext();
+        // Step 8: get the cropped image affter processing from the context.
+        UIImage *croppedImage = UIGraphicsGetImageFromCurrentImageContext();
         
-        // Step 10: remove the context.
+        // Step 9: remove the context.
         UIGraphicsEndImageContext();
         
-        croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage scale:imageScale orientation:imageOrientation];
+        croppedImage = [UIImage imageWithCGImage:croppedImage.CGImage scale:originalImage.scale orientation:image.imageOrientation];
         
-        // Step 11: return the cropped image affter processing.
+        // Step 10: return the cropped image affter processing.
         return croppedImage;
     }
 }
@@ -971,6 +1050,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     UIImage *originalImage = self.originalImage;
     RSKImageCropMode cropMode = self.cropMode;
     CGRect cropRect = self.cropRect;
+    CGRect imageRect = self.imageRect;
     CGFloat rotationAngle = self.rotationAngle;
     CGFloat zoomScale = self.imageScrollView.zoomScale;
     UIBezierPath *maskPath = self.maskPath;
@@ -978,7 +1058,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        UIImage *croppedImage = [self croppedImage:originalImage cropMode:cropMode cropRect:cropRect rotationAngle:rotationAngle zoomScale:zoomScale maskPath:maskPath applyMaskToCroppedImage:applyMaskToCroppedImage];
+        UIImage *croppedImage = [self croppedImage:originalImage cropMode:cropMode cropRect:cropRect imageRect:imageRect rotationAngle:rotationAngle zoomScale:zoomScale maskPath:maskPath applyMaskToCroppedImage:applyMaskToCroppedImage];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate imageCropViewController:self didCropImage:croppedImage usingCropRect:cropRect rotationAngle:rotationAngle];
