@@ -81,6 +81,9 @@ CG_EXTERN const CGPoint RSKPointNull;
 // Returns the exact center point of the given rectangle.
 CGPoint RSKRectCenterPoint(CGRect rect);
 
+// Returns the `rect` with normalized values.
+CGRect RSKRectNormalize(CGRect rect);
+
 // Returns the `rect` scaled around the `point` by `sx` and `sy`.
 CGRect RSKRectScaleAroundPoint(CGRect rect, CGPoint point, CGFloat sx, CGFloat sy);
 
