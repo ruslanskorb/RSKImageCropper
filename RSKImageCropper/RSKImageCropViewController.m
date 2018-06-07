@@ -404,45 +404,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     return _rotationGestureRecognizer;
 }
 
-- (CGRect)normalizedRect:(CGRect)rect
-{
-    CGPoint origin = rect.origin;
-    
-    CGFloat x = origin.x;
-    CGFloat y = origin.y;
-    CGFloat ceilX = ceil(x);
-    CGFloat ceilY = ceil(y);
-    
-    if (fabs(ceilX - x) < pow(10, kK) * RSK_EPSILON * fabs(ceilX + x) || fabs(ceilX - x) < RSK_MIN ||
-        fabs(ceilY - y) < pow(10, kK) * RSK_EPSILON * fabs(ceilY + y) || fabs(ceilY - y) < RSK_MIN) {
-        
-        origin.x = ceilX;
-        origin.y = ceilY;
-    } else {
-        origin.x = floor(x);
-        origin.y = floor(y);
-    }
-    
-    CGSize size = rect.size;
-    
-    CGFloat width = size.width;
-    CGFloat height = size.height;
-    CGFloat ceilWidth = ceil(width);
-    CGFloat ceilHeight = ceil(height);
-    
-    if (fabs(ceilWidth - width) < pow(10, kK) * RSK_EPSILON * fabs(ceilWidth + width) || fabs(ceilWidth - width) < RSK_MIN ||
-        fabs(ceilHeight - height) < pow(10, kK) * RSK_EPSILON * fabs(ceilHeight + height) || fabs(ceilHeight - height) < RSK_MIN) {
-        
-        size.width = ceilWidth;
-        size.height = ceilHeight;
-    } else {
-        size.width = floor(width);
-        size.height = floor(height);
-    }
-    
-    return CGRectMake(origin.x, origin.y, size.width, size.height);
-}
-
 - (CGRect)imageRect
 {
     float zoomScale = 1.0 / self.imageScrollView.zoomScale;
@@ -454,7 +415,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     imageRect.size.width = CGRectGetWidth(self.imageScrollView.bounds) * zoomScale;
     imageRect.size.height = CGRectGetHeight(self.imageScrollView.bounds) * zoomScale;
     
-    imageRect = [self normalizedRect:imageRect];
+    imageRect = RSKRectNormalize(imageRect);
     
     CGSize imageSize = self.originalImage.size;
     CGFloat x = CGRectGetMinX(imageRect);
@@ -525,7 +486,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(zoomScale, zoomScale));
     
-    cropRect = [self normalizedRect:cropRect];
+    cropRect = RSKRectNormalize(cropRect);
     
     CGFloat imageScale = self.originalImage.scale;
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
