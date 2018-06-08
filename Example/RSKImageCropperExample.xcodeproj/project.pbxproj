@@ -286,8 +286,6 @@
 				B87A9A0319A4D2CD00D12CD4 /* Sources */,
 				B87A9A0419A4D2CD00D12CD4 /* Frameworks */,
 				B87A9A0519A4D2CD00D12CD4 /* Resources */,
-				DA01B7473BA16B2EFF8F720F /* [CP] Embed Pods Frameworks */,
-				66ECB2CF2CC9B870D07D888D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -359,36 +357,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		66ECB2CF2CC9B870D07D888D /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DA01B7473BA16B2EFF8F720F /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSKImageCropperExampleTests/Pods-RSKImageCropperExampleTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E6ACA6AC7E2047985157DEC7 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

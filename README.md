@@ -99,15 +99,26 @@ Then implement the data source functions.
 // Returns a custom rect for the mask.
 - (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
 {
-    CGSize maskSize;
-    if ([controller isPortraitInterfaceOrientation]) {
-        maskSize = CGSizeMake(250, 250);
-    } else {
-        maskSize = CGSizeMake(220, 220);
-    }
+    CGSize aspectRatio = CGSizeMake(16.0f, 9.0f);
     
     CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
     CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
+    
+    CGFloat maskWidth;
+    if ([controller isPortraitInterfaceOrientation]) {
+        maskWidth = viewWidth;
+    } else {
+        maskWidth = viewHeight;
+    }
+    
+    CGFloat maskHeight;
+    do {
+        maskHeight = maskWidth * aspectRatio.height / aspectRatio.width;
+        maskWidth -= 1.0f;
+    } while (maskHeight != floor(maskHeight));
+    maskWidth += 1.0f;
+    
+    CGSize maskSize = CGSizeMake(maskWidth, maskHeight);
     
     CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
                                  (viewHeight - maskSize.height) * 0.5f,
@@ -123,23 +134,42 @@ Then implement the data source functions.
     CGRect rect = controller.maskRect;
     CGPoint point1 = CGPointMake(CGRectGetMinX(rect), CGRectGetMaxY(rect));
     CGPoint point2 = CGPointMake(CGRectGetMaxX(rect), CGRectGetMaxY(rect));
-    CGPoint point3 = CGPointMake(CGRectGetMidX(rect), CGRectGetMinY(rect));
+    CGPoint point3 = CGPointMake(CGRectGetMaxX(rect), CGRectGetMinY(rect));
+    CGPoint point4 = CGPointMake(CGRectGetMinX(rect), CGRectGetMinY(rect));
     
-    UIBezierPath *triangle = [UIBezierPath bezierPath];
-    [triangle moveToPoint:point1];
-    [triangle addLineToPoint:point2];
-    [triangle addLineToPoint:point3];
-    [triangle closePath];
+    UIBezierPath *rectangle = [UIBezierPath bezierPath];
+    [rectangle moveToPoint:point1];
+    [rectangle addLineToPoint:point2];
+    [rectangle addLineToPoint:point3];
+    [rectangle addLineToPoint:point4];
+    [rectangle closePath];
     
-    return triangle;
+    return rectangle;
 }
 
 // Returns a custom rect in which the image can be moved.
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
 {
-    // If the image is not rotated, then the movement rect coincides with the mask rect,
-    // otherwise it is calculated individually for each custom mask.
-    return controller.maskRect;
+    if (controller.rotationAngle == 0) {
+        return controller.maskRect;
+    } else {
+        CGRect maskRect = controller.maskRect;
+        CGFloat rotationAngle = controller.rotationAngle;
+        
+        CGRect movementRect = CGRectZero;
+        
+        movementRect.size.width = CGRectGetWidth(maskRect) * fabs(cos(rotationAngle)) + CGRectGetHeight(maskRect) * fabs(sin(rotationAngle));
+        movementRect.size.height = CGRectGetHeight(maskRect) * fabs(cos(rotationAngle)) + CGRectGetWidth(maskRect) * fabs(sin(rotationAngle));
+        
+        movementRect.origin.x = CGRectGetMinX(maskRect) + (CGRectGetWidth(maskRect) - CGRectGetWidth(movementRect)) * 0.5f;
+        movementRect.origin.y = CGRectGetMinY(maskRect) + (CGRectGetHeight(maskRect) - CGRectGetHeight(movementRect)) * 0.5f;
+        
+        movementRect.origin.x = floor(CGRectGetMinX(movementRect));
+        movementRect.origin.y = floor(CGRectGetMinY(movementRect));
+        movementRect = CGRectIntegral(movementRect);
+        
+        return movementRect;
+    }
 }
 ```
 

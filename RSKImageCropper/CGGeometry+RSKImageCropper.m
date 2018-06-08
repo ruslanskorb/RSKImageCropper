@@ -24,12 +24,58 @@
 
 #import "CGGeometry+RSKImageCropper.h"
 
+// K is a constant such that the accumulated error of our floating-point computations is definitely bounded by K units in the last place.
+#ifdef CGFLOAT_IS_DOUBLE
+    static const CGFloat kK = 9;
+#else
+    static const CGFloat kK = 0;
+#endif
+
 const CGPoint RSKPointNull = { INFINITY, INFINITY };
 
 CGPoint RSKRectCenterPoint(CGRect rect)
 {
     return CGPointMake(CGRectGetMinX(rect) + CGRectGetWidth(rect) / 2,
                        CGRectGetMinY(rect) + CGRectGetHeight(rect) / 2);
+}
+
+CGRect RSKRectNormalize(CGRect rect)
+{
+    CGPoint origin = rect.origin;
+    
+    CGFloat x = origin.x;
+    CGFloat y = origin.y;
+    CGFloat ceilX = ceil(x);
+    CGFloat ceilY = ceil(y);
+    
+    if (fabs(ceilX - x) < pow(10, kK) * RSK_EPSILON * fabs(ceilX + x) || fabs(ceilX - x) < RSK_MIN ||
+        fabs(ceilY - y) < pow(10, kK) * RSK_EPSILON * fabs(ceilY + y) || fabs(ceilY - y) < RSK_MIN) {
+        
+        origin.x = ceilX;
+        origin.y = ceilY;
+    } else {
+        origin.x = floor(x);
+        origin.y = floor(y);
+    }
+    
+    CGSize size = rect.size;
+    
+    CGFloat width = size.width;
+    CGFloat height = size.height;
+    CGFloat ceilWidth = ceil(width);
+    CGFloat ceilHeight = ceil(height);
+    
+    if (fabs(ceilWidth - width) < pow(10, kK) * RSK_EPSILON * fabs(ceilWidth + width) || fabs(ceilWidth - width) < RSK_MIN ||
+        fabs(ceilHeight - height) < pow(10, kK) * RSK_EPSILON * fabs(ceilHeight + height) || fabs(ceilHeight - height) < RSK_MIN) {
+        
+        size.width = ceilWidth;
+        size.height = ceilHeight;
+    } else {
+        size.width = floor(width);
+        size.height = floor(height);
+    }
+    
+    return CGRectMake(origin.x, origin.y, size.width, size.height);
 }
 
 CGRect RSKRectScaleAroundPoint(CGRect rect, CGPoint point, CGFloat sx, CGFloat sy)

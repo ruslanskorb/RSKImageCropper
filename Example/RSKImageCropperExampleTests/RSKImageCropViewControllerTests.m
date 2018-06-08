@@ -87,6 +87,7 @@
 - (void)imageCropViewController:(RSKImageCropViewController *)controller willCropImage:(UIImage *)originalImage {}
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle {};
 - (void)imageCropViewControllerDidCancelCrop:(RSKImageCropViewController *)controller {};
+- (void)imageCropViewControllerDidDisplayImage:(RSKImageCropViewController *)controller {};
 
 @end
 
@@ -94,6 +95,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 @interface RSKImageCropViewController (Testing)
 
+@property (readonly, nonatomic) CGRect imageRect;
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (assign, nonatomic) BOOL originalStatusBarHidden;
@@ -102,7 +104,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)cancelCrop;
 - (void)cropImage;
-- (UIImage *)croppedImage:(UIImage *)image cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage;
+- (UIImage *)croppedImage:(UIImage *)originalImage cropMode:(RSKImageCropMode)cropMode cropRect:(CGRect)cropRect imageRect:(CGRect)imageRect rotationAngle:(CGFloat)rotationAngle zoomScale:(CGFloat)zoomScale maskPath:(UIBezierPath *)maskPath applyMaskToCroppedImage:(BOOL)applyMaskToCroppedImage;
 - (void)displayImage;
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer;
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer;
@@ -200,7 +202,7 @@ describe(@"empty space around the image", ^{
 
 describe(@"crop image", ^{
     dispatch_block_t sharedIt = ^{
-        UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
+        UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
         expect(croppedImage).notTo.beNil();
         expect(croppedImage.imageOrientation).to.equal(UIImageOrientationUp);
@@ -708,6 +710,21 @@ describe(@"delegate", ^{
         [delegateMock stopMocking];
     });
     
+    it(@"calls the appropriate delegate method when the image is displayed", ^{
+        RSKImageCropViewControllerDelegateObject1 *delegateObject = [[RSKImageCropViewControllerDelegateObject1 alloc] init];
+        imageCropViewController.delegate = delegateObject;
+        imageCropViewController.originalImage = originalImage;
+        
+        id delegateMock = [OCMockObject partialMockForObject:delegateObject];
+        
+        [[delegateMock expect] imageCropViewControllerDidDisplayImage:imageCropViewController];
+        
+        [imageCropViewController displayImage];
+        
+        [delegateMock verify];
+        [delegateMock stopMocking];
+    });
+    
     after(^{
         imageCropViewController = nil;
     });
@@ -1011,6 +1028,31 @@ describe(@"taps", ^{
         [imageCropViewController onChooseButtonTouch:nil];
         
         [mock verify];
+    });
+    
+    after(^{
+        imageCropViewController = nil;
+    });
+});
+
+describe(@"zoomToRect", ^{
+    before(^{
+        imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage];
+        sharedLoadView();
+    });
+    
+    it(@"zooms to a specific area of the image", ^{
+        CGRect rect = CGRectMake(100.0, 100.0, 400.0, 400.0);
+        [imageCropViewController zoomToRect:rect animated:NO];
+        
+        UIScrollView *imageScrollView = imageCropViewController.imageScrollView;
+        CGRect visibleRect = CGRectMake(round(imageScrollView.contentOffset.x / imageScrollView.zoomScale),
+                                        round(imageScrollView.contentOffset.y / imageScrollView.zoomScale),
+                                        imageScrollView.bounds.size.width / imageScrollView.zoomScale,
+                                        imageScrollView.bounds.size.height / imageScrollView.zoomScale);
+        
+        BOOL contains = CGRectContainsRect(visibleRect, rect);
+        expect(contains).to.beTruthy();
     });
     
     after(^{
