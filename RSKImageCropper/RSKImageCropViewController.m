@@ -33,13 +33,6 @@
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
-// K is a constant such that the accumulated error of our floating-point computations is definitely bounded by K units in the last place.
-#ifdef CGFLOAT_IS_DOUBLE
-    static const CGFloat kK = 9;
-#else
-    static const CGFloat kK = 0;
-#endif
-
 @interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
