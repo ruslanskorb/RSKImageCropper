@@ -99,17 +99,31 @@ Then implement the data source functions.
 // Returns a custom rect for the mask.
 - (CGRect)imageCropViewControllerCustomMaskRect:(RSKImageCropViewController *)controller
 {
+    CGSize aspectRatio = CGSizeMake(16.0f, 9.0f);
+    
     CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
     CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
     
-    CGSize maskSize = CGSizeMake(viewWidth, viewWidth / 1.6);
+    CGFloat maskWidth;
+    if ([controller isPortraitInterfaceOrientation]) {
+        maskWidth = viewWidth;
+    } else {
+        maskWidth = viewHeight;
+    }
+    
+    CGFloat maskHeight;
+    do {
+        maskHeight = maskWidth * aspectRatio.height / aspectRatio.width;
+        maskWidth -= 1.0f;
+    } while (maskHeight != floor(maskHeight));
+    maskWidth += 1.0f;
+    
+    CGSize maskSize = CGSizeMake(maskWidth, maskHeight);
     
     CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
                                  (viewHeight - maskSize.height) * 0.5f,
                                  maskSize.width,
                                  maskSize.height);
-
-    maskRect = RSKRectNormalize(maskRect);
     
     return maskRect;
 }
@@ -150,8 +164,10 @@ Then implement the data source functions.
         movementRect.origin.x = CGRectGetMinX(maskRect) + (CGRectGetWidth(maskRect) - CGRectGetWidth(movementRect)) * 0.5f;
         movementRect.origin.y = CGRectGetMinY(maskRect) + (CGRectGetHeight(maskRect) - CGRectGetHeight(movementRect)) * 0.5f;
         
-        movementRect = RSKRectNormalize(movementRect);
-
+        movementRect.origin.x = floor(CGRectGetMinX(movementRect));
+        movementRect.origin.y = floor(CGRectGetMinY(movementRect));
+        movementRect = CGRectIntegral(movementRect);
+        
         return movementRect;
     }
 }
