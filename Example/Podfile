@@ -3,8 +3,19 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'RSKImageCropperExampleTests' do
-  pod 'Expecta+Snapshots', '2.0.0'
-  pod 'Specta', '1.0.5'
-  pod 'Expecta', '1.0.3'
-  pod 'OCMock', '2.2.4'
+  pod 'Expecta+Snapshots', '3.1.1'
+  pod 'Specta', '1.0.7'
+  pod 'Expecta', '1.0.6'
+  pod 'OCMock', '3.4.2'
+  
+  post_install do |installer|
+      
+      installer.pods_project.targets.each do |target|
+          if target.name == 'Expecta' || target.name == 'Specta' || target.name == 'FBSnapshotTestCase'
+              target.build_configurations.each do |config|
+                  config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+              end
+          end
+      end
+  end
 end

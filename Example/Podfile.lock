@@ -1,17 +1,18 @@
 PODS:
-  - Expecta (1.0.3)
-  - "Expecta+Snapshots (2.0.0)":
+  - Expecta (1.0.6)
+  - "Expecta+Snapshots (3.1.1)":
     - Expecta (~> 1.0)
-    - FBSnapshotTestCase/Core (~> 2.0.3)
-  - FBSnapshotTestCase/Core (2.0.7)
-  - OCMock (2.2.4)
-  - Specta (1.0.5)
+    - FBSnapshotTestCase/Core (~> 2.0)
+    - Specta (~> 1.0)
+  - FBSnapshotTestCase/Core (2.1.4)
+  - OCMock (3.4.2)
+  - Specta (1.0.7)
 
 DEPENDENCIES:
-  - Expecta (= 1.0.3)
-  - "Expecta+Snapshots (= 2.0.0)"
-  - OCMock (= 2.2.4)
-  - Specta (= 1.0.5)
+  - Expecta (= 1.0.6)
+  - "Expecta+Snapshots (= 3.1.1)"
+  - OCMock (= 3.4.2)
+  - Specta (= 1.0.7)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -22,12 +23,12 @@ SPEC REPOS:
     - Specta
 
 SPEC CHECKSUMS:
-  Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
-  "Expecta+Snapshots": 29b38dd695bc72a0ed2bea833937d78df41943ba
-  FBSnapshotTestCase: 7e85180d0d141a0cf472352edda7e80d7eaeb547
-  OCMock: a6a7dc0e3997fb9f35d99f72528698ebf60d64f2
-  Specta: ac94d110b865115fe60ff2c6d7281053c6f8e8a2
+  Expecta: 3b6bd90a64b9a1dcb0b70aa0e10a7f8f631667d5
+  "Expecta+Snapshots": dcff217eef506dabd6dfdc7864ea2da321fafbb8
+  FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
+  OCMock: ebe9ee1dca7fbed0ff9193ac0b3e2d8862ea56f6
+  Specta: 3e1bd89c3517421982dc4d1c992503e48bd5fe66
 
-PODFILE CHECKSUM: 7bba80c3e6dbebf46ab97db828fd7ef427b79ce5
+PODFILE CHECKSUM: b86b013bec210aa1f997028a5c25b96c1125fbd9
 
 COCOAPODS: 1.5.3
