@@ -72,8 +72,26 @@
 // Returns a custom rect in which the image can be moved.
 - (CGRect)imageCropViewControllerCustomMovementRect:(RSKImageCropViewController *)controller
 {
-    // If the image is not rotated, then the movement rect coincides with the mask rect.
-    return controller.maskRect;
+    if (controller.rotationAngle == 0) {
+        return controller.maskRect;
+    } else {
+        CGRect maskRect = controller.maskRect;
+        CGFloat rotationAngle = controller.rotationAngle;
+        
+        CGRect movementRect = CGRectZero;
+        
+        movementRect.size.width = CGRectGetWidth(maskRect) * fabs(cos(rotationAngle)) + CGRectGetHeight(maskRect) * fabs(sin(rotationAngle));
+        movementRect.size.height = CGRectGetHeight(maskRect) * fabs(cos(rotationAngle)) + CGRectGetWidth(maskRect) * fabs(sin(rotationAngle));
+        
+        movementRect.origin.x = CGRectGetMinX(maskRect) + (CGRectGetWidth(maskRect) - CGRectGetWidth(movementRect)) * 0.5f;
+        movementRect.origin.y = CGRectGetMinY(maskRect) + (CGRectGetHeight(maskRect) - CGRectGetHeight(movementRect)) * 0.5f;
+        
+        movementRect.origin.x = floor(CGRectGetMinX(movementRect));
+        movementRect.origin.y = floor(CGRectGetMinY(movementRect));
+        movementRect = CGRectIntegral(movementRect);
+        
+        return movementRect;
+    }
 }
 
 @end
