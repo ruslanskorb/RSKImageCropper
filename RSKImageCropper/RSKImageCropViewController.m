@@ -963,9 +963,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             CGFloat scale = 1.0 / zoomScale;
             [maskPathCopy applyTransform:CGAffineTransformMakeScale(scale, scale)];
             
-            // 5b: move the mask to the top-left.
-            CGPoint translation = CGPointMake(-CGRectGetMinX(maskPathCopy.bounds),
-                                              -CGRectGetMinY(maskPathCopy.bounds));
+            // 5b: center the mask.
+            CGPoint translation = CGPointMake(-CGRectGetMinX(maskPathCopy.bounds) + (CGRectGetWidth(cropRect) - CGRectGetWidth(maskPathCopy.bounds)) * 0.5f,
+                                              -CGRectGetMinY(maskPathCopy.bounds) + (CGRectGetHeight(cropRect) - CGRectGetHeight(maskPathCopy.bounds)) * 0.5f);
             [maskPathCopy applyTransform:CGAffineTransformMakeTranslation(translation.x, translation.y)];
             
             // 5c: apply the mask.
