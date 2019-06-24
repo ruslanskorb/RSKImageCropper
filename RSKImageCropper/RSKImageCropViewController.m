@@ -359,6 +359,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         [_cancelButton setTitle:RSKLocalizedString(@"Cancel", @"Cancel button") forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(onCancelButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _cancelButton.opaque = NO;
+        _cancelButton.titleLabel.layer.shadowOffset = CGSizeMake(1.0, 1.0);
+        _cancelButton.titleLabel.layer.shadowColor = [UIColor colorWithWhite:0.1 alpha:0.7].CGColor;
+        _cancelButton.titleLabel.layer.shadowRadius = 1.0;
+        _cancelButton.titleLabel.layer.shadowOpacity = 1.0;
     }
     return _cancelButton;
 }
@@ -371,6 +375,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         [_chooseButton setTitle:RSKLocalizedString(@"Choose", @"Choose button") forState:UIControlStateNormal];
         [_chooseButton addTarget:self action:@selector(onChooseButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
         _chooseButton.opaque = NO;
+        _chooseButton.titleLabel.layer.shadowOffset = CGSizeMake(1.0, 1.0);
+        _chooseButton.titleLabel.layer.shadowColor = [UIColor colorWithWhite:0.1 alpha:0.7].CGColor;
+        _chooseButton.titleLabel.layer.shadowRadius = 1.0;
+        _chooseButton.titleLabel.layer.shadowOpacity = 1.0;
     }
     return _chooseButton;
 }
