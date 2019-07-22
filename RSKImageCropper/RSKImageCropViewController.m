@@ -672,7 +672,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
     
     [self resetRotation];
-    [self resetFrame];
     [self resetZoomScale];
     [self resetContentOffset];
     
@@ -699,11 +698,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
     
     self.imageScrollView.contentOffset = contentOffset;
-}
-
-- (void)resetFrame
-{
-    [self layoutImageScrollView];
 }
 
 - (void)resetRotation
