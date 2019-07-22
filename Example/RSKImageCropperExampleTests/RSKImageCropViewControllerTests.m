@@ -903,12 +903,13 @@ describe(@"rotation", ^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
         id mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
         
-        [[mockImageCropViewController expect] setRotationAngle:testRotationAngle];
         [[mockImageCropViewController expect] layoutImageScrollView];
         
         [mockImageCropViewController handleRotation:mockRotationGestureRecognizer];
         
+        expect(imageCropViewController.rotationAngle).to.equal(testRotationAngle);
         [mockImageCropViewController verifyWithDelay:kLayoutImageScrollViewAnimationDuration];
+        
         [mockImageCropViewController stopMocking];
     });
     
