@@ -283,8 +283,10 @@ describe(@"crop image", ^{
     });
     
     describe(@"crop mode is `RSKImageCropModeCustom`", ^{
+        __block id <RSKImageCropViewControllerDataSource> dataSourceObject = nil;
+        
         before(^{
-            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
             
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
             imageCropViewController.dataSource = dataSourceObject;
@@ -309,6 +311,7 @@ describe(@"crop image", ^{
         });
         
         after(^{
+            dataSourceObject = nil;
             imageCropViewController = nil;
         });
     });
