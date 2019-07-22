@@ -594,6 +594,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         CGFloat rotation = (rotationAngle - self.rotationAngle);
         CGAffineTransform transform = CGAffineTransformRotate(self.imageScrollView.transform, rotation);
         self.imageScrollView.transform = transform;
+        [self layoutImageScrollView];
     }
 }
 
@@ -630,7 +631,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer
 {
-    [self setRotationAngle:(self.rotationAngle + gestureRecognizer.rotation)];
+    CGFloat rotation = gestureRecognizer.rotation;
+    CGAffineTransform transform = CGAffineTransformRotate(self.imageScrollView.transform, rotation);
+    self.imageScrollView.transform = transform;
+    
     gestureRecognizer.rotation = 0;
     
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
