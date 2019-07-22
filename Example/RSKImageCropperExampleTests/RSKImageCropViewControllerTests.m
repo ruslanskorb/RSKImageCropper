@@ -131,7 +131,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)layoutImageScrollView;
 - (void)reset:(BOOL)animated;
 - (void)resetContentOffset;
-- (void)resetFrame;
 - (void)resetRotation;
 - (void)resetZoomScale;
 
@@ -822,14 +821,6 @@ describe(@"reset", ^{
         imageCropViewController.rotationAngle = testRotationAngle;
         [imageCropViewController resetRotation];
         expect(imageCropViewController.rotationAngle).to.equal(initialRotationAngle);
-    });
-    
-    it(@"should reset frame", ^{
-        CGRect initialFrame = imageCropViewController.imageScrollView.frame;
-        CGRect testFrame = CGRectOffset(imageCropViewController.maskRect, 100, 100);
-        imageCropViewController.imageScrollView.frame = testFrame;
-        [imageCropViewController resetFrame];
-        expect(imageCropViewController.imageScrollView.frame).to.equal(initialFrame);
     });
     
     it(@"should reset zoom scale", ^{
