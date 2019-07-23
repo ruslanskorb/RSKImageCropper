@@ -764,6 +764,25 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+- (void)centerImageScrollViewZoomView
+{
+    // center imageScrollView.zoomView as it becomes smaller than the size of the screen
+    
+    CGPoint contentOffset = self.imageScrollView.contentOffset;
+    
+    // center vertically
+    if (self.imageScrollView.contentSize.height < CGRectGetHeight(self.imageScrollView.bounds)) {
+        contentOffset.y = -(CGRectGetHeight(self.imageScrollView.bounds) - self.imageScrollView.contentSize.height) * 0.5f;
+    }
+    
+    // center horizontally
+    if (self.imageScrollView.contentSize.width < CGRectGetWidth(self.imageScrollView.bounds)) {
+        contentOffset.x = -(CGRectGetWidth(self.imageScrollView.bounds) - self.imageScrollView.contentSize.width) * 0.5f;;
+    }
+    
+    self.imageScrollView.contentOffset = contentOffset;
+}
+
 - (void)layoutImageScrollView
 {
     CGRect frame = CGRectZero;
@@ -840,7 +859,10 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     
     CGAffineTransform transform = self.imageScrollView.transform;
     self.imageScrollView.transform = CGAffineTransformIdentity;
+    
     self.imageScrollView.frame = frame;
+    [self centerImageScrollViewZoomView];
+    
     self.imageScrollView.transform = transform;
 }
 
