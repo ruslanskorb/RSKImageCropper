@@ -525,17 +525,11 @@ describe(@"crop size", ^{
 });
 
 describe(@"crop view", ^{
-    dispatch_block_t sharedIt = ^{
-        sharedLoadView();
-        
-        expect(imageCropViewController.view).to.haveValidSnapshot();
-    };
-    
     describe(@"portrait", ^{
         dispatch_block_t sharedPortraitIt = ^{
             imageCropViewController.view.frame = CGRectMake(0, 0, 320, 568);
             
-            sharedIt();
+            sharedLoadView();
         };
         
         describe(@"crop mode", ^{
@@ -543,12 +537,16 @@ describe(@"crop view", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
@@ -558,6 +556,8 @@ describe(@"crop view", ^{
                 imageCropViewController.dataSource = dataSourceObject;
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
         
@@ -567,6 +567,8 @@ describe(@"crop view", ^{
                 imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
     });
@@ -575,7 +577,7 @@ describe(@"crop view", ^{
         dispatch_block_t sharedLandscapeIt = ^{
             imageCropViewController.view.frame = CGRectMake(0, 0, 568, 320);
             
-            sharedIt();
+            sharedLoadView();
         };
         
         describe(@"crop mode", ^{
@@ -583,12 +585,16 @@ describe(@"crop view", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
@@ -598,6 +604,8 @@ describe(@"crop view", ^{
                 imageCropViewController.dataSource = dataSourceObject;
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
         
@@ -607,6 +615,8 @@ describe(@"crop view", ^{
                 imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
     });
