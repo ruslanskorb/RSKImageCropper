@@ -448,6 +448,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     CGAffineTransform imageScrollViewTransform = self.imageScrollView.transform;
     self.imageScrollView.transform = CGAffineTransformIdentity;
     
+    CGPoint imageScrollViewContentOffset = self.imageScrollView.contentOffset;
     CGRect imageScrollViewFrame = self.imageScrollView.frame;
     self.imageScrollView.frame = self.maskRect;
     
@@ -485,6 +486,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     cropRect = CGRectApplyAffineTransform(cropRect, CGAffineTransformMakeScale(imageScale, imageScale));
     
     self.imageScrollView.frame = imageScrollViewFrame;
+    self.imageScrollView.contentOffset = imageScrollViewContentOffset;
     self.imageScrollView.transform = imageScrollViewTransform;
     
     return cropRect;
