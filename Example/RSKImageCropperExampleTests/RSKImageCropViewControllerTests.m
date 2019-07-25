@@ -317,10 +317,13 @@ describe(@"crop image", ^{
     });
     
     describe(@"crop image with any image orientation", ^{
+        before(^{
+            imageCropViewController = [[RSKImageCropViewController alloc] init];
+        });
+        
         it(@"UIImageOrientationDown", ^{
             UIImage *downImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationDown];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:downImage];
+            imageCropViewController.originalImage = downImage;
             
             sharedLoadView();
             sharedIt();
@@ -328,8 +331,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationLeft", ^{
             UIImage *leftImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationLeft];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:leftImage];
+            imageCropViewController.originalImage = leftImage;
             
             sharedLoadView();
             sharedIt();
@@ -337,8 +339,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationRight", ^{
             UIImage *rightImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationRight];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:rightImage];
+            imageCropViewController.originalImage = rightImage;
             
             sharedLoadView();
             sharedIt();
@@ -346,8 +347,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationUpMirrored", ^{
             UIImage *upMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationUpMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:upMirroredImage];
+            imageCropViewController.originalImage = upMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -355,8 +355,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationDownMirrored", ^{
             UIImage *downMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationDownMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:downMirroredImage];
+            imageCropViewController.originalImage = downMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -364,8 +363,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationLeftMirrored", ^{
             UIImage *leftMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationLeftMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:leftMirroredImage];
+            imageCropViewController.originalImage = leftMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -373,8 +371,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationRightMirrored", ^{
             UIImage *rightMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationRightMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:rightMirroredImage];
+            imageCropViewController.originalImage = rightMirroredImage;
             
             sharedLoadView();
             sharedIt();
