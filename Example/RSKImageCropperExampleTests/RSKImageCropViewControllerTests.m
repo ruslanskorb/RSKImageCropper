@@ -218,17 +218,24 @@ describe(@"empty space around the image", ^{
 });
 
 describe(@"crop image", ^{
+    __block UIImageView *croppedImageImageView = nil;
+    
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
         expect(croppedImage).notTo.beNil();
         expect(croppedImage.imageOrientation).to.equal(UIImageOrientationUp);
         expect(croppedImage.scale).to.equal(imageCropViewController.originalImage.scale);
+        
+        croppedImageImageView.image = croppedImage;
+        expect(croppedImageImageView).haveValidSnapshot();
     };
     
     describe(@"crop mode is `RSKImageCropModeCircle`", ^{
         before(^{
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+            croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
+            croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
             
             sharedLoadView();
         });
