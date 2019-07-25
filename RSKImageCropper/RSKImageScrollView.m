@@ -136,41 +136,20 @@
 {
     // center zoomView as it becomes smaller than the size of the screen
     
-    // we need to use contentInset instead of contentOffset for better positioning when zoomView fills the screen
-    if (self.aspectFill) {
-        CGFloat top = 0;
-        CGFloat left = 0;
-        
-        // center vertically
-        if (self.contentSize.height < CGRectGetHeight(self.bounds)) {
-            top = (CGRectGetHeight(self.bounds) - self.contentSize.height) * 0.5f;
-        }
-        
-        // center horizontally
-        if (self.contentSize.width < CGRectGetWidth(self.bounds)) {
-            left = (CGRectGetWidth(self.bounds) - self.contentSize.width) * 0.5f;
-        }
-        
-        self.contentInset = UIEdgeInsetsMake(top, left, top, left);
-    } else {
-        CGRect frameToCenter = self.zoomView.frame;
-        
-        // center horizontally
-        if (CGRectGetWidth(frameToCenter) < CGRectGetWidth(self.bounds)) {
-            frameToCenter.origin.x = (CGRectGetWidth(self.bounds) - CGRectGetWidth(frameToCenter)) * 0.5f;
-        } else {
-            frameToCenter.origin.x = 0;
-        }
-        
-        // center vertically
-        if (CGRectGetHeight(frameToCenter) < CGRectGetHeight(self.bounds)) {
-            frameToCenter.origin.y = (CGRectGetHeight(self.bounds) - CGRectGetHeight(frameToCenter)) * 0.5f;
-        } else {
-            frameToCenter.origin.y = 0;
-        }
-        
-        self.zoomView.frame = frameToCenter;
+    CGFloat top = 0;
+    CGFloat left = 0;
+
+    // center vertically
+    if (self.contentSize.height < CGRectGetHeight(self.bounds)) {
+        top = (CGRectGetHeight(self.bounds) - self.contentSize.height) * 0.5f;
     }
+
+    // center horizontally
+    if (self.contentSize.width < CGRectGetWidth(self.bounds)) {
+        left = (CGRectGetWidth(self.bounds) - self.contentSize.width) * 0.5f;
+    }
+    
+    self.contentInset = UIEdgeInsetsMake(top, left, top, left);
 }
 
 #pragma mark - Configure scrollView to display new image
@@ -231,7 +210,7 @@
     if (minScale > maxScale) {
         minScale = maxScale;
     }
-        
+    
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
 }

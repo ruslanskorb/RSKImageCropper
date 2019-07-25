@@ -131,7 +131,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)layoutImageScrollView;
 - (void)reset:(BOOL)animated;
 - (void)resetContentOffset;
-- (void)resetFrame;
 - (void)resetRotation;
 - (void)resetZoomScale;
 
@@ -219,17 +218,24 @@ describe(@"empty space around the image", ^{
 });
 
 describe(@"crop image", ^{
+    __block UIImageView *croppedImageImageView = nil;
+    
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
         expect(croppedImage).notTo.beNil();
         expect(croppedImage.imageOrientation).to.equal(UIImageOrientationUp);
         expect(croppedImage.scale).to.equal(imageCropViewController.originalImage.scale);
+        
+        croppedImageImageView.image = croppedImage;
+        expect(croppedImageImageView).haveValidSnapshot();
     };
     
     describe(@"crop mode is `RSKImageCropModeCircle`", ^{
         before(^{
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
+            croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
+            croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
             
             sharedLoadView();
         });
@@ -240,6 +246,19 @@ describe(@"crop image", ^{
         
         it(@"correctly crop the image when rotation angle is not equal to 0", ^{
             imageCropViewController.rotationAngle = M_PI_4;
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when content offset is not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
             
             sharedIt();
         });
@@ -272,6 +291,19 @@ describe(@"crop image", ^{
             sharedIt();
         });
         
+        it(@"correctly crop the image when content offset are not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
         it(@"correctly crop the image when `applyMaskToCroppedImage` is `YES`", ^{
             imageCropViewController.applyMaskToCroppedImage = YES;
             
@@ -284,8 +316,10 @@ describe(@"crop image", ^{
     });
     
     describe(@"crop mode is `RSKImageCropModeCustom`", ^{
+        __block id <RSKImageCropViewControllerDataSource> dataSourceObject = nil;
+        
         before(^{
-            RSKImageCropViewControllerDataSourceObject1 *dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
+            dataSourceObject = [[RSKImageCropViewControllerDataSourceObject1 alloc] init];
             
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCustom];
             imageCropViewController.dataSource = dataSourceObject;
@@ -303,6 +337,19 @@ describe(@"crop image", ^{
             sharedIt();
         });
         
+        it(@"correctly crop the image when content offset are not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
         it(@"correctly crop the image when `applyMaskToCroppedImage` is `YES`", ^{
             imageCropViewController.applyMaskToCroppedImage = YES;
             
@@ -310,15 +357,19 @@ describe(@"crop image", ^{
         });
         
         after(^{
+            dataSourceObject = nil;
             imageCropViewController = nil;
         });
     });
     
     describe(@"crop image with any image orientation", ^{
+        before(^{
+            imageCropViewController = [[RSKImageCropViewController alloc] init];
+        });
+        
         it(@"UIImageOrientationDown", ^{
             UIImage *downImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationDown];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:downImage];
+            imageCropViewController.originalImage = downImage;
             
             sharedLoadView();
             sharedIt();
@@ -326,8 +377,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationLeft", ^{
             UIImage *leftImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationLeft];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:leftImage];
+            imageCropViewController.originalImage = leftImage;
             
             sharedLoadView();
             sharedIt();
@@ -335,8 +385,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationRight", ^{
             UIImage *rightImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationRight];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:rightImage];
+            imageCropViewController.originalImage = rightImage;
             
             sharedLoadView();
             sharedIt();
@@ -344,8 +393,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationUpMirrored", ^{
             UIImage *upMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationUpMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:upMirroredImage];
+            imageCropViewController.originalImage = upMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -353,8 +401,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationDownMirrored", ^{
             UIImage *downMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationDownMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:downMirroredImage];
+            imageCropViewController.originalImage = downMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -362,8 +409,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationLeftMirrored", ^{
             UIImage *leftMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationLeftMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:leftMirroredImage];
+            imageCropViewController.originalImage = leftMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -371,8 +417,7 @@ describe(@"crop image", ^{
         
         it(@"UIImageOrientationRightMirrored", ^{
             UIImage *rightMirroredImage = [UIImage imageWithCGImage:originalImage.CGImage scale:originalImage.scale orientation:UIImageOrientationRightMirrored];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:rightMirroredImage];
+            imageCropViewController.originalImage = rightMirroredImage;
             
             sharedLoadView();
             sharedIt();
@@ -523,17 +568,11 @@ describe(@"crop size", ^{
 });
 
 describe(@"crop view", ^{
-    dispatch_block_t sharedIt = ^{
-        sharedLoadView();
-        
-        expect(imageCropViewController.view).to.haveValidSnapshot();
-    };
-    
     describe(@"portrait", ^{
         dispatch_block_t sharedPortraitIt = ^{
             imageCropViewController.view.frame = CGRectMake(0, 0, 320, 568);
             
-            sharedIt();
+            sharedLoadView();
         };
         
         describe(@"crop mode", ^{
@@ -541,12 +580,16 @@ describe(@"crop view", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
@@ -556,6 +599,8 @@ describe(@"crop view", ^{
                 imageCropViewController.dataSource = dataSourceObject;
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
         
@@ -565,6 +610,8 @@ describe(@"crop view", ^{
                 imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
                 
                 sharedPortraitIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
     });
@@ -573,7 +620,7 @@ describe(@"crop view", ^{
         dispatch_block_t sharedLandscapeIt = ^{
             imageCropViewController.view.frame = CGRectMake(0, 0, 568, 320);
             
-            sharedIt();
+            sharedLoadView();
         };
         
         describe(@"crop mode", ^{
@@ -581,12 +628,16 @@ describe(@"crop view", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeSquare`", ^{
                 imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeSquare];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
             
             it(@"looks right when crop mode is `RSKImageCropModeCustom`", ^{
@@ -596,6 +647,8 @@ describe(@"crop view", ^{
                 imageCropViewController.dataSource = dataSourceObject;
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
         
@@ -605,6 +658,8 @@ describe(@"crop view", ^{
                 imageCropViewController.maskLayerStrokeColor = [UIColor whiteColor];
                 
                 sharedLandscapeIt();
+                
+                expect(imageCropViewController.view).to.haveValidSnapshot();
             });
         });
     });
@@ -824,14 +879,6 @@ describe(@"reset", ^{
         expect(imageCropViewController.rotationAngle).to.equal(initialRotationAngle);
     });
     
-    it(@"should reset frame", ^{
-        CGRect initialFrame = imageCropViewController.imageScrollView.frame;
-        CGRect testFrame = CGRectOffset(imageCropViewController.maskRect, 100, 100);
-        imageCropViewController.imageScrollView.frame = testFrame;
-        [imageCropViewController resetFrame];
-        expect(imageCropViewController.imageScrollView.frame).to.equal(initialFrame);
-    });
-    
     it(@"should reset zoom scale", ^{
         CGFloat initialZoomScale = imageCropViewController.zoomScale;
         CGFloat testZoomScale = initialZoomScale + 0.1;
@@ -912,12 +959,13 @@ describe(@"rotation", ^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
         id mockImageCropViewController = [OCMockObject partialMockForObject:imageCropViewController];
         
-        [[mockImageCropViewController expect] setRotationAngle:testRotationAngle];
         [[mockImageCropViewController expect] layoutImageScrollView];
         
         [mockImageCropViewController handleRotation:mockRotationGestureRecognizer];
         
+        expect(imageCropViewController.rotationAngle).to.equal(testRotationAngle);
         [mockImageCropViewController verifyWithDelay:kLayoutImageScrollViewAnimationDuration];
+        
         [mockImageCropViewController stopMocking];
     });
     
