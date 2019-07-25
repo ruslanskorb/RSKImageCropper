@@ -250,6 +250,19 @@ describe(@"crop image", ^{
             sharedIt();
         });
         
+        it(@"correctly crop the image when content offset is not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
         it(@"correctly crop the image when `applyMaskToCroppedImage` is `YES`", ^{
             imageCropViewController.applyMaskToCroppedImage = YES;
             
@@ -274,6 +287,19 @@ describe(@"crop image", ^{
         
         it(@"correctly crop the image when rotation angle is not equal to 0", ^{
             imageCropViewController.rotationAngle = M_PI_4;
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when content offset are not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
             
             sharedIt();
         });
@@ -307,6 +333,19 @@ describe(@"crop image", ^{
         
         it(@"correctly crop the image when rotation angle is not equal to 0", ^{
             imageCropViewController.rotationAngle = M_PI_4;
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when content offset are not equal to 0", ^{
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
+            
+            sharedIt();
+        });
+        
+        it(@"correctly crop the image when rotation angle and content offset are not equal to 0", ^{
+            imageCropViewController.rotationAngle = M_PI_4;
+            imageCropViewController.imageScrollView.contentOffset = CGPointMake(84.0, 122.0);
             
             sharedIt();
         });
