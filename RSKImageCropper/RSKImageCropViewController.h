@@ -199,6 +199,30 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
  */
 @property (strong, nonatomic, readonly) UIButton *chooseButton;
 
+/// -------------------------------
+/// @name Configure the UI Elements
+/// -------------------------------
+
+/**
+ Configure the Title Text.
+ */
+@property (strong, nonatomic, nullable) NSString *titleText;
+
+/**
+ Configure the Cancel Text.
+ */
+@property (strong, nonatomic, nullable) NSString *cancelText;
+
+/**
+ Configure the Choose Text.
+ */
+@property (strong, nonatomic, nullable) NSString *chooseText;
+
+/**
+ Configure the Status Bar behaviour (default is YES).
+ */
+@property (assign, nonatomic) BOOL shouldHideStatusBar;
+
 /// -------------------------------------------
 /// @name Checking of the Interface Orientation
 /// -------------------------------------------
