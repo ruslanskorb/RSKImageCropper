@@ -21,6 +21,7 @@ let package = Package(
         .target(
             name: "RSKImageCropper",
             dependencies: [],
-            path: "RSKImageCropper")
+            path: "RSKImageCropper",
+            publicHeadersPath: "include")
     ]
 )
