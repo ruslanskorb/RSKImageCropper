@@ -23,6 +23,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <RSKImageCropper/RSKImageCropViewController.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
