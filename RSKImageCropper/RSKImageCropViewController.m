@@ -28,7 +28,6 @@
 #import "RSKInternalUtility.h"
 #import "UIImage+RSKImageCropper.h"
 #import "CGGeometry+RSKImageCropper.h"
-#import "UIApplication+RSKImageCropper.h"
 
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
@@ -38,7 +37,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
 @property (copy, nonatomic) UIColor *originalNavigationControllerViewBackgroundColor;
-@property (assign, nonatomic) BOOL originalStatusBarHidden;
 
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (strong, nonatomic) RSKTouchView *overlayView;
@@ -161,16 +159,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewWillAppear:animated];
     
-    if ([self respondsToSelector:@selector(prefersStatusBarHidden)] == NO) {
-        
-        UIApplication *application = [UIApplication rsk_sharedApplication];
-        if (application) {
-            
-            self.originalStatusBarHidden = application.statusBarHidden;
-            [application setStatusBarHidden:YES];
-        }
-    }
-    
     self.originalNavigationControllerNavigationBarHidden = self.navigationController.navigationBarHidden;
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     
@@ -189,15 +177,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
-    if ([self respondsToSelector:@selector(prefersStatusBarHidden)] == NO) {
-        
-        UIApplication *application = [UIApplication rsk_sharedApplication];
-        if (application) {
-            
-            [application setStatusBarHidden:self.originalStatusBarHidden];
-        }
-    }
     
     [self.navigationController setNavigationBarHidden:self.originalNavigationControllerNavigationBarHidden animated:animated];
     self.navigationController.navigationBar.shadowImage = self.originalNavigationControllerNavigationBarShadowImage;
