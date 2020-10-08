@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license       = { :type => 'MIT', :file => 'LICENSE' }
   s.authors       = { 'Ruslan Skorb' => 'ruslan.skorb@gmail.com' }
   s.source        = { :git => 'https://github.com/ruslanskorb/RSKImageCropper.git', :tag => s.version.to_s }
-  s.platform      = :ios, '6.0'
+  s.platform      = :ios, '9.0'
   s.module_map    = 'RSKImageCropper/RSKImageCropper.modulemap'
   s.source_files  = 'RSKImageCropper/*.{h,m}'
   s.resources     = 'RSKImageCropper/RSKImageCropperStrings.bundle'
