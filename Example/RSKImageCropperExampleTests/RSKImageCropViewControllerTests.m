@@ -220,6 +220,11 @@ describe(@"empty space around the image", ^{
 describe(@"crop image", ^{
     __block UIImageView *croppedImageImageView = nil;
     
+    before(^{
+        croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
+        croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
+    });
+    
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
@@ -234,8 +239,6 @@ describe(@"crop image", ^{
     describe(@"crop mode is `RSKImageCropModeCircle`", ^{
         before(^{
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
-            croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
-            croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
             
             sharedLoadView();
         });
