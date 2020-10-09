@@ -116,7 +116,6 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 @property (readonly, nonatomic) CGRect imageRect;
 @property (strong, nonatomic) RSKImageScrollView *imageScrollView;
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
-@property (assign, nonatomic) BOOL originalStatusBarHidden;
 @property (assign, nonatomic) CGFloat rotationAngle;
 @property (strong, nonatomic) UIRotationGestureRecognizer *rotationGestureRecognizer;
 
@@ -220,6 +219,11 @@ describe(@"empty space around the image", ^{
 describe(@"crop image", ^{
     __block UIImageView *croppedImageImageView = nil;
     
+    before(^{
+        croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
+        croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
+    });
+    
     dispatch_block_t sharedIt = ^{
         UIImage *croppedImage = [imageCropViewController croppedImage:imageCropViewController.originalImage cropMode:imageCropViewController.cropMode cropRect:imageCropViewController.cropRect imageRect:imageCropViewController.imageRect rotationAngle:imageCropViewController.rotationAngle zoomScale:imageCropViewController.zoomScale maskPath:imageCropViewController.maskPath applyMaskToCroppedImage:imageCropViewController.applyMaskToCroppedImage];
         
@@ -234,8 +238,6 @@ describe(@"crop image", ^{
     describe(@"crop mode is `RSKImageCropModeCircle`", ^{
         before(^{
             imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:originalImage cropMode:RSKImageCropModeCircle];
-            croppedImageImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 130.0, 130.0)];
-            croppedImageImageView.contentMode = UIViewContentModeScaleAspectFit;
             
             sharedLoadView();
         });
@@ -1023,45 +1025,11 @@ describe(@"rotation", ^{
 });
 
 describe(@"status bar", ^{
-    if (@available(iOS 7.0, *)) {
+    it(@"hides status bar", ^{
         
-        it(@"hides status bar", ^{
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] init];
-            expect(imageCropViewController.prefersStatusBarHidden).to.beTruthy();
-        });
-    }
-    else {
-        
-        it(@"hides status bar in viewWillAppear:", ^{
-            UIApplication *application = [UIApplication sharedApplication];
-            id mock = [OCMockObject partialMockForObject:application];
-            
-            [[mock expect] setStatusBarHidden:YES];
-            
-            imageCropViewController = [[RSKImageCropViewController alloc] init];
-            [imageCropViewController view];
-            [imageCropViewController viewWillAppear:NO];
-            
-            [mock verify];
-        });
-        
-        it(@"restores visibility of the status bar in viewWillDisappear:", ^{
-            imageCropViewController = [[RSKImageCropViewController alloc] init];
-            
-            UIApplication *application = [UIApplication sharedApplication];
-            id mock = [OCMockObject partialMockForObject:application];
-            
-            [imageCropViewController view];
-            [imageCropViewController viewWillAppear:NO];
-            
-            [[mock expect] setStatusBarHidden:imageCropViewController.originalStatusBarHidden];
-            
-            [imageCropViewController viewWillDisappear:NO];
-            
-            [mock verify];
-        });
-    }
+        imageCropViewController = [[RSKImageCropViewController alloc] init];
+        expect(imageCropViewController.prefersStatusBarHidden).to.beTruthy();
+    });
 });
 
 describe(@"taps", ^{

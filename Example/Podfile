@@ -1,4 +1,4 @@
-platform :ios, '8.0'
+platform :ios, '9.0'
 
 inhibit_all_warnings!
 
@@ -13,7 +13,7 @@ target 'RSKImageCropperExampleTests' do
       installer.pods_project.targets.each do |target|
           if target.name == 'Expecta' || target.name == 'Specta' || target.name == 'FBSnapshotTestCase'
               target.build_configurations.each do |config|
-                  config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '8.0'
+                  config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
               end
           end
       end
