@@ -1,1 +1,0 @@
-../../UIApplication+RSKImageCropper.h
