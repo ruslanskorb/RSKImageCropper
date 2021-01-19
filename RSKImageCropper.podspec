@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name          = 'RSKImageCropper'
-  s.version       = '3.0.1'
+  s.version       = '3.0.2'
   s.summary       = 'An image cropper for iOS like in the Contacts app with support for landscape orientation.'
   s.homepage      = 'https://github.com/ruslanskorb/RSKImageCropper'
   s.license       = { :type => 'MIT', :file => 'LICENSE' }

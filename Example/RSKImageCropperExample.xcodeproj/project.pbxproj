@@ -551,7 +551,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExample/RSKImageCropperExample-Info.plist";
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExample;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -567,7 +567,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "RSKImageCropperExample/RSKImageCropperExample-Prefix.pch";
 				INFOPLIST_FILE = "RSKImageCropperExample/RSKImageCropperExample-Info.plist";
-				MARKETING_VERSION = 3.0.1;
+				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = RSKImageCropperExample;
 				TARGETED_DEVICE_FAMILY = 1;
