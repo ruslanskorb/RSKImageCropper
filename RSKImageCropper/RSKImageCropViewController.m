@@ -74,16 +74,16 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     self = [super init];
     if (self) {
-		// Support for devices with bottom safe zones
-		CGFloat bottomSafeMargin = 0;
-		if (@available(iOS 13.0, *)) {
-			UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
-			bottomSafeMargin = window.safeAreaInsets.bottom;
-		} else if (@available(iOS 11.0, *)) {
-			UIWindow *window = UIApplication.sharedApplication.keyWindow;
-			bottomSafeMargin = window.safeAreaInsets.bottom;
-		}
-		
+        // Support for devices with bottom safe zones
+        CGFloat bottomSafeMargin = 0;
+        if (@available(iOS 13.0, *)) {
+            UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
+		    bottomSafeMargin = window.safeAreaInsets.bottom;
+        } else if (@available(iOS 11.0, *)) {
+		    UIWindow *window = UIApplication.sharedApplication.keyWindow;
+		    bottomSafeMargin = window.safeAreaInsets.bottom;
+        }
+        
         _avoidEmptySpaceAroundImage = NO;
         _alwaysBounceVertical = NO;
         _alwaysBounceHorizontal = NO;
