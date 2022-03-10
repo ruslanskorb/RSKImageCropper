@@ -74,6 +74,16 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     self = [super init];
     if (self) {
+		// Support for devices with bottom safe zones
+		CGFloat bottomSafeMargin = 0;
+		if (@available(iOS 13.0, *)) {
+			UIWindow *window = UIApplication.sharedApplication.windows.firstObject;
+			bottomSafeMargin = window.safeAreaInsets.bottom;
+		} else if (@available(iOS 11.0, *)) {
+			UIWindow *window = UIApplication.sharedApplication.keyWindow;
+			bottomSafeMargin = window.safeAreaInsets.bottom;
+		}
+		
         _avoidEmptySpaceAroundImage = NO;
         _alwaysBounceVertical = NO;
         _alwaysBounceHorizontal = NO;
@@ -85,16 +95,16 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _portraitCircleMaskRectInnerEdgeInset = 15.0f;
         _portraitSquareMaskRectInnerEdgeInset = 20.0f;
         _portraitMoveAndScaleLabelTopAndCropViewTopVerticalSpace = 64.0f;
-        _portraitCropViewBottomAndCancelButtonBottomVerticalSpace = 21.0f;
-        _portraitCropViewBottomAndChooseButtonBottomVerticalSpace = 21.0f;
+        _portraitCropViewBottomAndCancelButtonBottomVerticalSpace = MAX(bottomSafeMargin, 21.0f);
+        _portraitCropViewBottomAndChooseButtonBottomVerticalSpace = MAX(bottomSafeMargin, 21.0f);
         _portraitCancelButtonLeadingAndCropViewLeadingHorizontalSpace = 13.0f;
         _portraitCropViewTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
         
         _landscapeCircleMaskRectInnerEdgeInset = 45.0f;
         _landscapeSquareMaskRectInnerEdgeInset = 45.0f;
         _landscapeMoveAndScaleLabelTopAndCropViewTopVerticalSpace = 12.0f;
-        _landscapeCropViewBottomAndCancelButtonBottomVerticalSpace = 12.0f;
-        _landscapeCropViewBottomAndChooseButtonBottomVerticalSpace = 12.0f;
+        _landscapeCropViewBottomAndCancelButtonBottomVerticalSpace = MAX(bottomSafeMargin, 12.0f);
+        _landscapeCropViewBottomAndChooseButtonBottomVerticalSpace = MAX(bottomSafeMargin, 12.0f);
         _landscapeCancelButtonLeadingAndCropViewLeadingHorizontalSpace = 13.0;
         _landscapeCropViewTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
     }
