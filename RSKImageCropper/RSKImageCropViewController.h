@@ -174,6 +174,16 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 @property (assign, nonatomic) BOOL applyMaskToCroppedImage;
 
 /**
+ A Boolean value that controls whether the image bounces past the edge of the movement rect and back again. Default value is `YES`.
+ */
+@property (assign, nonatomic) BOOL bounces;
+
+/**
+ A Boolean value that determines whether the image scaling is animated when the scaling exceeds the maximum or minimum limits. Default value is `YES`.
+ */
+@property (assign, nonatomic) BOOL bouncesZoom;
+
+/**
  A Boolean value that controls whether the rotaion gesture is enabled. Default value is `NO`.
  
  @discussion To support the rotation when `cropMode` is `RSKImageCropModeCustom` you must implement the data source method `imageCropViewControllerCustomMovementRect:`.

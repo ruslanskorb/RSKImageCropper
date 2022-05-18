@@ -78,6 +78,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _alwaysBounceVertical = NO;
         _alwaysBounceHorizontal = NO;
         _applyMaskToCroppedImage = NO;
+        _bounces = YES;
+        _bouncesZoom = YES;
         _maskLayerLineWidth = 1.0;
         _rotationEnabled = NO;
         _cropMode = RSKImageCropModeCircle;
@@ -276,6 +278,8 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _imageScrollView.aspectFill = self.avoidEmptySpaceAroundImage;
         _imageScrollView.alwaysBounceHorizontal = self.alwaysBounceHorizontal;
         _imageScrollView.alwaysBounceVertical = self.alwaysBounceVertical;
+        _imageScrollView.bounces = self.bounces;
+        _imageScrollView.bouncesZoom = self.bouncesZoom;
     }
     return _imageScrollView;
 }
@@ -520,6 +524,24 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _alwaysBounceHorizontal = alwaysBounceHorizontal;
         
         self.imageScrollView.alwaysBounceHorizontal = alwaysBounceHorizontal;
+    }
+}
+
+- (void)setBounces:(BOOL)bounces
+{
+    if (_bounces != bounces) {
+        _bounces = bounces;
+        
+        self.imageScrollView.bounces = bounces;
+    }
+}
+
+- (void)setBouncesZoom:(BOOL)bouncesZoom
+{
+    if (_bouncesZoom != bouncesZoom) {
+        _bouncesZoom = bouncesZoom;
+        
+        self.imageScrollView.bouncesZoom = bouncesZoom;
     }
 }
 

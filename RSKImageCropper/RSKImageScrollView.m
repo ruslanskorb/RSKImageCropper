@@ -71,7 +71,6 @@
         _aspectFill = NO;
         self.showsVerticalScrollIndicator = NO;
         self.showsHorizontalScrollIndicator = NO;
-        self.bouncesZoom = YES;
         self.scrollsToTop = NO;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.delegate = self;
