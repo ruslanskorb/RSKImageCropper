@@ -1,4 +1,6 @@
-platform :ios, '9.0'
+source 'https://cdn.cocoapods.org/'
+
+platform :ios, '12.0'
 
 inhibit_all_warnings!
 
@@ -6,16 +8,13 @@ target 'RSKImageCropperExampleTests' do
   pod 'Expecta+Snapshots', '3.1.1'
   pod 'Specta', '1.0.7'
   pod 'Expecta', '1.0.6'
-  pod 'OCMock', '3.4.2'
+  pod 'OCMock', '3.9.1'
   
   post_install do |installer|
-      
-      installer.pods_project.targets.each do |target|
-          if target.name == 'Expecta' || target.name == 'Specta' || target.name == 'FBSnapshotTestCase'
-              target.build_configurations.each do |config|
-                  config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
-              end
-          end
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
       end
+    end
   end
 end
