@@ -7,7 +7,7 @@
 An image cropper for iOS like in the Contacts app with support for landscape orientation.
 
 ## Installation
-*RSKImageCropper requires iOS 9.0 or later.*
+*RSKImageCropper requires iOS 12.0 or later.*
 
 ### Using [Swift Package Manager](https://swift.org/package-manager/)
 
