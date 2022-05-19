@@ -49,12 +49,25 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol RSKImageScrollViewDelegate;
+
 @interface RSKImageScrollView : UIScrollView
 
+@property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 @property (nonatomic, nullable, strong) UIImageView *zoomView;
 @property (nonatomic, assign) BOOL aspectFill;
 
 - (void)displayImage:(UIImage *)image;
+
+@end
+
+@protocol RSKImageScrollViewDelegate <NSObject>
+
+- (void)imageScrollViewWillBeginDragging;
+- (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate;
+- (void)imageScrollViewDidEndDecelerating;
+- (void)imageScrollViewWillBeginZooming;
+- (void)imageScrollViewDidEndZooming;
 
 @end
 

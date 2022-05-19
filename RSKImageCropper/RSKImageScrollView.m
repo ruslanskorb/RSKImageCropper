@@ -129,6 +129,31 @@
     [self centerZoomView];
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.imageScrollViewDelegate imageScrollViewWillBeginDragging];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.imageScrollViewDelegate imageScrollViewDidEndDragging:decelerate];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self.imageScrollViewDelegate imageScrollViewDidEndDecelerating];
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    [self.imageScrollViewDelegate imageScrollViewWillBeginZooming];
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    [self.imageScrollViewDelegate imageScrollViewDidEndZooming];
+}
+
 #pragma mark - Center zoomView within scrollView
 
 - (void)centerZoomView
