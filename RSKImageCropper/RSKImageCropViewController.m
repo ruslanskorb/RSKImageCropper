@@ -32,7 +32,7 @@
 static const CGFloat kResetAnimationDuration = 0.4;
 static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
-@interface RSKImageCropViewController () <UIGestureRecognizerDelegate>
+@interface RSKImageCropViewController () <RSKImageScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) BOOL originalNavigationControllerNavigationBarHidden;
 @property (strong, nonatomic) UIImage *originalNavigationControllerNavigationBarShadowImage;
@@ -280,6 +280,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _imageScrollView.alwaysBounceVertical = self.alwaysBounceVertical;
         _imageScrollView.bounces = self.bounces;
         _imageScrollView.bouncesZoom = self.bouncesZoom;
+        _imageScrollView.imageScrollViewDelegate = self;
     }
     return _imageScrollView;
 }
@@ -1043,11 +1044,48 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
+#pragma mark - RSKImageScrollViewDelegate
+
+- (void)imageScrollViewWillBeginDragging
+{
+    [self updateIsUserInteractionEnabledOfCancelAndChooseButtons];
+}
+
+- (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate
+{
+    if (willDecelerate == NO) {
+        [self updateIsUserInteractionEnabledOfCancelAndChooseButtons];
+    }
+}
+
+- (void)imageScrollViewDidEndDecelerating
+{
+    [self updateIsUserInteractionEnabledOfCancelAndChooseButtons];
+}
+
+- (void)imageScrollViewWillBeginZooming
+{
+    [self updateIsUserInteractionEnabledOfCancelAndChooseButtons];
+}
+
+- (void)imageScrollViewDidEndZooming
+{
+    [self updateIsUserInteractionEnabledOfCancelAndChooseButtons];
+}
+
+- (void)updateIsUserInteractionEnabledOfCancelAndChooseButtons
+{
+    BOOL isUserInteractionEnabled = (self.imageScrollView.isDragging || self.imageScrollView.isDecelerating || self.imageScrollView.isZooming) == NO;
+    
+    [self.cancelButton setUserInteractionEnabled:isUserInteractionEnabled];
+    [self.chooseButton setUserInteractionEnabled:isUserInteractionEnabled];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    return YES;
+    return ([gestureRecognizer isEqual:self.doubleTapGestureRecognizer] || [otherGestureRecognizer isEqual:self.doubleTapGestureRecognizer]) == NO;
 }
 
 @end

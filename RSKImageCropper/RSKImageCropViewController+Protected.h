@@ -24,15 +24,11 @@
 
 #import <UIKit/UIKit.h>
 #import <RSKImageCropper/RSKImageCropViewController.h>
+#import <RSKImageCropper/RSKImageScrollView.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- The methods in the RSKImageCropViewControllerProtectedMethods category
- typically should only be called by subclasses which are implementing new
- image crop view controllers. They may be overridden but must call super.
- */
-@interface RSKImageCropViewController (RSKImageCropViewControllerProtectedMethods)
+@interface RSKImageCropViewController (RSKImageCropViewControllerProtectedMethods) <RSKImageScrollViewDelegate>
 
 /**
  Asynchronously crops the original image in accordance with the current settings and tells the delegate that the original image will be / has been cropped.
