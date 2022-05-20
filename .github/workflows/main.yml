@@ -26,5 +26,3 @@ jobs:
         run: make test
       - name: Lint
         run: make lint
-      - name: Generate test coverage reports
-        run: bundle exec slather
