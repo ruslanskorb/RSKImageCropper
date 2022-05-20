@@ -1,30 +1,30 @@
 name: CI
 on:
-    pull_request:
-        branches: [master]
-    workflow_dispatch:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
 jobs:
-    test-lint:
-        runs-on: macos-12
-        env:
-            DEVELOPER_DIR: '/Applications/Xcode_13.4.app/Contents/Developer'
-        steps:
-            - uses: actions/checkout@v3
-            - uses: ruby/setup-ruby@v1
-                with:
-                    ruby-version: '3.0'
-                    bundler-cache: true
-            - uses: actions/cache@v3
-                with:
-                    path: Example/Pods
-                    key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-                    restore-keys: |
-                        ${{ runner.os }}-pods-
-            - name: Install Pods
-                run: bundle exec pod install --repo-update --project-directory=Example
-            - name: Test
-                run: make test
-            - name: Lint
-                run: make lint
-            - name: Generate test coverage reports
-                run: bundle exec slather
+  test-lint:
+    runs-on: macos-12
+    env:
+      DEVELOPER_DIR: '/Applications/Xcode_13.4.app/Contents/Developer'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+      - uses: actions/cache@v3
+        with:
+          path: Example/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      - name: Install Pods
+        run: bundle exec pod install --repo-update --project-directory=Example
+      - name: Test
+        run: make test
+      - name: Lint
+        run: make lint
+      - name: Generate test coverage reports
+        run: bundle exec slather
