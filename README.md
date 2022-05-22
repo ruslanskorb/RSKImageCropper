@@ -1,4 +1,4 @@
-## RSKImageCropper ![CI](https://github.com/ruslanskorb/RSKImageCropper/actions/workflows/main.yml/badge.svg) [![coverage](https://coveralls.io/repos/ruslanskorb/RSKImageCropper/badge.svg)](https://coveralls.io/r/ruslanskorb/RSKImageCropper) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSKImageCropper.svg?style=flat) ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat)
+## RSKImageCropper ![CI](https://github.com/ruslanskorb/RSKImageCropper/actions/workflows/main.yml/badge.svg) ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSKImageCropper.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
