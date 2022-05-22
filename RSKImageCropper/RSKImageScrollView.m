@@ -48,6 +48,7 @@
 #import <Foundation/Foundation.h>
 
 #import "RSKImageScrollView.h"
+#import "RSKImageScrollViewDelegate.h"
 
 #pragma mark -
 

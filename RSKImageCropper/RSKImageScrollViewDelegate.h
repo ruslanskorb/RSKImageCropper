@@ -1,5 +1,5 @@
 //
-// RSKImageCropViewController+Protected.h
+// RSKImageScrollViewDelegate.h
 //
 // Copyright (c) 2014-present Ruslan Skorb, http://ruslanskorb.com/
 //
@@ -22,44 +22,17 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
-#import <RSKImageCropper/RSKImageCropViewController.h>
-#import <RSKImageCropper/RSKImageScrollViewDelegate.h>
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RSKImageCropViewController (RSKImageCropViewControllerProtectedMethods) <RSKImageScrollViewDelegate>
+@protocol RSKImageScrollViewDelegate <NSObject>
 
-/**
- Asynchronously crops the original image in accordance with the current settings and tells the delegate that the original image will be / has been cropped.
- */
-- (void)cropImage;
-
-/**
- Tells the delegate that the crop has been canceled.
- */
-- (void)cancelCrop;
-
-/**
- Resets the rotation angle, the position and the zoom scale of the original image to the default values.
- 
- @param animated Set this value to YES to animate the reset.
- */
-- (void)reset:(BOOL)animated;
-
-/**
- Sets the current rotation angle of the image in radians.
- 
- @param rotationAngle The rotation angle of the image in radians.
- */
-- (void)setRotationAngle:(CGFloat)rotationAngle;
-
-/**
- Sets the current scale factor for the image.
- 
- @param zoomScale The scale factor for the image.
- */
-- (void)setZoomScale:(CGFloat)zoomScale;
+- (void)imageScrollViewWillBeginDragging;
+- (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate;
+- (void)imageScrollViewDidEndDecelerating;
+- (void)imageScrollViewWillBeginZooming;
+- (void)imageScrollViewDidEndZooming;
 
 @end
 

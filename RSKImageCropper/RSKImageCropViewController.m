@@ -25,6 +25,7 @@
 #import "RSKImageCropViewController.h"
 #import "RSKTouchView.h"
 #import "RSKImageScrollView.h"
+#import "RSKImageScrollViewDelegate.h"
 #import "RSKInternalUtility.h"
 #import "UIImage+RSKImageCropper.h"
 #import "CGGeometry+RSKImageCropper.h"

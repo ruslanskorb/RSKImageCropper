@@ -61,14 +61,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@protocol RSKImageScrollViewDelegate <NSObject>
-
-- (void)imageScrollViewWillBeginDragging;
-- (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate;
-- (void)imageScrollViewDidEndDecelerating;
-- (void)imageScrollViewWillBeginZooming;
-- (void)imageScrollViewDidEndZooming;
-
-@end
-
 NS_ASSUME_NONNULL_END

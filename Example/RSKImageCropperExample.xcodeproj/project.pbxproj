@@ -78,6 +78,7 @@
 		B87A9A2919A4D39800D12CD4 /* RSKTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKTouchView.m; sourceTree = "<group>"; };
 		B87A9A2A19A4D39800D12CD4 /* UIImage+RSKImageCropper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RSKImageCropper.h"; sourceTree = "<group>"; };
 		B87A9A2B19A4D39800D12CD4 /* UIImage+RSKImageCropper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RSKImageCropper.m"; sourceTree = "<group>"; };
+		B8D4C7A0283AB2C200B6F072 /* RSKImageScrollViewDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RSKImageScrollViewDelegate.h; sourceTree = "<group>"; };
 		B8D73A831B9B1E22003AFA4A /* RSKImageCropperStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RSKImageCropperStrings.bundle; sourceTree = "<group>"; };
 		B8D73A851B9B1E73003AFA4A /* RSKInternalUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSKInternalUtility.h; sourceTree = "<group>"; };
 		B8D73A861B9B1E73003AFA4A /* RSKInternalUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSKInternalUtility.m; sourceTree = "<group>"; };
@@ -222,6 +223,7 @@
 				46AAEE5D1B29155700E10C42 /* RSKImageCropViewController+Protected.h */,
 				B87A9A2319A4D39800D12CD4 /* RSKImageScrollView.h */,
 				B87A9A2419A4D39800D12CD4 /* RSKImageScrollView.m */,
+				B8D4C7A0283AB2C200B6F072 /* RSKImageScrollViewDelegate.h */,
 				B8D73A851B9B1E73003AFA4A /* RSKInternalUtility.h */,
 				B8D73A861B9B1E73003AFA4A /* RSKInternalUtility.m */,
 				B87A9A2819A4D39800D12CD4 /* RSKTouchView.h */,
