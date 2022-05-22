@@ -1,1 +1,1 @@
-RSKImageScrollViewDelegate.h
+../../RSKImageScrollViewDelegate.h
