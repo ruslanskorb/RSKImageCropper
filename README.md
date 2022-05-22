@@ -49,9 +49,9 @@ Just create a view controller for image cropping and set the delegate.
 - (IBAction)onButtonTouch:(UIButton *)sender
 {
     UIImage *image = [UIImage imageNamed:@"image"];
-    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image];
-    imageCropVC.delegate = self;
-    [self.navigationController pushViewController:imageCropVC animated:YES];
+    RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:image];
+    imageCropViewController.delegate = self;
+    [self.navigationController pushViewController:imageCropViewController animated:YES];
 }
 ```
 
