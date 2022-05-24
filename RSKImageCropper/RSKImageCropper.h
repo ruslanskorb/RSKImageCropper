@@ -1,7 +1,7 @@
 //
 // RSKImageCropper.h
 //
-// Copyright (c) 2014-present Ruslan Skorb, http://ruslanskorb.com/
+// Copyright (c) 2014-present Ruslan Skorb, https://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -38,6 +38,7 @@ FOUNDATION_EXPORT const unsigned char RSKImageCropperVersionString[];
 #import <RSKImageCropper/RSKImageCropViewController.h>
 #import <RSKImageCropper/RSKImageCropViewController+Protected.h>
 #import <RSKImageCropper/RSKImageScrollView.h>
+#import <RSKImageCropper/RSKImageScrollViewDelegate.h>
 #import <RSKImageCropper/RSKInternalUtility.h>
 #import <RSKImageCropper/RSKTouchView.h>
 #import <RSKImageCropper/UIImage+RSKImageCropper.h>

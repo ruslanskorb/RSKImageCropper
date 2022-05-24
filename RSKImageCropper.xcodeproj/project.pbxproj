@@ -22,6 +22,7 @@
 		B02D70CE1BD5DCE200B51B33 /* RSKInternalUtility.h in Headers */ = {isa = PBXBuildFile; fileRef = B02D70CB1BD5DCE200B51B33 /* RSKInternalUtility.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B02D70CF1BD5DCE200B51B33 /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */; };
 		B8585B951BD609A100032364 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */; };
+		B8D4C79F2839558F00B6F072 /* RSKImageScrollViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B8D4C79E2839558F00B6F072 /* RSKImageScrollViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSKInternalUtility.m; path = RSKImageCropper/RSKInternalUtility.m; sourceTree = "<group>"; };
 		B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = RSKImageCropperStrings.bundle; path = RSKImageCropper/RSKImageCropperStrings.bundle; sourceTree = "<group>"; };
 		B85EF7ED1B88DB2000222FF7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Framework/Info.plist; sourceTree = "<group>"; };
+		B8D4C79E2839558F00B6F072 /* RSKImageScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSKImageScrollViewDelegate.h; path = RSKImageCropper/RSKImageScrollViewDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				A5BE39D01B32BD2B00ECDF88 /* RSKImageCropViewController+Protected.h */,
 				A5BE39D11B32BD2B00ECDF88 /* RSKImageScrollView.h */,
 				A5BE39D21B32BD2B00ECDF88 /* RSKImageScrollView.m */,
+				B8D4C79E2839558F00B6F072 /* RSKImageScrollViewDelegate.h */,
 				B02D70CB1BD5DCE200B51B33 /* RSKInternalUtility.h */,
 				B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */,
 				A5BE39D31B32BD2B00ECDF88 /* RSKTouchView.h */,
@@ -115,6 +118,7 @@
 				A5BE39DF1B32BD2B00ECDF88 /* RSKImageScrollView.h in Headers */,
 				A5BE39E51B32BD2B00ECDF88 /* UIImage+RSKImageCropper.h in Headers */,
 				A5BE39E11B32BD2B00ECDF88 /* RSKTouchView.h in Headers */,
+				B8D4C79F2839558F00B6F072 /* RSKImageScrollViewDelegate.h in Headers */,
 				B02D70CE1BD5DCE200B51B33 /* RSKInternalUtility.h in Headers */,
 				A5BE39DA1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h in Headers */,
 			);
@@ -147,7 +151,7 @@
 		A5BE39341B32B49D00ECDF88 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1340;
 				TargetAttributes = {
 					A5BE393C1B32B49D00ECDF88 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -223,6 +227,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -249,7 +254,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -282,6 +287,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -301,7 +307,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -315,7 +321,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 3.0.2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 3.0.2;
 				DYLIB_CURRENT_VERSION = 3.0.2;
@@ -323,7 +329,7 @@
 				INFOPLIST_FILE = Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 4.0.0;
 				MODULEMAP_FILE = "$(SRCROOT)/RSKImageCropper/RSKImageCropper.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RSKImageCropper;
@@ -335,7 +341,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 3.0.2;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 3.0.2;
 				DYLIB_CURRENT_VERSION = 3.0.2;
@@ -343,7 +349,7 @@
 				INFOPLIST_FILE = Framework/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 3.0.2;
+				MARKETING_VERSION = 4.0.0;
 				MODULEMAP_FILE = "$(SRCROOT)/RSKImageCropper/RSKImageCropper.modulemap";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ruslanskorb.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = RSKImageCropper;

@@ -49,8 +49,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol RSKImageScrollViewDelegate;
+
 @interface RSKImageScrollView : UIScrollView
 
+@property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 @property (nonatomic, nullable, strong) UIImageView *zoomView;
 @property (nonatomic, assign) BOOL aspectFill;
 

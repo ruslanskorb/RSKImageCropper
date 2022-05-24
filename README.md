@@ -1,4 +1,4 @@
-## RSKImageCropper [![Build Status](https://travis-ci.org/ruslanskorb/RSKImageCropper.svg)](https://travis-ci.org/ruslanskorb/RSKImageCropper) [![Coverage Status](https://coveralls.io/repos/ruslanskorb/RSKImageCropper/badge.svg)](https://coveralls.io/r/ruslanskorb/RSKImageCropper) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/ruslanskorb/RSKImageCropper)
+## RSKImageCropper ![CI](https://github.com/ruslanskorb/RSKImageCropper/actions/workflows/main.yml/badge.svg) ![Swift Package Manager](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat) ![CocoaPods](https://img.shields.io/cocoapods/v/RSKImageCropper.svg?style=flat) ![Carthage](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)
 
 <p align="center">
 	<img src="Screenshot.png" alt="Sample">
@@ -7,7 +7,7 @@
 An image cropper for iOS like in the Contacts app with support for landscape orientation.
 
 ## Installation
-*RSKImageCropper requires iOS 9.0 or later.*
+*RSKImageCropper requires iOS 12.0 or later.*
 
 ### Using [Swift Package Manager](https://swift.org/package-manager/)
 
@@ -49,9 +49,9 @@ Just create a view controller for image cropping and set the delegate.
 - (IBAction)onButtonTouch:(UIButton *)sender
 {
     UIImage *image = [UIImage imageNamed:@"image"];
-    RSKImageCropViewController *imageCropVC = [[RSKImageCropViewController alloc] initWithImage:image];
-    imageCropVC.delegate = self;
-    [self.navigationController pushViewController:imageCropVC animated:YES];
+    RSKImageCropViewController *imageCropViewController = [[RSKImageCropViewController alloc] initWithImage:image];
+    imageCropViewController.delegate = self;
+    [self.navigationController pushViewController:imageCropViewController animated:YES];
 }
 ```
 

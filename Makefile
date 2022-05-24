@@ -1,7 +1,7 @@
 WORKSPACE = Example/RSKImageCropperExample.xcworkspace
 SCHEME = RSKImageCropperExample
 CONFIGURATION = Release
-DEVICE_HOST = platform='iOS Simulator',OS='12.0',name='iPhone 7'
+DEVICE_HOST = platform='iOS Simulator',OS='15.5',name='iPhone 13 Pro'
 
 .PHONY: all build ci clean test lint
 
@@ -14,7 +14,7 @@ clean:
 	xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration '$(CONFIGURATION)' clean
 
 test:
-	set -o pipefail && xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration Debug test -sdk iphonesimulator -destination $(DEVICE_HOST) | bundle exec second_curtain | bundle exec xcpretty -c --test
+	set -o pipefail && xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration Debug test -sdk iphonesimulator -destination $(DEVICE_HOST) | bundle exec xcpretty -c --test
 
 lint:
 	bundle exec fui --path Example/RSKImageCropperExample find
