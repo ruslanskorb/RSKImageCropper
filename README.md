@@ -93,7 +93,7 @@ Then implement the delegate functions.
 
 ## DataSource
 
-`RSKImageCropViewControllerDataSource` provides three data source methods. The method `imageCropViewControllerCustomMaskRect:` asks the data source a custom rect for the mask. The method `imageCropViewControllerCustomMaskPath:` asks the data source a custom path for the mask. The method `imageCropViewControllerCustomMovementRect:` asks the data source a custom rect in which the image can be moved. To use them, implement the data source in your view controller.
+`RSKImageCropViewControllerDataSource` provides three data source methods. The method `imageCropViewControllerCustomMaskRect:` asks the data source for a custom rect for the mask. The method `imageCropViewControllerCustomMaskPath:` asks the data source for a custom path for the mask. The method `imageCropViewControllerCustomMovementRect:` asks the data source for a custom rect in which the image can be moved. To use them, implement the data source in your view controller.
 
 ```objective-c
 @interface ViewController () <RSKImageCropViewControllerDataSource>
@@ -181,7 +181,7 @@ Then implement the data source functions.
 
 ## Coming Soon
 
-- If you would like to request a new feature, feel free to raise as an issue.
+- If you would like to request a new feature, feel free to raise an issue.
 
 ## Demo
 
@@ -198,4 +198,4 @@ Ruslan Skorb
 
 ## License
 
-This project is is available under the MIT license. See the LICENSE file for more info. Attribution by linking to the [project page](https://github.com/ruslanskorb/RSKImageCropper) is appreciated.
+This project is available under the MIT license. See the LICENSE file for more info. Attribution by linking to the [project page](https://github.com/ruslanskorb/RSKImageCropper) is appreciated.
