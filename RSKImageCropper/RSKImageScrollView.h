@@ -47,10 +47,11 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @protocol RSKImageScrollViewDelegate;
 
+NS_SWIFT_UI_ACTOR
 @interface RSKImageScrollView : UIScrollView
 
 @property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
@@ -61,4 +62,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)

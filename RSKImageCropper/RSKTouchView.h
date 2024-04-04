@@ -24,8 +24,13 @@
 
 #import <UIKit/UIKit.h>
 
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
+
+NS_SWIFT_UI_ACTOR
 @interface RSKTouchView : UIView
 
-@property (weak, nonatomic) UIView *receiver;
+@property (weak, nonatomic, nullable) UIView *receiver;
 
 @end
+
+NS_HEADER_AUDIT_END(nullability, sendability)

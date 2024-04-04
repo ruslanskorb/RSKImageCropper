@@ -24,12 +24,16 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIImage (RSKImageCropper)
 
 // Fix the orientation of the image.
-- (UIImage *)fixOrientation;
+- (nullable UIImage *)fixOrientation;
 
 // Rotate the image clockwise around the center by the angle, in radians.
-- (UIImage *)rotateByAngle:(CGFloat)angleInRadians;
+- (nullable UIImage *)rotateByAngle:(CGFloat)angleInRadians;
 
 @end
+
+NS_ASSUME_NONNULL_END
