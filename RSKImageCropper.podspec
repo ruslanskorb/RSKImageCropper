@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.platform      = :ios, '12.0'
   s.module_map    = 'RSKImageCropper/RSKImageCropper.modulemap'
   s.source_files  = 'RSKImageCropper/*.{h,m}'
-  s.resources     = 'RSKImageCropper/RSKImageCropperStrings.bundle'
+  s.resources     = ['RSKImageCropper/RSKImageCropperResources.bundle', 'RSKImageCropper/RSKImageCropperStrings.bundle']
   s.frameworks    = 'QuartzCore', 'UIKit'
   s.requires_arc  = true
 end

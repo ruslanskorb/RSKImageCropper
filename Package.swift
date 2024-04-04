@@ -16,6 +16,7 @@ let package = Package(
             name: "RSKImageCropper",
             path: "RSKImageCropper",
             resources: [
+                .copy("RSKImageCropperResources.bundle"),
                 .copy("RSKImageCropperStrings.bundle")
             ],
             publicHeadersPath: "include"

@@ -23,6 +23,7 @@
 		B02D70CF1BD5DCE200B51B33 /* RSKInternalUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B02D70CC1BD5DCE200B51B33 /* RSKInternalUtility.m */; };
 		B8585B951BD609A100032364 /* RSKImageCropperStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */; };
 		B8D4C79F2839558F00B6F072 /* RSKImageScrollViewDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = B8D4C79E2839558F00B6F072 /* RSKImageScrollViewDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B8E7A2182BBF13F000469E49 /* RSKImageCropperResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B8E7A2172BBF13F000469E49 /* RSKImageCropperResources.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = RSKImageCropperStrings.bundle; path = RSKImageCropper/RSKImageCropperStrings.bundle; sourceTree = "<group>"; };
 		B85EF7ED1B88DB2000222FF7 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Framework/Info.plist; sourceTree = "<group>"; };
 		B8D4C79E2839558F00B6F072 /* RSKImageScrollViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSKImageScrollViewDelegate.h; path = RSKImageCropper/RSKImageScrollViewDelegate.h; sourceTree = "<group>"; };
+		B8E7A2172BBF13F000469E49 /* RSKImageCropperResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = RSKImageCropperResources.bundle; path = RSKImageCropper/RSKImageCropperResources.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				A5BE39CC1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.h */,
 				A5BE39CD1B32BD2B00ECDF88 /* CGGeometry+RSKImageCropper.m */,
 				A5BE39CB1B32BD2B00ECDF88 /* RSKImageCropper.h */,
+				B8E7A2172BBF13F000469E49 /* RSKImageCropperResources.bundle */,
 				B8585B941BD609A100032364 /* RSKImageCropperStrings.bundle */,
 				A5BE39CE1B32BD2B00ECDF88 /* RSKImageCropViewController.h */,
 				A5BE39CF1B32BD2B00ECDF88 /* RSKImageCropViewController.m */,
@@ -182,6 +185,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8E7A2182BBF13F000469E49 /* RSKImageCropperResources.bundle in Resources */,
 				B8585B951BD609A100032364 /* RSKImageCropperStrings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
