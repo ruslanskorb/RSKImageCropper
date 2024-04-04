@@ -50,8 +50,8 @@
     [self.imageCropViewController.view updateConstraintsIfNeeded];
     [self.imageCropViewController.view setNeedsLayout];
     [self.imageCropViewController.view layoutIfNeeded];
-    [self.imageCropViewController viewWillAppear:NO];
-    [self.imageCropViewController viewDidAppear:NO];
+    [self.imageCropViewController beginAppearanceTransition:YES animated:NO];
+    [self.imageCropViewController endAppearanceTransition];
 }
 
 - (void)tearDown

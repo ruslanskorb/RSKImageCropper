@@ -147,8 +147,8 @@ dispatch_block_t sharedLoadView = ^{
     [imageCropViewController.view setNeedsLayout];
     [imageCropViewController.view layoutIfNeeded];
     
-    [imageCropViewController viewWillAppear:YES];
-    [imageCropViewController viewDidAppear:YES];
+    [imageCropViewController beginAppearanceTransition:YES animated:YES];
+    [imageCropViewController endAppearanceTransition];
 };
 
 beforeAll(^{
@@ -815,9 +815,11 @@ describe(@"navigation controller navigation bar", ^{
         [[mock expect] setNavigationBarHidden:YES animated:NO];
         
         [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController beginAppearanceTransition:YES animated:NO];
         
         [mock verify];
+        
+        [imageCropViewController endAppearanceTransition];
     });
     
     it(@"restores visibility of the navigation bar in viewWillDisappear:", ^{
@@ -827,13 +829,16 @@ describe(@"navigation controller navigation bar", ^{
         id mock = [OCMockObject partialMockForObject:navigationController];
         
         [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController beginAppearanceTransition:YES animated:NO];
+        [imageCropViewController endAppearanceTransition];
         
         [[mock expect] setNavigationBarHidden:imageCropViewController.originalNavigationControllerNavigationBarHidden animated:NO];
         
-        [imageCropViewController viewWillDisappear:NO];
+        [imageCropViewController beginAppearanceTransition:NO animated:NO];
         
         [mock verify];
+        
+        [imageCropViewController endAppearanceTransition];
     });
     
     after(^{
