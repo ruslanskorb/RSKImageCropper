@@ -218,10 +218,10 @@
     CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
     
     CGFloat minScale;
-    if (!self.aspectFill) {
-        minScale = MIN(xScale, yScale); // use minimum of these to allow the image to become fully visible
-    } else {
+    if (_aspectFill) {
         minScale = MAX(xScale, yScale); // use maximum of these to allow the image to fill the screen
+    } else {
+        minScale = MIN(xScale, yScale); // use minimum of these to allow the image to become fully visible
     }
     
     CGFloat maxScale = MAX(xScale, yScale);
@@ -246,15 +246,9 @@
 
 - (void)setInitialZoomScale
 {
-    if (CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
-        return;
+    if (self.zoomScale != self.minimumZoomScale) {
+        self.zoomScale = self.minimumZoomScale;
     }
-    
-    CGSize boundsSize = self.bounds.size;
-    CGFloat xScale = boundsSize.width  / _imageSize.width;    // the scale needed to perfectly fit the image width-wise
-    CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
-    CGFloat scale = MAX(xScale, yScale);
-    self.zoomScale = scale;
 }
 
 - (void)setInitialContentOffset
