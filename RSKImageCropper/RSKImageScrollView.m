@@ -207,6 +207,10 @@
 
 - (void)setMaxMinZoomScalesForCurrentBounds
 {
+    if (CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
+        return;
+    }
+    
     CGSize boundsSize = self.bounds.size;
     
     // calculate min/max zoomscale
@@ -242,6 +246,10 @@
 
 - (void)setInitialZoomScale
 {
+    if (CGSizeEqualToSize(self.bounds.size, CGSizeZero)) {
+        return;
+    }
+    
     CGSize boundsSize = self.bounds.size;
     CGFloat xScale = boundsSize.width  / _imageSize.width;    // the scale needed to perfectly fit the image width-wise
     CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
