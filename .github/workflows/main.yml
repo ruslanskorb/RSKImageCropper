@@ -5,9 +5,9 @@ on:
   workflow_dispatch:
 jobs:
   iOS:
-    runs-on: macos-latest
+    runs-on: macos-13
     env:
-      DEVELOPER_DIR: '/Applications/Xcode_15.3.app/Contents/Developer'
+      DEVELOPER_DIR: '/Applications/Xcode_15.2.app/Contents/Developer'
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -21,7 +21,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
       - name: Install Pods
-        run: bundle exec arch -x86_64 pod install --repo-update --project-directory=Example
+        run: bundle exec pod install --repo-update --project-directory=Example
       - name: Test
         run: make test
       - name: Lint
