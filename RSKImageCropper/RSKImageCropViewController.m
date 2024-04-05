@@ -886,10 +886,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGSize maskSize = CGSizeMake(diameter, diameter);
             
-            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                       (viewHeight - maskSize.height) * 0.5f,
-                                       maskSize.width,
-                                       maskSize.height);
+            CGRect maskRect = CGRectMake(floor((viewWidth - maskSize.width) * 0.5f),
+                                         floor((viewHeight - maskSize.height) * 0.5f),
+                                         maskSize.width,
+                                         maskSize.height);
+            self.maskRect = CGRectIntegral(maskRect);
             break;
         }
         case RSKImageCropModeSquare: {
@@ -905,10 +906,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGSize maskSize = CGSizeMake(length, length);
             
-            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                       (viewHeight - maskSize.height) * 0.5f,
-                                       maskSize.width,
-                                       maskSize.height);
+            CGRect maskRect = CGRectMake(floor((viewWidth - maskSize.width) * 0.5f),
+                                         floor((viewHeight - maskSize.height) * 0.5f),
+                                         maskSize.width,
+                                         maskSize.height);
+            self.maskRect = CGRectIntegral(maskRect);
             break;
         }
         case RSKImageCropModeCustom: {
