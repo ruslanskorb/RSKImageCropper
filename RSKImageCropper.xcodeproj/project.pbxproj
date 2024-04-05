@@ -236,7 +236,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3.0.2;
+				CURRENT_PROJECT_VERSION = 4.1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -297,7 +297,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3.0.2;
+				CURRENT_PROJECT_VERSION = 4.1.0;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -324,10 +324,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 3.0.2;
-				DYLIB_CURRENT_VERSION = 3.0.2;
+				DYLIB_COMPATIBILITY_VERSION = 4.1.0;
+				DYLIB_CURRENT_VERSION = 4.1.0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Framework/Info.plist;
@@ -337,7 +337,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/RSKImageCropper/RSKImageCropper.modulemap";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
@@ -351,10 +351,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 3.0.2;
-				DYLIB_CURRENT_VERSION = 3.0.2;
+				DYLIB_COMPATIBILITY_VERSION = 4.1.0;
+				DYLIB_CURRENT_VERSION = 4.1.0;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_MODULE_VERIFIER = YES;
 				INFOPLIST_FILE = Framework/Info.plist;
@@ -364,7 +364,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 4.0.0;
+				MARKETING_VERSION = 4.1.0;
 				MODULEMAP_FILE = "$(SRCROOT)/RSKImageCropper/RSKImageCropper.modulemap";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
