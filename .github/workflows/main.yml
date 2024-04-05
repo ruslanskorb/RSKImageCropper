@@ -5,16 +5,16 @@ on:
   workflow_dispatch:
 jobs:
   iOS:
-    runs-on: macos-12
+    runs-on: macos-latest
     env:
-      DEVELOPER_DIR: '/Applications/Xcode_13.4.app/Contents/Developer'
+      DEVELOPER_DIR: '/Applications/Xcode_15.3.app/Contents/Developer'
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.3'
           bundler-cache: true
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: Example/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
