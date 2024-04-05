@@ -995,6 +995,7 @@ describe(@"rotation", ^{
             
             sharedIt();
             
+            imageCropViewController.imageScrollView.transform = CGAffineTransformIdentity;
             expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
         });
         
@@ -1003,6 +1004,7 @@ describe(@"rotation", ^{
             
             sharedIt();
             
+            imageCropViewController.imageScrollView.transform = CGAffineTransformIdentity;
             expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
         });
         
