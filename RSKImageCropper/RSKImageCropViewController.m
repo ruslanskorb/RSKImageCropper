@@ -577,10 +577,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         [clipPath appendPath:maskPath];
         clipPath.usesEvenOddFillRule = YES;
         
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-        pathAnimation.duration = [CATransaction animationDuration];
-        pathAnimation.timingFunction = [CATransaction animationTimingFunction];
-        [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
+        CAAnimation *animation = (CAAnimation *)[self.overlayView actionForLayer:self.overlayView.layer forKey:@"backgroundColor"];
+        if ([animation isKindOfClass:[CAAnimation class]]) {
+            CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+            pathAnimation.duration = animation.duration;
+            pathAnimation.timingFunction = animation.timingFunction;
+            
+            [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
+        }
         
         self.maskLayer.path = [clipPath CGPath];
     }
