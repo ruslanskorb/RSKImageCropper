@@ -652,7 +652,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
 {
-    [self.imageScrollView zoomToRect:rect animated:animated];
+    [self.imageScrollView zoomToRect:[self.imageScrollView convertRect:rect fromView:self.view] animated:animated];
 }
 
 #pragma mark - Public

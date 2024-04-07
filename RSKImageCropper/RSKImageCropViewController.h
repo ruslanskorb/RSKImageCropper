@@ -59,7 +59,7 @@ NS_SWIFT_UI_ACTOR
 /**
  Zooms to a specific area of the image so that it is visible.
  
- @param rect A rectangle defining an area of the image.
+ @param rect A rectangle defining an area of the image. The rectangle should be in the coordinate space of the image view controller's view.
  @param animated YES if the scrolling should be animated, NO if it should be immediate.
  */
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated;

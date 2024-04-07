@@ -1083,17 +1083,10 @@ describe(@"zoomToRect", ^{
     });
     
     it(@"zooms to a specific area of the image", ^{
-        CGRect rect = CGRectMake(100.0, 100.0, 400.0, 400.0);
+        CGRect rect = CGRectMake(196.0f, 290.0f, 60.0f, 60.0f);
         [imageCropViewController zoomToRect:rect animated:NO];
         
-        UIScrollView *imageScrollView = imageCropViewController.imageScrollView;
-        CGRect visibleRect = CGRectMake(round(imageScrollView.contentOffset.x / imageScrollView.zoomScale),
-                                        round(imageScrollView.contentOffset.y / imageScrollView.zoomScale),
-                                        imageScrollView.bounds.size.width / imageScrollView.zoomScale,
-                                        imageScrollView.bounds.size.height / imageScrollView.zoomScale);
-        
-        BOOL contains = CGRectContainsRect(visibleRect, rect);
-        expect(contains).to.beTruthy();
+        expect(imageCropViewController.view).to.haveValidSnapshot();
     });
     
     after(^{
