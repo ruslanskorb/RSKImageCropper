@@ -45,7 +45,7 @@ NS_SWIFT_UI_ACTOR
 /**
  Tells the delegate when dragging ended in the image scroll view.
  
- @param willDecelerate YES if the scrolling movement will continue, but decelerate, after a touch-up gesture during a dragging operation. If the value is NO, scrolling stops immediately upon touch-up.
+ @param willDecelerate `YES` if the scrolling movement will continue, but decelerate, after a touch-up gesture during a dragging operation. If the value is `NO`, scrolling stops immediately upon touch-up.
  */
 - (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate;
 
