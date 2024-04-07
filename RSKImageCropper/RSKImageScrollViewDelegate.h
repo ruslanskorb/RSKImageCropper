@@ -32,6 +32,8 @@ NS_ASSUME_NONNULL_BEGIN
 NS_SWIFT_UI_ACTOR
 @protocol RSKImageScrollViewDelegate <NSObject>
 
+@optional
+
 /**
  Tells the delegate when the user scrolls the image within the image scroll view.
  */

@@ -139,27 +139,37 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self.imageScrollViewDelegate imageScrollViewWillBeginDragging];
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewWillBeginDragging)]) {
+        [self.imageScrollViewDelegate imageScrollViewWillBeginDragging];
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    [self.imageScrollViewDelegate imageScrollViewDidEndDragging:decelerate];
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewDidEndDragging:)]) {
+        [self.imageScrollViewDelegate imageScrollViewDidEndDragging:decelerate];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self.imageScrollViewDelegate imageScrollViewDidEndDecelerating];
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewDidEndDecelerating)]) {
+        [self.imageScrollViewDelegate imageScrollViewDidEndDecelerating];
+    }
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
 {
-    [self.imageScrollViewDelegate imageScrollViewWillBeginZooming];
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewWillBeginZooming)]) {
+        [self.imageScrollViewDelegate imageScrollViewWillBeginZooming];
+    }
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
 {
-    [self.imageScrollViewDelegate imageScrollViewDidEndZooming];
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewDidEndZooming)]) {
+        [self.imageScrollViewDelegate imageScrollViewDidEndZooming];
+    }
 }
 
 #pragma mark - Center zoomView within scrollView
