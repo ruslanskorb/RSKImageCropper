@@ -125,6 +125,13 @@
     return _zoomView;
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([self.imageScrollViewDelegate respondsToSelector:@selector(imageScrollViewDidScroll)]) {
+        [self.imageScrollViewDelegate imageScrollViewDidScroll];
+    }
+}
+
 - (void)scrollViewDidZoom:(__unused UIScrollView *)scrollView
 {
     [self centerZoomView];

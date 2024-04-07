@@ -33,6 +33,11 @@ NS_SWIFT_UI_ACTOR
 @protocol RSKImageScrollViewDelegate <NSObject>
 
 /**
+ Tells the delegate when the user scrolls the image within the image scroll view.
+ */
+- (void)imageScrollViewDidScroll;
+
+/**
  Tells the delegate when the image scroll view is about to start scrolling the image.
  */
 - (void)imageScrollViewWillBeginDragging;
