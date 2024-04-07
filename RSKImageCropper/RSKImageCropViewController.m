@@ -194,7 +194,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewDidLayoutSubviews];
     
-    if (!self.imageScrollView.zoomView) {
+    if (!self.imageScrollView.image) {
         [self displayImage];
     }
 }
@@ -552,7 +552,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (_cropMode != cropMode) {
         _cropMode = cropMode;
         
-        if (self.imageScrollView.zoomView) {
+        if (self.imageScrollView.image) {
             [self reset:NO];
         }
     }
@@ -685,7 +685,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)resetContentOffset
 {
     CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGRect frameToCenter = self.imageScrollView.zoomView.frame;
+    CGRect frameToCenter = self.imageScrollView.imageFrame;
     
     CGPoint contentOffset;
     if (CGRectGetWidth(frameToCenter) > boundsSize.width) {
@@ -757,7 +757,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)displayImage
 {
     if (self.originalImage) {
-        [self.imageScrollView displayImage:self.originalImage];
+        self.imageScrollView.image = self.originalImage;
         [self reset:NO];
 
         if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDidDisplayImage:)]) {
