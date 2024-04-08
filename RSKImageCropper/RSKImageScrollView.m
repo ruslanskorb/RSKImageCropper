@@ -133,6 +133,11 @@
     _imageView.backgroundColor = imageBackgroundColor;
 }
 
+- (id<UICoordinateSpace>)imageCoordinateSpace
+{
+    return [_imageView coordinateSpace];
+}
+
 - (CGRect)imageFrame
 {
     return _imageView.frame;
@@ -202,13 +207,6 @@
     CGRect rect = CGRectMake(origin.x, origin.y, size.width, size.height);
     
     [self zoomToRect:rect animated:animated];
-}
-
-- (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
-{
-    rect = [_imageView convertRect:rect fromView:self];
-    
-    [super zoomToRect:rect animated:animated];
 }
 
 #pragma mark - UIScrollViewDelegate
