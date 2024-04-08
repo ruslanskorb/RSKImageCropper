@@ -44,8 +44,8 @@
     CGFloat viewWidth = CGRectGetWidth(controller.view.frame);
     CGFloat viewHeight = CGRectGetHeight(controller.view.frame);
     
-    CGRect maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                 (viewHeight - maskSize.height) * 0.5f,
+    CGRect maskRect = CGRectMake(floor((viewWidth - maskSize.width) * 0.5f),
+                                 floor((viewHeight - maskSize.height) * 0.5f),
                                  maskSize.width,
                                  maskSize.height);
     
@@ -147,8 +147,8 @@ dispatch_block_t sharedLoadView = ^{
     [imageCropViewController.view setNeedsLayout];
     [imageCropViewController.view layoutIfNeeded];
     
-    [imageCropViewController viewWillAppear:YES];
-    [imageCropViewController viewDidAppear:YES];
+    [imageCropViewController beginAppearanceTransition:YES animated:YES];
+    [imageCropViewController endAppearanceTransition];
 };
 
 beforeAll(^{
@@ -815,9 +815,11 @@ describe(@"navigation controller navigation bar", ^{
         [[mock expect] setNavigationBarHidden:YES animated:NO];
         
         [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController beginAppearanceTransition:YES animated:NO];
         
         [mock verify];
+        
+        [imageCropViewController endAppearanceTransition];
     });
     
     it(@"restores visibility of the navigation bar in viewWillDisappear:", ^{
@@ -827,13 +829,16 @@ describe(@"navigation controller navigation bar", ^{
         id mock = [OCMockObject partialMockForObject:navigationController];
         
         [imageCropViewController view];
-        [imageCropViewController viewWillAppear:NO];
+        [imageCropViewController beginAppearanceTransition:YES animated:NO];
+        [imageCropViewController endAppearanceTransition];
         
         [[mock expect] setNavigationBarHidden:imageCropViewController.originalNavigationControllerNavigationBarHidden animated:NO];
         
-        [imageCropViewController viewWillDisappear:NO];
+        [imageCropViewController beginAppearanceTransition:NO animated:NO];
         
         [mock verify];
+        
+        [imageCropViewController endAppearanceTransition];
     });
     
     after(^{
@@ -990,6 +995,7 @@ describe(@"rotation", ^{
             
             sharedIt();
             
+            imageCropViewController.imageScrollView.transform = CGAffineTransformIdentity;
             expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
         });
         
@@ -998,6 +1004,7 @@ describe(@"rotation", ^{
             
             sharedIt();
             
+            imageCropViewController.imageScrollView.transform = CGAffineTransformIdentity;
             expect(imageCropViewController.imageScrollView.frame).after(kLayoutImageScrollViewAnimationDuration).to.equal(imageCropViewController.maskRect);
         });
         
@@ -1076,17 +1083,10 @@ describe(@"zoomToRect", ^{
     });
     
     it(@"zooms to a specific area of the image", ^{
-        CGRect rect = CGRectMake(100.0, 100.0, 400.0, 400.0);
+        CGRect rect = CGRectMake(196.0f, 290.0f, 60.0f, 60.0f);
         [imageCropViewController zoomToRect:rect animated:NO];
         
-        UIScrollView *imageScrollView = imageCropViewController.imageScrollView;
-        CGRect visibleRect = CGRectMake(round(imageScrollView.contentOffset.x / imageScrollView.zoomScale),
-                                        round(imageScrollView.contentOffset.y / imageScrollView.zoomScale),
-                                        imageScrollView.bounds.size.width / imageScrollView.zoomScale,
-                                        imageScrollView.bounds.size.height / imageScrollView.zoomScale);
-        
-        BOOL contains = CGRectContainsRect(visibleRect, rect);
-        expect(contains).to.beTruthy();
+        expect(imageCropViewController.view).to.haveValidSnapshot();
     });
     
     after(^{

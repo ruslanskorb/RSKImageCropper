@@ -30,7 +30,7 @@ __block RSKImageScrollView *imageScrollView = nil;
 __block UIImage *image = nil;
 
 dispatch_block_t sharedIt = ^{
-    [imageScrollView displayImage:image];
+    imageScrollView.image = image;
     
     [imageScrollView setNeedsLayout];
     [imageScrollView layoutIfNeeded];

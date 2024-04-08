@@ -194,7 +194,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     [super viewDidLayoutSubviews];
     
-    if (!self.imageScrollView.zoomView) {
+    if (!self.imageScrollView.image) {
         [self displayImage];
     }
 }
@@ -552,7 +552,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     if (_cropMode != cropMode) {
         _cropMode = cropMode;
         
-        if (self.imageScrollView.zoomView) {
+        if (self.imageScrollView.image) {
             [self reset:NO];
         }
     }
@@ -577,10 +577,14 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         [clipPath appendPath:maskPath];
         clipPath.usesEvenOddFillRule = YES;
         
-        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-        pathAnimation.duration = [CATransaction animationDuration];
-        pathAnimation.timingFunction = [CATransaction animationTimingFunction];
-        [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
+        CAAnimation *animation = (CAAnimation *)[self.overlayView actionForLayer:self.overlayView.layer forKey:@"backgroundColor"];
+        if ([animation isKindOfClass:[CAAnimation class]]) {
+            CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+            pathAnimation.duration = animation.duration;
+            pathAnimation.timingFunction = animation.timingFunction;
+            
+            [self.maskLayer addAnimation:pathAnimation forKey:@"path"];
+        }
         
         self.maskLayer.path = [clipPath CGPath];
     }
@@ -648,7 +652,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
 {
-    [self.imageScrollView zoomToRect:rect animated:animated];
+    [self.imageScrollView zoomToRect:[self.imageScrollView convertRect:rect fromView:self.view] animated:animated];
 }
 
 #pragma mark - Public
@@ -681,7 +685,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)resetContentOffset
 {
     CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGRect frameToCenter = self.imageScrollView.zoomView.frame;
+    CGRect frameToCenter = self.imageScrollView.imageFrame;
     
     CGPoint contentOffset;
     if (CGRectGetWidth(frameToCenter) > boundsSize.width) {
@@ -753,7 +757,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)displayImage
 {
     if (self.originalImage) {
-        [self.imageScrollView displayImage:self.originalImage];
+        self.imageScrollView.image = self.originalImage;
         [self reset:NO];
 
         if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDidDisplayImage:)]) {
@@ -886,10 +890,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGSize maskSize = CGSizeMake(diameter, diameter);
             
-            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                       (viewHeight - maskSize.height) * 0.5f,
-                                       maskSize.width,
-                                       maskSize.height);
+            CGRect maskRect = CGRectMake(floor((viewWidth - maskSize.width) * 0.5f),
+                                         floor((viewHeight - maskSize.height) * 0.5f),
+                                         maskSize.width,
+                                         maskSize.height);
+            self.maskRect = CGRectIntegral(maskRect);
             break;
         }
         case RSKImageCropModeSquare: {
@@ -905,10 +910,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
             
             CGSize maskSize = CGSizeMake(length, length);
             
-            self.maskRect = CGRectMake((viewWidth - maskSize.width) * 0.5f,
-                                       (viewHeight - maskSize.height) * 0.5f,
-                                       maskSize.width,
-                                       maskSize.height);
+            CGRect maskRect = CGRectMake(floor((viewWidth - maskSize.width) * 0.5f),
+                                         floor((viewHeight - maskSize.height) * 0.5f),
+                                         maskSize.width,
+                                         maskSize.height);
+            self.maskRect = CGRectIntegral(maskRect);
             break;
         }
         case RSKImageCropModeCustom: {

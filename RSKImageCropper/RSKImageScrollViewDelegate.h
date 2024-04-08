@@ -26,12 +26,44 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ The interface for the delegate of an image scroll view.
+ */
+NS_SWIFT_UI_ACTOR
 @protocol RSKImageScrollViewDelegate <NSObject>
 
+@optional
+
+/**
+ Tells the delegate when the user scrolls the image within the image scroll view.
+ */
+- (void)imageScrollViewDidScroll;
+
+/**
+ Tells the delegate when the image scroll view is about to start scrolling the image.
+ */
 - (void)imageScrollViewWillBeginDragging;
+
+/**
+ Tells the delegate when dragging ended in the image scroll view.
+ 
+ @param willDecelerate `YES` if the scrolling movement will continue, but decelerate, after a touch-up gesture during a dragging operation. If the value is `NO`, scrolling stops immediately upon touch-up.
+ */
 - (void)imageScrollViewDidEndDragging:(BOOL)willDecelerate;
+
+/**
+ Tells the delegate that the image scroll view ended decelerating the scrolling movement.
+ */
 - (void)imageScrollViewDidEndDecelerating;
+
+/**
+ Tells the delegate that zooming of the image in the image scroll view is about to commence.
+ */
 - (void)imageScrollViewWillBeginZooming;
+
+/**
+ Tells the delegate when zooming of the image in the image scroll view completed.
+ */
 - (void)imageScrollViewDidEndZooming;
 
 @end

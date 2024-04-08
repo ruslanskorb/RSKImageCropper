@@ -188,6 +188,10 @@ Then implement the data source functions.
 Build and run the `RSKImageCropperExample` project in Xcode to see `RSKImageCropper` in action.
 Have fun. Fork and send pull requests. Figure out hooks for customization.
 
+## Privacy
+
+`RSKImageCropper` doesn't require a privacy manifest. According to [information received from Apple](https://developer.apple.com/forums/thread/746481?answerId=782256022#782256022), we should avoid adding an empty privacy manifest to our frameworks.
+
 ## Contact
 
 Ruslan Skorb

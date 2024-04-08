@@ -24,7 +24,7 @@
 
 #import <UIKit/UIKit.h>
 
-NS_ASSUME_NONNULL_BEGIN
+NS_HEADER_AUDIT_BEGIN(nullability, sendability)
 
 @protocol RSKImageCropViewControllerDataSource;
 @protocol RSKImageCropViewControllerDelegate;
@@ -38,6 +38,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
     RSKImageCropModeCustom
 };
 
+NS_SWIFT_UI_ACTOR
 @interface RSKImageCropViewController : UIViewController
 
 /**
@@ -58,7 +59,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  Zooms to a specific area of the image so that it is visible.
  
- @param rect A rectangle defining an area of the image.
+ @param rect A rectangle defining an area of the image. The rectangle should be in the coordinate space of the image view controller's view.
  @param animated YES if the scrolling should be animated, NO if it should be immediate.
  */
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated;
@@ -299,6 +300,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  The `RSKImageCropViewControllerDataSource` protocol is adopted by an object that provides a custom rect and a custom path for the mask and a custom movement rect for the image.
  */
+NS_SWIFT_UI_ACTOR
 @protocol RSKImageCropViewControllerDataSource <NSObject>
 
 /**
@@ -333,6 +335,7 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 /**
  The `RSKImageCropViewControllerDelegate` protocol defines messages sent to a image crop view controller delegate when crop image was canceled or the original image was cropped.
  */
+NS_SWIFT_UI_ACTOR
 @protocol RSKImageCropViewControllerDelegate <NSObject>
 
 /**
@@ -359,4 +362,4 @@ typedef NS_ENUM(NSUInteger, RSKImageCropMode) {
 
 @end
 
-NS_ASSUME_NONNULL_END
+NS_HEADER_AUDIT_END(nullability, sendability)
