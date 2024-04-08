@@ -76,6 +76,11 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, strong) UIColor *imageBackgroundColor;
 
 /**
+ The coordinate space of the image. 
+ */
+@property (nonatomic, readonly) id<UICoordinateSpace> imageCoordinateSpace;
+
+/**
  The current frame of the image in the coordinate space of the image scroll view.
  */
 @property (nonatomic, readonly) CGRect imageFrame;
@@ -106,14 +111,6 @@ NS_SWIFT_UI_ACTOR
  @param animated `YES` if the scrolling should be animated, `NO` if it should be immediate.
  */
 - (void)zoomToLocation:(CGPoint)location animated:(BOOL)animated;
-
-/**
- Zooms to a specific area of the image so that it’s visible in the image scroll view.
- 
- @param rect A rectangle defining an area of the image. The rectangle should be in the coordinate space of the image scroll view.
- @param animated `YES` if the scrolling should be animated, `NO` if it should be immediate.
- */
-- (void)zoomToRect:(CGRect)rect animated:(BOOL)animated;
 
 @end
                                                      
