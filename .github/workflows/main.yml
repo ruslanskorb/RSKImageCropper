@@ -7,7 +7,7 @@ jobs:
   iOS:
     runs-on: macos-13
     env:
-      DEVELOPER_DIR: '/Applications/Xcode_15.0.1.app/Contents/Developer'
+      DEVELOPER_DIR: '/Applications/Xcode_15.1.app/Contents/Developer'
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
@@ -20,6 +20,8 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+      - name: Delete Xcode.app
+        run: sudo rm -rf /Applications/Xcode.app
       - name: Install Pods
         run: bundle exec pod install --repo-update --project-directory=Example
       - name: Test
