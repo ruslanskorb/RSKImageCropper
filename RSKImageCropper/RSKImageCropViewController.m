@@ -768,9 +768,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (void)centerImageScrollViewZoomView
+- (void)centerImage
 {
-    // center imageScrollView.zoomView as it becomes smaller than the size of the screen
+    // center the image view of the imageScrollView as it becomes smaller than the size of the imageScrollView
     
     CGPoint contentOffset = self.imageScrollView.contentOffset;
     
@@ -865,7 +865,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     self.imageScrollView.transform = CGAffineTransformIdentity;
     
     self.imageScrollView.frame = frame;
-    [self centerImageScrollViewZoomView];
+    [self centerImage];
     
     self.imageScrollView.transform = transform;
 }
