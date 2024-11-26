@@ -678,6 +678,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     [self resetRotation];
     [self resetZoomScale];
     [self resetContentOffset];
+    [self centerImage];
     
     if (animated) {
         [UIView commitAnimations];
