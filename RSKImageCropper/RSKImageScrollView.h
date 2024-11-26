@@ -69,23 +69,6 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, strong) UIImage *image;
 
 /**
- The color of the background behind the image. Default value is `nil`, which results in a transparent color.
- 
- @discussion Changes to this property can be animated.
- */
-@property (nonatomic, nullable, strong) UIColor *imageBackgroundColor;
-
-/**
- The coordinate space of the image. 
- */
-@property (nonatomic, readonly) id<UICoordinateSpace> imageCoordinateSpace;
-
-/**
- The current frame of the image in the coordinate space of the image scroll view.
- */
-@property (nonatomic, readonly) CGRect imageFrame;
-
-/**
  The delegate of the image scroll view.
  
  @discussion The delegate must adopt the `RSKImageScrollViewDelegate` protocol. The `RSKImageScrollView` class, which doesn’t retain the delegate, invokes each protocol method the delegate implements.
@@ -93,9 +76,26 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 
 /**
- The logical dimensions, in points, of the image. Default value is `CGRectZero`.
+ The background color of the image view. Default value is `nil`, which results in a transparent color.
+ 
+ @discussion Changes to this property can be animated.
  */
-@property (nonatomic, assign) CGSize imageSize;
+@property (nonatomic, nullable, strong) UIColor *imageViewBackgroundColor;
+
+/**
+ The size of the image view bounds. Default value is `CGRectZero`.
+*/
+@property (nonatomic, assign) CGSize imageViewBoundsSize;
+
+/**
+ The coordinate space of the image view.
+ */
+@property (nonatomic, readonly) id<UICoordinateSpace> imageViewCoordinateSpace;
+
+/**
+ The current frame of the image view in the coordinate space of the image scroll view.
+ */
+@property (nonatomic, readonly) CGRect imageViewFrame;
 
 /**
  Sets the current scale factor applied to the image and offset from the image’s origin to the initial value.

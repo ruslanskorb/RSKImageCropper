@@ -653,7 +653,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
 {
     rect = [self.imageScrollView convertRect:rect fromView:self.view];
-    rect = [self.imageScrollView convertRect:rect toCoordinateSpace:self.imageScrollView.imageCoordinateSpace];
+    rect = [self.imageScrollView convertRect:rect toCoordinateSpace:self.imageScrollView.imageViewCoordinateSpace];
     [self.imageScrollView zoomToRect:rect animated:animated];
 }
 
@@ -687,7 +687,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)resetContentOffset
 {
     CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGRect frameToCenter = self.imageScrollView.imageFrame;
+    CGRect frameToCenter = self.imageScrollView.imageViewFrame;
     
     CGPoint contentOffset;
     if (CGRectGetWidth(frameToCenter) > boundsSize.width) {

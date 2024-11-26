@@ -55,7 +55,7 @@
 
 @interface RSKImageScrollView () <UIScrollViewDelegate>
 {
-    CGSize _imageSize;
+    CGSize _imageViewBoundsSize;
     UIImageView *_imageView;
     
     CGPoint _pointToCenterAfterResize;
@@ -117,34 +117,34 @@
 {
     _imageView.image = image;
     
-    if (!CGSizeEqualToSize(_imageSize, image.size)) {
-        self.imageSize = image.size;
+    if (!CGSizeEqualToSize(_imageViewBoundsSize, image.size)) {
+        self.imageViewBoundsSize = image.size;
     }
 }
 
-- (UIColor *)imageBackgroundColor
+- (UIColor *)imageViewBackgroundColor
 {
     return _imageView.backgroundColor;
 }
 
-- (void)setImageBackgroundColor:(UIColor *)imageBackgroundColor
+- (void)setImageViewBackgroundColor:(UIColor *)imageBackgroundColor
 {
     _imageView.backgroundColor = imageBackgroundColor;
 }
 
-- (id<UICoordinateSpace>)imageCoordinateSpace
+- (id<UICoordinateSpace>)imageViewCoordinateSpace
 {
     return [_imageView coordinateSpace];
 }
 
-- (CGRect)imageFrame
+- (CGRect)imageViewFrame
 {
     return _imageView.frame;
 }
 
-- (void)setImageSize:(CGSize)imageSize
+- (void)setImageViewBoundsSize:(CGSize)imageSize
 {
-    _imageSize = imageSize;
+    _imageViewBoundsSize = imageSize;
     
     self.zoomScale = 1.0f;
     _imageView.frame = CGRectMake(0.0f, 0.0f, imageSize.width, imageSize.height);
@@ -296,7 +296,7 @@
         return;
     }
     
-    if (CGSizeEqualToSize(_imageSize, CGSizeZero)) {
+    if (CGSizeEqualToSize(_imageViewBoundsSize, CGSizeZero)) {
         self.maximumZoomScale = 1.0f;
         self.minimumZoomScale = 1.0f;
 
@@ -306,8 +306,8 @@
     CGSize boundsSize = self.bounds.size;
     
     // calculate min/max zoomscale
-    CGFloat xScale = boundsSize.width  / _imageSize.width;    // the scale needed to perfectly fit the image width-wise
-    CGFloat yScale = boundsSize.height / _imageSize.height;   // the scale needed to perfectly fit the image height-wise
+    CGFloat xScale = boundsSize.width  / _imageViewBoundsSize.width;    // the scale needed to perfectly fit the image width-wise
+    CGFloat yScale = boundsSize.height / _imageViewBoundsSize.height;   // the scale needed to perfectly fit the image height-wise
     
     CGFloat minScale;
     if (_aspectFill) {
@@ -319,8 +319,8 @@
     CGFloat maxScale = MAX(xScale, yScale);
     
     // Image must fit/fill the screen, even if its size is smaller.
-    CGFloat xImageScale = maxScale * _imageSize.width / boundsSize.width;
-    CGFloat yImageScale = maxScale * _imageSize.height / boundsSize.height;
+    CGFloat xImageScale = maxScale * _imageViewBoundsSize.width / boundsSize.width;
+    CGFloat yImageScale = maxScale * _imageViewBoundsSize.height / boundsSize.height;
     
     CGFloat maxImageScale = MAX(xImageScale, yImageScale);
     
