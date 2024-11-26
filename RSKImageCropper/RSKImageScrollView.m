@@ -439,34 +439,3 @@
 }
 
 @end
-
-@implementation RSKImageScrollView (Deprecated)
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
-- (UIImageView *)zoomView {
-    
-    if (!_imageView.image) {
-        return nil;
-    }
-    return _imageView;
-}
-
-- (void)setZoomView:(UIImageView *)zoomView {
-    
-    [_imageView removeFromSuperview];
-    _imageView = zoomView;
-    if (_imageView) {
-        [self addSubview:_imageView];
-    }
-}
-
-- (void)displayImage:(UIImage *)image
-{
-    self.image = image;
-}
-
-#pragma clang diagnostic pop
-
-@end

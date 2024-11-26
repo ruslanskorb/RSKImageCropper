@@ -113,13 +113,5 @@ NS_SWIFT_UI_ACTOR
 - (void)zoomToLocation:(CGPoint)location animated:(BOOL)animated;
 
 @end
-                                                     
-@interface RSKImageScrollView (Deprecated)
-
-@property (nonatomic, nullable, strong) UIImageView *zoomView __deprecated_msg("Please use 'image' and 'imageFrame' getters instead.");
-
-- (void)displayImage:(UIImage *)image __deprecated_msg("Please use 'image' setter instead.");
-
-@end
 
 NS_HEADER_AUDIT_END(nullability, sendability)
