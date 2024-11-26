@@ -1,7 +1,7 @@
 /*
      File: RSKImageScrollView.h
  Abstract: Centers image within the scroll view and configures image sizing and display.
-  Version: 1.4 modified by Ruslan Skorb on 4/7/24.
+  Version: 1.5 modified by Ruslan Skorb on 11/26/24.
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
