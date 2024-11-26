@@ -115,10 +115,9 @@
 
 - (void)setImage:(UIImage *)image
 {
-    UIImage *oldImage = _imageView.image;
     _imageView.image = image;
     
-    if (oldImage || !CGSizeEqualToSize(_imageSize, image.size)) {
+    if (!CGSizeEqualToSize(_imageSize, image.size)) {
         self.imageSize = image.size;
     }
 }
