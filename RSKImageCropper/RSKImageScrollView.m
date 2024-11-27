@@ -199,9 +199,9 @@
 - (void)zoomToLocation:(CGPoint)location animated:(BOOL)animated
 {
     CGPoint locationInImageView = [_imageView convertPoint:location fromView:self];
-    CGSize size = CGSizeMake(self.bounds.size.width / self.maximumZoomScale, 
-                             self.bounds.size.height / self.maximumZoomScale);
-    CGPoint origin = CGPointMake(locationInImageView.x - size.width * 0.5f, 
+    CGSize size = CGSizeMake(self.bounds.size.width / MIN(self.zoomScale * 5.0f, self.maximumZoomScale),
+                             self.bounds.size.height / MIN(self.zoomScale * 5.0f, self.maximumZoomScale));
+    CGPoint origin = CGPointMake(locationInImageView.x - size.width * 0.5f,
                                  locationInImageView.y - size.height * 0.5f);
     CGRect rect = CGRectMake(origin.x, origin.y, size.width, size.height);
     
