@@ -628,7 +628,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self reset:YES];
+    if (self.imageScrollView.zoomScale == self.zoomScaleDefaultValue) {
+        [self.imageScrollView zoomToLocation:[gestureRecognizer locationInView:self.imageScrollView] animated:YES];
+    } else {
+        [self reset:YES];
+    }
 }
 
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer
@@ -712,13 +716,18 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)resetZoomScale
 {
+    self.imageScrollView.zoomScale = self.zoomScaleDefaultValue;
+}
+
+- (CGFloat)zoomScaleDefaultValue
+{
     CGFloat zoomScale;
     if (CGRectGetWidth(self.view.bounds) > CGRectGetHeight(self.view.bounds)) {
         zoomScale = CGRectGetHeight(self.view.bounds) / self.originalImage.size.height;
     } else {
         zoomScale = CGRectGetWidth(self.view.bounds) / self.originalImage.size.width;
     }
-    self.imageScrollView.zoomScale = zoomScale;
+    return zoomScale;
 }
 
 - (NSArray *)intersectionPointsOfLineSegment:(RSKLineSegment)lineSegment withRect:(CGRect)rect
