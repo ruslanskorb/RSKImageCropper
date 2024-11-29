@@ -76,7 +76,7 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 
 /**
- The logical dimensions, in points, of the image. Default value is `CGRectZero`.
+ The logical dimensions, in points, of the image. Default value is `CGSizeZero`.
  
  @discussion Can be set to a value different from `image.size`.
 */
