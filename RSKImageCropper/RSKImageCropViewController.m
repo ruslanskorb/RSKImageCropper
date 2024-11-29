@@ -628,7 +628,11 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)handleDoubleTap:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self reset:YES];
+    if (self.imageScrollView.zoomScale == self.zoomScaleDefaultValue) {
+        [self.imageScrollView zoomToLocation:[gestureRecognizer locationInView:self.imageScrollView] animated:YES];
+    } else {
+        [self reset:YES];
+    }
 }
 
 - (void)handleRotation:(UIRotationGestureRecognizer *)gestureRecognizer
@@ -653,7 +657,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)zoomToRect:(CGRect)rect animated:(BOOL)animated
 {
     rect = [self.imageScrollView convertRect:rect fromView:self.view];
-    rect = [self.imageScrollView convertRect:rect toCoordinateSpace:self.imageScrollView.imageCoordinateSpace];
+    rect = [self.imageScrollView convertRect:rect toCoordinateSpace:self.imageScrollView.imageViewCoordinateSpace];
     [self.imageScrollView zoomToRect:rect animated:animated];
 }
 
@@ -678,6 +682,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     [self resetRotation];
     [self resetZoomScale];
     [self resetContentOffset];
+    [self centerImage];
     
     if (animated) {
         [UIView commitAnimations];
@@ -687,7 +692,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 - (void)resetContentOffset
 {
     CGSize boundsSize = self.imageScrollView.bounds.size;
-    CGRect frameToCenter = self.imageScrollView.imageFrame;
+    CGRect frameToCenter = self.imageScrollView.imageViewFrame;
     
     CGPoint contentOffset;
     if (CGRectGetWidth(frameToCenter) > boundsSize.width) {
@@ -711,13 +716,18 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (void)resetZoomScale
 {
+    self.imageScrollView.zoomScale = self.zoomScaleDefaultValue;
+}
+
+- (CGFloat)zoomScaleDefaultValue
+{
     CGFloat zoomScale;
     if (CGRectGetWidth(self.view.bounds) > CGRectGetHeight(self.view.bounds)) {
         zoomScale = CGRectGetHeight(self.view.bounds) / self.originalImage.size.height;
     } else {
         zoomScale = CGRectGetWidth(self.view.bounds) / self.originalImage.size.width;
     }
-    self.imageScrollView.zoomScale = zoomScale;
+    return zoomScale;
 }
 
 - (NSArray *)intersectionPointsOfLineSegment:(RSKLineSegment)lineSegment withRect:(CGRect)rect
@@ -768,9 +778,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     }
 }
 
-- (void)centerImageScrollViewZoomView
+- (void)centerImage
 {
-    // center imageScrollView.zoomView as it becomes smaller than the size of the screen
+    // center the image view of the imageScrollView as it becomes smaller than the size of the imageScrollView
     
     CGPoint contentOffset = self.imageScrollView.contentOffset;
     
@@ -865,7 +875,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
     self.imageScrollView.transform = CGAffineTransformIdentity;
     
     self.imageScrollView.frame = frame;
-    [self centerImageScrollViewZoomView];
+    [self centerImage];
     
     self.imageScrollView.transform = transform;
 }

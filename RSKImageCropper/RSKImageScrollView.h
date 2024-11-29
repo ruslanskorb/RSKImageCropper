@@ -1,7 +1,7 @@
 /*
      File: RSKImageScrollView.h
  Abstract: Centers image within the scroll view and configures image sizing and display.
-  Version: 1.4 modified by Ruslan Skorb on 4/7/24.
+  Version: 1.5 modified by Ruslan Skorb on 11/26/24.
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -69,23 +69,6 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, strong) UIImage *image;
 
 /**
- The color of the background behind the image. Default value is `nil`, which results in a transparent color.
- 
- @discussion Changes to this property can be animated.
- */
-@property (nonatomic, nullable, strong) UIColor *imageBackgroundColor;
-
-/**
- The coordinate space of the image. 
- */
-@property (nonatomic, readonly) id<UICoordinateSpace> imageCoordinateSpace;
-
-/**
- The current frame of the image in the coordinate space of the image scroll view.
- */
-@property (nonatomic, readonly) CGRect imageFrame;
-
-/**
  The delegate of the image scroll view.
  
  @discussion The delegate must adopt the `RSKImageScrollViewDelegate` protocol. The `RSKImageScrollView` class, which doesn’t retain the delegate, invokes each protocol method the delegate implements.
@@ -93,9 +76,28 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 
 /**
- The logical dimensions, in points, of the image. Default value is `CGRectZero`.
- */
+ The logical dimensions, in points, of the image. Default value is `CGSizeZero`.
+ 
+ @discussion Can be set to a value different from `image.size`.
+*/
 @property (nonatomic, assign) CGSize imageSize;
+
+/**
+ The background color of the image view. Default value is `nil`, which results in a transparent color.
+ 
+ @discussion Changes to this property can be animated.
+ */
+@property (nonatomic, nullable, strong) UIColor *imageViewBackgroundColor;
+
+/**
+ The coordinate space of the image view.
+ */
+@property (nonatomic, readonly) id<UICoordinateSpace> imageViewCoordinateSpace;
+
+/**
+ The current frame of the image view in the coordinate space of the image scroll view.
+ */
+@property (nonatomic, readonly) CGRect imageViewFrame;
 
 /**
  Sets the current scale factor applied to the image and offset from the image’s origin to the initial value.
@@ -111,14 +113,6 @@ NS_SWIFT_UI_ACTOR
  @param animated `YES` if the scrolling should be animated, `NO` if it should be immediate.
  */
 - (void)zoomToLocation:(CGPoint)location animated:(BOOL)animated;
-
-@end
-                                                     
-@interface RSKImageScrollView (Deprecated)
-
-@property (nonatomic, nullable, strong) UIImageView *zoomView __deprecated_msg("Please use 'image' and 'imageFrame' getters instead.");
-
-- (void)displayImage:(UIImage *)image __deprecated_msg("Please use 'image' setter instead.");
 
 @end
 

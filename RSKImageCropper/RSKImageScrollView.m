@@ -1,7 +1,7 @@
 /*
      File: RSKImageScrollView.m
  Abstract: Centers image within the scroll view and configures image sizing and display.
-  Version: 1.4 modified by Ruslan Skorb on 4/7/24.
+  Version: 1.5 modified by Ruslan Skorb on 11/26/24.
  
  Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
  Inc. ("Apple") in consideration of your agreement to the following
@@ -115,30 +115,29 @@
 
 - (void)setImage:(UIImage *)image
 {
-    UIImage *oldImage = _imageView.image;
     _imageView.image = image;
     
-    if (oldImage || !CGSizeEqualToSize(_imageSize, image.size)) {
+    if (CGSizeEqualToSize(_imageSize, CGSizeZero)) {
         self.imageSize = image.size;
     }
 }
 
-- (UIColor *)imageBackgroundColor
+- (UIColor *)imageViewBackgroundColor
 {
     return _imageView.backgroundColor;
 }
 
-- (void)setImageBackgroundColor:(UIColor *)imageBackgroundColor
+- (void)setImageViewBackgroundColor:(UIColor *)imageViewBackgroundColor
 {
-    _imageView.backgroundColor = imageBackgroundColor;
+    _imageView.backgroundColor = imageViewBackgroundColor;
 }
 
-- (id<UICoordinateSpace>)imageCoordinateSpace
+- (id<UICoordinateSpace>)imageViewCoordinateSpace
 {
     return [_imageView coordinateSpace];
 }
 
-- (CGRect)imageFrame
+- (CGRect)imageViewFrame
 {
     return _imageView.frame;
 }
@@ -200,9 +199,9 @@
 - (void)zoomToLocation:(CGPoint)location animated:(BOOL)animated
 {
     CGPoint locationInImageView = [_imageView convertPoint:location fromView:self];
-    CGSize size = CGSizeMake(self.bounds.size.width / self.maximumZoomScale, 
-                             self.bounds.size.height / self.maximumZoomScale);
-    CGPoint origin = CGPointMake(locationInImageView.x - size.width * 0.5f, 
+    CGSize size = CGSizeMake(self.bounds.size.width / MIN(self.zoomScale * 5.0f, self.maximumZoomScale),
+                             self.bounds.size.height / MIN(self.zoomScale * 5.0f, self.maximumZoomScale));
+    CGPoint origin = CGPointMake(locationInImageView.x - size.width * 0.5f,
                                  locationInImageView.y - size.height * 0.5f);
     CGRect rect = CGRectMake(origin.x, origin.y, size.width, size.height);
     
@@ -438,36 +437,5 @@
 {
     return CGPointZero;
 }
-
-@end
-
-@implementation RSKImageScrollView (Deprecated)
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-
-- (UIImageView *)zoomView {
-    
-    if (!_imageView.image) {
-        return nil;
-    }
-    return _imageView;
-}
-
-- (void)setZoomView:(UIImageView *)zoomView {
-    
-    [_imageView removeFromSuperview];
-    _imageView = zoomView;
-    if (_imageView) {
-        [self addSubview:_imageView];
-    }
-}
-
-- (void)displayImage:(UIImage *)image
-{
-    self.image = image;
-}
-
-#pragma clang diagnostic pop
 
 @end
