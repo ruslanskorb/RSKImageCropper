@@ -117,7 +117,7 @@
 {
     _imageView.image = image;
     
-    if (!CGSizeEqualToSize(_imageSize, image.size)) {
+    if (CGSizeEqualToSize(_imageSize, CGSizeZero)) {
         self.imageSize = image.size;
     }
 }
