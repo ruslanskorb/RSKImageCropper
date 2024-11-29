@@ -127,9 +127,9 @@
     return _imageView.backgroundColor;
 }
 
-- (void)setImageViewBackgroundColor:(UIColor *)imageBackgroundColor
+- (void)setImageViewBackgroundColor:(UIColor *)imageViewBackgroundColor
 {
-    _imageView.backgroundColor = imageBackgroundColor;
+    _imageView.backgroundColor = imageViewBackgroundColor;
 }
 
 - (id<UICoordinateSpace>)imageViewCoordinateSpace
