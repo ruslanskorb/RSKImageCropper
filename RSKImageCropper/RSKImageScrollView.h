@@ -76,16 +76,18 @@ NS_SWIFT_UI_ACTOR
 @property (nonatomic, nullable, weak) id<RSKImageScrollViewDelegate> imageScrollViewDelegate;
 
 /**
+ The logical dimensions, in points, of the image. Default value is `CGRectZero`.
+ 
+ @discussion Can be set to a value different from `image.size`.
+*/
+@property (nonatomic, assign) CGSize imageSize;
+
+/**
  The background color of the image view. Default value is `nil`, which results in a transparent color.
  
  @discussion Changes to this property can be animated.
  */
 @property (nonatomic, nullable, strong) UIColor *imageViewBackgroundColor;
-
-/**
- The size of the image view bounds. Default value is `CGRectZero`.
-*/
-@property (nonatomic, assign) CGSize imageViewBoundsSize;
 
 /**
  The coordinate space of the image view.
