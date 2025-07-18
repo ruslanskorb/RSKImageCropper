@@ -351,6 +351,17 @@ NS_SWIFT_UI_ACTOR
 @optional
 
 /**
+ Asks the delegate the default scale factor for the image.
+ 
+ @param controller The crop view controller object to whom the scale factor is provided.
+ 
+ @discussion The default scale factor is applied to the image when it is first displayed and after the user double-tap it.
+ 
+ @return The default scale factor for the image.
+ */
+- (CGFloat)imageCropViewControllerDefaultZoomScale:(RSKImageCropViewController *)controller;
+
+/**
  Tells the delegate that the image has been displayed.
  */
 - (void)imageCropViewControllerDidDisplayImage:(RSKImageCropViewController *)controller;

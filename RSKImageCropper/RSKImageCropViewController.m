@@ -721,6 +721,9 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 
 - (CGFloat)zoomScaleDefaultValue
 {
+    if ([self.delegate respondsToSelector:@selector(imageCropViewControllerDefaultZoomScale:)]) {
+        return [self.delegate imageCropViewControllerDefaultZoomScale:self];
+    }
     CGFloat zoomScale;
     if (CGRectGetWidth(self.view.bounds) > CGRectGetHeight(self.view.bounds)) {
         zoomScale = CGRectGetHeight(self.view.bounds) / self.originalImage.size.height;
