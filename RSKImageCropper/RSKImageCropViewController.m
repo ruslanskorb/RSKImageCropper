@@ -88,18 +88,18 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
         _portraitCircleMaskRectInnerEdgeInset = 15.0f;
         _portraitSquareMaskRectInnerEdgeInset = 20.0f;
         _portraitMoveAndScaleLabelTopAndCropViewSafeAreaTopVerticalSpace = 44.0f;
-        _portraitCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace = 21.0f;
-        _portraitCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace = 21.0f;
-        _portraitCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace = 13.0f;
-        _portraitCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
+        _portraitCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace = 9.0f;
+        _portraitCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace = 9.0f;
+        _portraitCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace = 0.0f;
+        _portraitCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace = 0.0f;
         
         _landscapeCircleMaskRectInnerEdgeInset = 45.0f;
         _landscapeSquareMaskRectInnerEdgeInset = 45.0f;
         _landscapeMoveAndScaleLabelTopAndCropViewSafeAreaTopVerticalSpace = 12.0f;
-        _landscapeCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace = 12.0f;
-        _landscapeCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace = 12.0f;
-        _landscapeCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace = 13.0;
-        _landscapeCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace = 13.0;
+        _landscapeCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace = 0.0f;
+        _landscapeCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace = 0.0f;
+        _landscapeCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace = 0.0f;
+        _landscapeCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace = 0.0f;
     }
     return self;
 }
@@ -333,6 +333,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     if (!_cancelButton) {
         _cancelButton = [[UIButton alloc] init];
+        _cancelButton.contentEdgeInsets = UIEdgeInsetsMake(12.0f, 13.0f, 12.0f, 13.0f);
         _cancelButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_cancelButton setTitle:RSKLocalizedString(@"Cancel", @"Cancel button") forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(onCancelButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
@@ -345,6 +346,7 @@ static const CGFloat kLayoutImageScrollViewAnimationDuration = 0.25;
 {
     if (!_chooseButton) {
         _chooseButton = [[UIButton alloc] init];
+        _chooseButton.contentEdgeInsets = UIEdgeInsetsMake(12.0f, 13.0f, 12.0f, 13.0f);
         _chooseButton.translatesAutoresizingMaskIntoConstraints = NO;
         [_chooseButton setTitle:RSKLocalizedString(@"Choose", @"Choose button") forState:UIControlStateNormal];
         [_chooseButton addTarget:self action:@selector(onChooseButtonTouch:) forControlEvents:UIControlEventTouchUpInside];
