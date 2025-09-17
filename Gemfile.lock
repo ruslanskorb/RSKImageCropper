@@ -90,7 +90,7 @@ GEM
     netrc (0.11.0)
     nkf (0.2.0)
     public_suffix (4.0.7)
-    rexml (3.3.9)
+    rexml (3.4.2)
     rouge (3.28.0)
     ruby-macho (2.5.1)
     securerandom (0.3.2)
