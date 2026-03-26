@@ -444,7 +444,7 @@ describe(@"crop size", ^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
         sharedLoadView();
         
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
         
         mockImageCropViewControllerView = [OCMockObject partialMockForObject:imageCropViewController.view];
         [[[mockImageCropViewControllerView stub] andReturn:window] window];
