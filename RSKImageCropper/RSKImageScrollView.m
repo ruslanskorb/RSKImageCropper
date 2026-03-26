@@ -165,7 +165,7 @@
 - (void)setInitialZoomScaleAndContentOffsetAnimated:(BOOL)animated
 {
     if (animated) {
-        UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationCurveEaseInOut;
+        UIViewAnimationOptions options = UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut;
         [UIView animateWithDuration:0.4f delay:0.0f options:options animations:^{
             [self setInitialZoomScaleAndContentOffsetAndCenterImageView];
         } completion:nil];
