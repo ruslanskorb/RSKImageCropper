@@ -22,8 +22,8 @@
 // THE SOFTWARE.
 //
 
-#import "RSKImageCropViewController.h"
-#import "RSKImageScrollView.h"
+#import <RSKImageCropper/RSKImageCropViewController.h>
+#import <RSKImageCropper/RSKImageScrollView.h>
 
 @interface RSKImageCropViewControllerDataSourceObject1 : NSObject <RSKImageCropViewControllerDataSource>
 
@@ -444,7 +444,7 @@ describe(@"crop size", ^{
         imageCropViewController = [[RSKImageCropViewController alloc] init];
         sharedLoadView();
         
-        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+        UIWindow *window = [UIApplication sharedApplication].windows.firstObject;
         
         mockImageCropViewControllerView = [OCMockObject partialMockForObject:imageCropViewController.view];
         [[[mockImageCropViewControllerView stub] andReturn:window] window];

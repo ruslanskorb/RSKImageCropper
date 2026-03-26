@@ -241,22 +241,22 @@ NS_SWIFT_UI_ACTOR
 @property (assign, nonatomic) CGFloat portraitMoveAndScaleLabelTopAndCropViewSafeAreaTopVerticalSpace;
 
 /**
- The vertical space between the bottom of the crop view's safe area and the bottom of the 'Cancel' button in portrait orientation. Default value is `21.0f`.
+ The vertical space between the bottom of the crop view's safe area and the bottom of the 'Cancel' button in portrait orientation. Default value is `9.0f`.
  */
 @property (assign, nonatomic) CGFloat portraitCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace;
 
 /**
- The vertical space between the bottom of the crop view's safe area and the bottom of the 'Choose' button in portrait orientation. Default value is `21.0f`.
+ The vertical space between the bottom of the crop view's safe area and the bottom of the 'Choose' button in portrait orientation. Default value is `9.0f`.
  */
 @property (assign, nonatomic) CGFloat portraitCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace;
 
 /**
- The horizontal space between the leading of the 'Cancel' button and the leading of the crop view's safe area in portrait orientation. Default value is `13.0f`.
+ The horizontal space between the leading of the 'Cancel' button and the leading of the crop view's safe area in portrait orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat portraitCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace;
 
 /**
- The horizontal space between the trailing of the crop view's safe area and the trailing of the 'Choose' button in portrait orientation. Default value is `13.0f`.
+ The horizontal space between the trailing of the crop view's safe area and the trailing of the 'Choose' button in portrait orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat portraitCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace;
 
@@ -276,22 +276,22 @@ NS_SWIFT_UI_ACTOR
 @property (assign, nonatomic) CGFloat landscapeMoveAndScaleLabelTopAndCropViewSafeAreaTopVerticalSpace;
 
 /**
- The vertical space between the bottom of the crop view's safe area and the bottom of the 'Cancel' button in landscape orientation. Default value is `12.0f`.
+ The vertical space between the bottom of the crop view's safe area and the bottom of the 'Cancel' button in landscape orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat landscapeCropViewSafeAreaBottomAndCancelButtonBottomVerticalSpace;
 
 /**
- The vertical space between the bottom of the crop view's safe area and the bottom of the 'Choose' button in landscape orientation. Default value is `12.0f`.
+ The vertical space between the bottom of the crop view's safe area and the bottom of the 'Choose' button in landscape orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat landscapeCropViewSafeAreaBottomAndChooseButtonBottomVerticalSpace;
 
 /**
- The horizontal space between the leading of the 'Cancel' button and the leading of the crop view's safe area in landscape orientation. Default value is `13.0f`.
+ The horizontal space between the leading of the 'Cancel' button and the leading of the crop view's safe area in landscape orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat landscapeCancelButtonLeadingAndCropViewSafeAreaLeadingHorizontalSpace;
 
 /**
- The horizontal space between the trailing of the crop view's safe area and the trailing of the 'Choose' button in landscape orientation. Default value is `13.0f`.
+ The horizontal space between the trailing of the crop view's safe area and the trailing of the 'Choose' button in landscape orientation. Default value is `0.0f`.
  */
 @property (assign, nonatomic) CGFloat landscapeCropViewSafeAreaTrailingAndChooseButtonTrailingHorizontalSpace;
 
@@ -349,6 +349,17 @@ NS_SWIFT_UI_ACTOR
 - (void)imageCropViewController:(RSKImageCropViewController *)controller didCropImage:(UIImage *)croppedImage usingCropRect:(CGRect)cropRect rotationAngle:(CGFloat)rotationAngle;
 
 @optional
+
+/**
+ Asks the delegate the default scale factor for the image.
+ 
+ @param controller The crop view controller object to whom the scale factor is provided.
+ 
+ @discussion The default scale factor is applied to the image when it is first displayed and after the user double-tap it.
+ 
+ @return The default scale factor for the image.
+ */
+- (CGFloat)imageCropViewControllerDefaultZoomScale:(RSKImageCropViewController *)controller;
 
 /**
  Tells the delegate that the image has been displayed.

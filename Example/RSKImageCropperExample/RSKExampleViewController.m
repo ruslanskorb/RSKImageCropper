@@ -23,7 +23,7 @@
 //
 
 #import "RSKExampleViewController.h"
-#import "RSKImageCropper.h"
+#import <RSKImageCropper/RSKImageCropper.h>
 
 static const CGFloat kPhotoDiameter = 130.0f;
 static const CGFloat kPhotoFrameViewPadding = 2.0f;

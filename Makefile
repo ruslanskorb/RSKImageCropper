@@ -1,27 +1,20 @@
-WORKSPACE = Example/RSKImageCropperExample.xcworkspace
+PROJECT = Example/RSKImageCropperExample.xcodeproj
 SCHEME = RSKImageCropperExample
 CONFIGURATION = Release
-DEVICE_HOST = platform='iOS Simulator',OS='17.0.1',name='iPhone 15 Pro'
+DEVICE_HOST = platform='iOS Simulator',OS='26.2',name='iPhone 17 Pro'
 
-.PHONY: all build ci clean test lint
+.PHONY: all build ci clean test
 
 all: ci
 
 build:
-	set -o pipefail && xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration '$(CONFIGURATION)' -sdk iphonesimulator -destination $(DEVICE_HOST) build | bundle exec xcpretty -c
+	set -o pipefail && xcodebuild -project $(PROJECT) -scheme $(SCHEME) -configuration '$(CONFIGURATION)' -sdk iphonesimulator -destination $(DEVICE_HOST) build
 
 clean:
-	xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration '$(CONFIGURATION)' clean
+	xcodebuild -project $(PROJECT) -scheme $(SCHEME) -configuration '$(CONFIGURATION)' -sdk iphonesimulator -destination $(DEVICE_HOST) clean
 
 test:
-	set -o pipefail && xcodebuild -workspace $(WORKSPACE) -scheme $(SCHEME) -configuration Debug test -sdk iphonesimulator -destination $(DEVICE_HOST) | bundle exec xcpretty -c --test
-
-lint:
-	bundle exec fui --path Example/RSKImageCropperExample find
+	set -o pipefail && xcodebuild test -project $(PROJECT) -scheme $(SCHEME) -configuration Debug -sdk iphonesimulator -destination $(DEVICE_HOST)
 
 ci: CONFIGURATION = Debug
 ci: build
-
-bundler:
-	gem install bundler
-	bundle install
