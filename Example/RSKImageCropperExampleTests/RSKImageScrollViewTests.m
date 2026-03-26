@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSKImageScrollView.h"
+#import <RSKImageCropper/RSKImageScrollView.h>
 
 SpecBegin(RSKImageScrollView)
 

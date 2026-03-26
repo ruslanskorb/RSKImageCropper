@@ -22,8 +22,8 @@
 // THE SOFTWARE.
 //
 
-#import "RSKImageCropViewController.h"
-#import "RSKImageScrollView.h"
+#import <RSKImageCropper/RSKImageCropViewController.h>
+#import <RSKImageCropper/RSKImageScrollView.h>
 
 @interface RSKImageCropViewControllerDataSourceObject1 : NSObject <RSKImageCropViewControllerDataSource>
 

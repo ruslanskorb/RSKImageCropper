@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 //
 
-#import "RSKTouchView.h"
+#import <RSKImageCropper/RSKTouchView.h>
 
 SpecBegin(RSKTouchView)
 

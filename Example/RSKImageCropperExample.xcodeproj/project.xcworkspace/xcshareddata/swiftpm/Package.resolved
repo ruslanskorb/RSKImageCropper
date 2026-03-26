@@ -1,0 +1,46 @@
+{
+  "originHash" : "1dce1994973fc7093fe5aea2d460d41e1abde99ae7b92e0024a9545912703072",
+  "pins" : [
+    {
+      "identity" : "expecta",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ruslanskorb/expecta.git",
+      "state" : {
+        "revision" : "632427da398110f281577fd89dafc9dd06dc5f71"
+      }
+    },
+    {
+      "identity" : "ios-snapshot-test-case",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/revolut-mobile/ios-snapshot-test-case.git",
+      "state" : {
+        "revision" : "d4f03bd80e715b108409d2c215b53e0a8b92d5cc"
+      }
+    },
+    {
+      "identity" : "ios-snapshot-test-case-expecta",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ruslanskorb/ios-snapshot-test-case-expecta.git",
+      "state" : {
+        "revision" : "fc03025e807fe7282ad4dc095c24a7a6cb179ccc"
+      }
+    },
+    {
+      "identity" : "ocmock",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ruslanskorb/ocmock.git",
+      "state" : {
+        "revision" : "84c5111de4ade0f44d0f714fa70043f6d5558488"
+      }
+    },
+    {
+      "identity" : "specta",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ruslanskorb/specta",
+      "state" : {
+        "revision" : "b71ea8df50d5557cebdd3e5a4b334b1564c34c0d"
+      }
+    }
+  ],
+  "version" : 3
+}
